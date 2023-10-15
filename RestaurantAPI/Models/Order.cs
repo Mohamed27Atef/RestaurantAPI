@@ -67,8 +67,8 @@ namespace RestaurantAPI.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        //[ForeignKey("DeliveryId")]
-        //public Deliveryman Deliveryman { get; set; }
+        [ForeignKey("DeliveryId")]
+        public DeliveryMan Deliveryman { get; set; }
 
         [ForeignKey("CartId")]
         public CartItem CartItem { get; set; }
