@@ -1,6 +1,6 @@
 ﻿using RestaurantAPI.Models;
 
-namespace RestaurantAPI.Repository
+namespace RestaurantAPI.Repository.ProductRepository
 {
     public class RecipetRepository : IRecipeRepository
     {

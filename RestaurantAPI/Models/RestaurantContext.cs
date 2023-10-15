@@ -18,7 +18,9 @@ namespace RestaurantAPI.Models
         }
 
 
-        public virtual DbSet<Recipe> Prodcuts { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<Resturant> Resturants { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

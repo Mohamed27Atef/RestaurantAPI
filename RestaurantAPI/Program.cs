@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
-using System.Configuration;
+using RestaurantAPI.Repository.ProductRepository;
+using RestaurantAPI.Repository.ResturantRepository;
+using RestaurantAPI.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +45,9 @@ builder.Services.AddAuthentication(options =>
 	});
 
 builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
+builder.Services.AddScoped<IResturanrRepo, ResturantRepo>();
+builder.Services.AddScoped<ImageService, ImageService>();
+
 
 
 
