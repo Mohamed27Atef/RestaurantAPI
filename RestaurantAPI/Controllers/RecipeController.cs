@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Repository.ProductRepository;
 
+using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
     [ApiController]
@@ -12,11 +12,6 @@ namespace RestaurantAPI.Controllers
         public RecipeController(IRecipeRepository productRepository)
         {
             this.productRepository = productRepository;
-        }
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return Ok("test");
         }
         // get by restaurantId
 
