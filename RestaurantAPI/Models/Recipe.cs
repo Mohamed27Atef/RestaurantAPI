@@ -36,6 +36,10 @@ namespace RestaurantAPI.Models
 
         public virtual List<RecipeFeedback>? RecipeFeedbacks { get; set; }
 
+        // add recipe images
+        // public virtual? List<RecipeImage> recipteImages{get; set;} = new List<RecipeImage>();
+
+
 
     }
 }
