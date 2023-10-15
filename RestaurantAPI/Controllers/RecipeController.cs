@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Repository;
 
+using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
     [ApiController]
