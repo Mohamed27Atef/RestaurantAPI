@@ -29,8 +29,8 @@ namespace RestaurantAPI.Controllers
             {
 				User user = new User()
 				{
-					FirstName = userDto.FirstName,
-					LastName = userDto.LastName,
+					//FirstName = userDto.FirstName,
+					//LastName = userDto.LastName,
 					Email = userDto.Email,
 					Address = userDto.Address,
 					UserName = userDto.Email.Split('@')[0],
