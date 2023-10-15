@@ -62,7 +62,7 @@ namespace RestaurantAPI.Models
 
         [Required]
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User? User { get; set; }
 
         [Required]
@@ -79,6 +79,8 @@ namespace RestaurantAPI.Models
         [ForeignKey("Address")]
         public int? AddressId { get; set; }
         public virtual Address? Address { get; set; }
+
+        public virtual Copon? copon { get; set; }
 
 
     }

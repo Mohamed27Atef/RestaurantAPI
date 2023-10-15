@@ -32,6 +32,15 @@ namespace RestaurantAPI.Models
 
         public virtual List<Recipe>? Recipes { get; set;} = new List<Recipe>();
 
+        public virtual List<ResturantFeedback>? resturantFeedbacks { get; set; } = new List<ResturantFeedback>();
+
+        public virtual List<Table>? Tables { get; set; } = new List<Table>();
+        
+        
+        public virtual List<DeliveryMan>? DeliveryMen { get; set; } = new List<DeliveryMan>();
+
+
+
 
     }
 }
