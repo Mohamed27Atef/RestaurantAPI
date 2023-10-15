@@ -1,15 +1,38 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace RestaurantAPI.Models
 {
-	public class User:IdentityUser
-	{
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public DateTime CreatedAt { get; set; }
-		public string? Image { get; set; }
-		public string Address { get; set; }
-		public string? Longitude { get; set; }
-		public string? Latitude { get; set; }
-	}
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string UserName { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string Password { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(255)]
+        public string Email { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; }
+
+        public string Image { get; set; }
+
+        [Phone]
+        public string Phone { get; set; }
+
+        [MaxLength(500)]
+        public string Address { get; set; }
+
+        [MaxLength(255)]
+        public string Location { get; set; }
+    }
+
 }
