@@ -23,6 +23,18 @@ namespace RestaurantAPI.Models
         [DataType(DataType.Date)]
         public DateTime TimeToGet { get; set; }
 
+        [ForeignKey("restaurant")]
+        public int restaurantId { get; set; }
+
+        public virtual Resturant? restaurant { get; set; }
+
+
+        [ForeignKey("Cateigory")]
+        public int categoryId { get; set; }
+
+        public virtual Cateigory? Cateigory { get; set; }
+
+        public virtual List<RecipeFeedback>? RecipeFeedbacks { get; set; }
 
 
     }

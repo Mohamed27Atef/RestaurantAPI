@@ -39,6 +39,8 @@ namespace RestaurantAPI.Models
         [ForeignKey("Resturant")]
         public int ResturantId { get; set; }
         public virtual Resturant? Resturant { get; set; }
+
+        public virtual User? user { get; set; }
     }
     }
 

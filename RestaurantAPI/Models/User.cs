@@ -24,11 +24,14 @@ namespace RestaurantAPI.Models
         public int CartId { get; set; }
         public virtual Cart? Cart { get; set; }
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
-        public ICollection<RecipeFeedback> RecipeFeedbacks { get; set; } = new List<RecipeFeedback>();
-        public ICollection<ResturantFeedback> ResturantFeedbacks { get; set; } = new List<ResturantFeedback>();
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<RecipeFeedback> RecipeFeedbacks { get; set; } = new List<RecipeFeedback>();
+        public virtual ICollection<ResturantFeedback> ResturantFeedbacks { get; set; } = new List<ResturantFeedback>();
 
+        [ForeignKey("table")]
+        public int table_id { get; set; }
 
+        public virtual Table? table { get; set; }
     }
 
 }

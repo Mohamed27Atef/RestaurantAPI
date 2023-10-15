@@ -28,5 +28,10 @@ namespace RestaurantAPI.Models
 
         public string Image { get; set; }
 
+        public virtual List<RestaurantCateigory>? Cateigories { get; set; } = new List<RestaurantCateigory>();
+
+        public virtual List<Recipe>? Recipes { get; set;} = new List<Recipe>();
+
+
     }
 }

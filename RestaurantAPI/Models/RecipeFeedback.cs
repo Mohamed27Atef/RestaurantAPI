@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantAPI.Models
 {
@@ -15,5 +16,16 @@ namespace RestaurantAPI.Models
         [DataType(DataType.Date)]
         [Display(Name = "Post Date")]
         public DateTime PostDate { get; set; }
+
+        [ForeignKey("User")]
+        public string userId { get; set; }
+
+        public virtual User? user { get; set; }
+
+        [ForeignKey("Recipe")]
+        public int RecipeId { get; set; }
+
+        public virtual Recipe? Recipe { get; set; }
+
     }
 }
