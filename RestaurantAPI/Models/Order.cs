@@ -32,9 +32,6 @@ namespace RestaurantAPI.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
-
-        [Required]
         public OrderStatus Status { get; set; }
 
         [Required]
@@ -48,8 +45,6 @@ namespace RestaurantAPI.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; set; }
 
-        public int? DeliveryId { get; set; }
-
         [Required]
         public DeliveryMethod DeliveryMethod { get; set; }
 
@@ -58,20 +53,35 @@ namespace RestaurantAPI.Models
 
         [MaxLength(255)]
         public string Location { get; set; }
+      
 
         public DateTime? DeliveryTime { get; set; }
 
+        
+
+
         [Required]
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual User? User { get; set; }
+
+        [Required]
+        [ForeignKey("Deliveryman")]
+        public int? DeliveryId { get; set; }
+        public virtual DeliveryMan? Deliveryman { get; set; }
+
+        [Required]
+        [ForeignKey("Cart")]
         public int CartId { get; set; }
+        public virtual Cart? Cart { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
 
-        [ForeignKey("DeliveryId")]
-        public DeliveryMan Deliveryman { get; set; }
+        [ForeignKey("Address")]
+        public int? AddressId { get; set; }
+        public virtual Address? Address { get; set; }
 
-        [ForeignKey("CartId")]
-        public CartItem CartItem { get; set; }
+        public virtual Copon? copon { get; set; }
+
 
     }
 }

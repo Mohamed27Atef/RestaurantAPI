@@ -18,5 +18,7 @@ namespace RestaurantAPI.Models
         [Required]
         [MaxLength(100)]
         public string Country { get; set; }
+
+        public virtual Order Orders { get; set; }
     }
 }

@@ -21,9 +21,12 @@ namespace RestaurantAPI.Models
         public string Location { get; set; }
 
         [Required]
-        public int RestaurantId { get; set; }
+        [ForeignKey("Resturant")]
+        public int ResturantId { get; set; }
+        public virtual Resturant? Resturant { get; set; }
 
-        //[ForeignKey("RestaurantId")]
-        //public Restaurant Restaurant { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
     }
 }
