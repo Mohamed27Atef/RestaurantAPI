@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RestaurantContext>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
 
 
 var app = builder.Build();

@@ -2,16 +2,16 @@
 
 namespace RestaurantAPI.Repository.ProductRepository
 {
-    public class ProductRepository : IProductRepository
+    public class RecipetRepository : RecipeRepository
     {
         private readonly RestaurantContext Context;
-        public ProductRepository(RestaurantContext context)
+        public RecipetRepository(RestaurantContext context)
         {
             Context = context;
         }
 
 
-        public void add(Product entity)
+        public void add(Recipe entity)
         {
             throw new NotImplementedException();
         }
@@ -21,22 +21,22 @@ namespace RestaurantAPI.Repository.ProductRepository
             throw new NotImplementedException();
         }
 
-        public List<Product> getAll(string include = "")
+        public List<Recipe> getAll(string include = "")
         {
             throw new NotImplementedException();
         }
 
-        public Product getByCategoryId(int categoryId)
+        public Recipe getByCategoryId(int categoryId)
         {
             throw new NotImplementedException();
         }
 
-        public Product getById(int id)
+        public Recipe getById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Product getByRestaurantId(int restaurantId)
+        public Recipe getByRestaurantId(int restaurantId)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace RestaurantAPI.Repository.ProductRepository
             throw new NotImplementedException();
         }
 
-        public void update(Product entity)
+        public void update(Recipe entity)
         {
             throw new NotImplementedException();
         }
