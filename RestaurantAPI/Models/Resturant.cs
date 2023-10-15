@@ -26,6 +26,7 @@ namespace RestaurantAPI.Models
         [Range(0, 24, ErrorMessage = "Open hours must be between 0 and 24.")]
         public decimal OpenHours { get; set; }
 
+        public string Image { get; set; }
 
     }
 }
