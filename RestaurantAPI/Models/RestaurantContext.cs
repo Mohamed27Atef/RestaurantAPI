@@ -1,10 +1,11 @@
 ﻿
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantAPI.Models
 {
-    public class RestaurantContext : DbContext
+    public class RestaurantContext : IdentityDbContext
     {
         public RestaurantContext()
         {
@@ -25,8 +26,6 @@ namespace RestaurantAPI.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ECommerceDB;Integrated Security=True;TrustServerCertificate=true;");
         }
     }
 }

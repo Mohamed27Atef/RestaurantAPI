@@ -23,7 +23,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public List<Product> getAll(string include = "")
         {
-            return Context.Prodcuts.ToList();
+            throw new NotImplementedException();
         }
 
         public Product getByCategoryId(int categoryId)
