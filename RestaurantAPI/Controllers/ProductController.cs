@@ -4,8 +4,8 @@ using RestaurantAPI.Repository.ProductRepository;
 namespace RestaurantAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ProductController : Controller
+    [Route("api/[controller]")]
+    public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
 
@@ -13,8 +13,11 @@ namespace RestaurantAPI.Controllers
         {
             this.productRepository = productRepository;
         }
-
-
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return Ok("test");
+        }
         // get by restaurantId
 
 
