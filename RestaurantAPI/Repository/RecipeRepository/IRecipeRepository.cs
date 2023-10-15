@@ -1,7 +1,7 @@
 ﻿using E_Commerce.Repository;
 using RestaurantAPI.Models;
 
-namespace RestaurantAPI.Repository.ProductRepository
+namespace RestaurantAPI.Repository
 {
     public interface IRecipeRepository : IGenericRepository <Recipe>
     {

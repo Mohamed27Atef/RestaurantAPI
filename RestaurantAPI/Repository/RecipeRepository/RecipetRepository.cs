@@ -1,8 +1,8 @@
 ﻿using RestaurantAPI.Models;
 
-namespace RestaurantAPI.Repository.ProductRepository
+namespace RestaurantAPI.Repository
 {
-    public class RecipetRepository : RecipeRepository
+    public class RecipetRepository : IRecipeRepository
     {
         private readonly RestaurantContext Context;
         public RecipetRepository(RestaurantContext context)

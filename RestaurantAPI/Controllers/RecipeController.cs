@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Repository.ProductRepository;
+using RestaurantAPI.Repository;
 
 namespace RestaurantAPI.Controllers
 {
