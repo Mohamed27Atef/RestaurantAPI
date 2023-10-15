@@ -13,11 +13,6 @@ namespace RestaurantAPI.Controllers
         {
             this.productRepository = productRepository;
         }
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return Ok("test");
-        }
         // get by restaurantId
 
 
