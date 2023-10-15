@@ -20,7 +20,6 @@ builder.Services.AddDbContext<RestaurantContext>(options =>
 
 builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
 
-builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>().AddEntityFrameworkStores<RestaurantContext>().AddDefaultTokenProviders();
 
 
 var app = builder.Build();

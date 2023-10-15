@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantAPI.Models
 {
-    public class RestaurantContext : IdentityDbContext<ApplicationIdentityUser>
+    public class RestaurantContext : IdentityDbContext
     {
         public RestaurantContext()
         {
