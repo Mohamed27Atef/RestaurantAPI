@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Repository.ProductRepository;
 
+using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class RecipeController : ControllerBase
     {
-        private readonly IProductRepository productRepository;
+        private readonly IRecipeRepository productRepository;
 
-        public ProductController(IProductRepository productRepository)
+        public RecipeController(IRecipeRepository productRepository)
         {
             this.productRepository = productRepository;
         }

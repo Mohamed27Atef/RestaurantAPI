@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantAPI.Models
 {
-    public class RestaurantContext : IdentityDbContext
+    public class RestaurantContext : IdentityDbContext<ApplicationIdentityUser>
     {
         public RestaurantContext()
         {
@@ -18,7 +18,7 @@ namespace RestaurantAPI.Models
         }
 
 
-        public virtual DbSet<Product> Prodcuts { get; set; }
+        public virtual DbSet<Recipe> Prodcuts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

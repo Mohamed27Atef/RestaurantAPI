@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
-using RestaurantAPI.Repository.ProductRepository;
+using RestaurantAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RestaurantContext>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
+
+builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>().AddEntityFrameworkStores<RestaurantContext>().AddDefaultTokenProviders();
 
 
 var app = builder.Build();
