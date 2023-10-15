@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantAPI.Models
 {
@@ -14,5 +15,9 @@ namespace RestaurantAPI.Models
 
         [Range(0, 100, ErrorMessage = "Discount percentage must be between 0 and 100.")]
         public decimal DiscountPercentage { get; set; }
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
+
+        public Order Order { get; set; }
     }
 }

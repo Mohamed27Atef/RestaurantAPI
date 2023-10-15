@@ -4,9 +4,10 @@ namespace RestaurantAPI.Models
 {
     public class ResturantFeature
     {
-        public int id { get; set; }
+        public int FeatureId { get; set; }
+        public Feature Feature { get; set; }
 
-        [Required(ErrorMessage = "Feature name is required.")]
-        public string Name { get; set; }
+        public int ResturantId { get; set; }
+        public Resturant Resturant { get; set; }
     }
 }
