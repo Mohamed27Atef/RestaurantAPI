@@ -2,7 +2,7 @@
 
 namespace RestaurantAPI.Repository.ProductRepository
 {
-    public class RecipetRepository : RecipeRepository
+    public class RecipetRepository : IRecipeRepository
     {
         private readonly RestaurantContext Context;
         public RecipetRepository(RestaurantContext context)
