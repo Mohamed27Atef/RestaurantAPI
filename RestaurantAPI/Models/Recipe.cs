@@ -6,6 +6,7 @@ namespace RestaurantAPI.Models
 {
     public class Recipe
     {
+
         public int id { get; set; }
         [Required]
         [MaxLength(255)]
