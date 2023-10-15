@@ -34,4 +34,5 @@ namespace RestaurantAPI.Models
         [MaxLength(255)]
         public string Location { get; set; }
     }
+
 }

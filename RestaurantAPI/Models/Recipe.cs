@@ -8,6 +8,7 @@ namespace RestaurantAPI.Models
     {
 
         public int id { get; set; }
+
         [Required]
         [MaxLength(255)]
         public string name { get; set; }
@@ -18,6 +19,9 @@ namespace RestaurantAPI.Models
         [Required]
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime TimeToGet { get; set; }
 
 
 
