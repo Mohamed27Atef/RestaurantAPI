@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿
 using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class RecipeController : ControllerBase
+
+    public class RecipeController : BaseApiClass
     {
         private readonly IRecipeRepository productRepository;
 

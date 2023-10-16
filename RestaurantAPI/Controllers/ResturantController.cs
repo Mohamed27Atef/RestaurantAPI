@@ -7,9 +7,8 @@ using RestaurantAPI.Services;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ResturantController : ControllerBase
+
+    public class ResturantController : BaseApiClass
     {
 
         private readonly IResturanrRepo resturantRepository;

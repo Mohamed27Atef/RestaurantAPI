@@ -10,9 +10,8 @@ using System.Text;
 
 namespace RestaurantAPI.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class AccountController : ControllerBase
+	
+	public class AccountController :BaseApiClass
 	{
 		private readonly UserManager<User> userManager;
 		private readonly IConfiguration config;
