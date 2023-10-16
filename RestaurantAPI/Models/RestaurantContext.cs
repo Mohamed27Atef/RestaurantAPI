@@ -27,6 +27,8 @@ namespace RestaurantAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
+            
+
             base.OnModelCreating(modelBuilder);
                     modelBuilder.Entity<RecipeImage>()
             .HasKey(ri => new { ri.RecipeId, ri.Image });
@@ -35,6 +37,8 @@ namespace RestaurantAPI.Models
             .HasOne(ri => ri.Recipe)
             .WithMany()
             .HasForeignKey(ri => ri.RecipeId);
+
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
