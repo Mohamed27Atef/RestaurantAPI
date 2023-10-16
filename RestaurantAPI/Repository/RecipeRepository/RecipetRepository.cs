@@ -12,15 +12,6 @@ namespace RestaurantAPI.Repository.ProductRepository
         }
 
 
-        public void add(Recipe entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void delete(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public List<Recipe> getAll(string include = "")
         {
@@ -63,5 +54,17 @@ namespace RestaurantAPI.Repository.ProductRepository
         {
             throw new NotImplementedException();
         }
+
+        public void add(Recipe entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

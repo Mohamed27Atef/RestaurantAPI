@@ -14,7 +14,7 @@ namespace RestaurantAPI.Controllers
             this._recipeRepository = recipeRepository;
         }
       
-        [HttpGet("api/recipe/restaurant/{restaurantId}")]
+        [HttpGet("{restaurantId}")]
         public IActionResult GetRecipesByRestaurant(int restaurantId)
         {
             var recipes = _recipeRepository.getByRestaurantId(restaurantId);
@@ -28,7 +28,7 @@ namespace RestaurantAPI.Controllers
         }
 
         
-        [HttpGet("api/recipe/category/{categoryId}")]
+        [HttpGet("getByCateigory/{categoryId}")]
         public IActionResult GetRecipesByCategory(int categoryId)
         {
             var recipes = _recipeRepository.getByCategoryId(categoryId);
@@ -41,7 +41,7 @@ namespace RestaurantAPI.Controllers
             return Ok(recipes);
         }
 
-        [HttpGet("api/recipe/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetRecipe(int id)
         {
             var recipe = _recipeRepository.getById(id);
@@ -56,24 +56,20 @@ namespace RestaurantAPI.Controllers
         }
 
        
-        [HttpPost("api/recipe")]
+        [HttpPost()]
         public IActionResult CreateRecipe([FromBody] Recipe recipe)
         {
             if (recipe == null)
             {
                 return BadRequest("Invalid data");
             }
-
-            
-            recipe.TimeToGet = DateTime.Now;
-
             _recipeRepository.add(recipe);
 
             return CreatedAtAction("GetRecipe", new { id = recipe.id }, recipe);
         }
 
         
-        [HttpPut("api/recipe/{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateRecipe(int id, [FromBody] Recipe recipe)
         {
             if (recipe == null || recipe.id != id)
@@ -93,7 +89,7 @@ namespace RestaurantAPI.Controllers
         }
 
         
-        [HttpDelete("api/recipe/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteRecipe(int id)
         {
             var recipe = _recipeRepository.getById(id);

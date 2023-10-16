@@ -20,8 +20,8 @@ namespace RestaurantAPI.Models
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime TimeToGet { get; set; }
+        //[DataType(DataType.Date)]
+        //public DateTime TimeToGet { get; set; }
 
         [ForeignKey("restaurant")]
         public int restaurantId { get; set; }

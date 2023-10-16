@@ -12,16 +12,16 @@ namespace RestaurantAPI.Models
         public string Address { get; set; }
 
         [Required(ErrorMessage = "Cuisine type is required.")]
-        public string Cusinetype { get; set; }
+        public string? Cusinetype { get; set; }
 
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180.")]
-        public decimal Longitude { get; set; }
+        public decimal? Longitude { get; set; }
 
         [Range(-90, 90, ErrorMessage = "Latitude must be between -90 and 90.")]
-        public decimal Latitude { get; set; }
+        public decimal? Latitude { get; set; }
 
         [Range(1, 5, ErrorMessage = "Rate must be between 1 and 5.")]
-        public decimal Rate { get; set; }
+        public decimal? Rate { get; set; }
 
         [Range(0, 24, ErrorMessage = "Open hours must be between 0 and 24.")]
         public decimal OpenHours { get; set; }
