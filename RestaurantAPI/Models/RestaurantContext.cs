@@ -2,12 +2,12 @@
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace RestaurantAPI.Models
 {
     public class RestaurantContext : IdentityDbContext<User>
     {
-            public DbSet<RecipeImage> RecipeImages { get; set; }
 
         public RestaurantContext()
         {
@@ -22,6 +22,20 @@ namespace RestaurantAPI.Models
 
         public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<Resturant> Resturants { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<CartItem> CartItems { get; set; }
+        public virtual DbSet<Cateigory> Cateigorys { get; set; }
+        public virtual DbSet<Copon> Copons { get; set; }
+        public virtual DbSet<DeliveryMan> DeliveryMen { get; set; }
+        public virtual DbSet<Feature> Features { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<RecipeImage> RecipeImages { get; set; }
+        public virtual DbSet<RecipeFeedback> RecipeFeedbacks { get; set; }
+        public virtual DbSet<RestaurantCateigory> RestaurantCateigories { get; set; }
+        public virtual DbSet<ResturantFeature> ResturantFeatures { get; set; }
+        public virtual DbSet<ResturantFeedback> ResturantFeedbacks { get; set; }
+        public virtual DbSet<Table> Tables { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,10 +48,18 @@ namespace RestaurantAPI.Models
                     modelBuilder.Entity<RecipeImage>()
             .HasKey(ri => new { ri.RecipeId, ri.Image });
 
-        modelBuilder.Entity<RecipeImage>()
-            .HasOne(ri => ri.Recipe)
-            .WithMany()
-            .HasForeignKey(ri => ri.RecipeId);
+            modelBuilder.Entity<Order>()
+                  .HasOne<Cart>(t => t.Cart)
+                  .WithOne(t => t.order)
+                  .HasForeignKey<Order>(t => t.CartId)
+                  .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<Recipe>()
+                  .HasMany(t => t.RecipeFeedbacks)
+                  .WithOne(t => t.Recipe)
+                  .HasForeignKey(t => t.RecipeId)
+                  .OnDelete(DeleteBehavior.NoAction);
 
 
         }

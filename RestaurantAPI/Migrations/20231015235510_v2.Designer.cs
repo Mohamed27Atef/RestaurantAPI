@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Models;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20231015235510_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,17 +236,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<int>("NumberOfUser")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Copon");
                 });
@@ -278,29 +275,6 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("ResturantId");
 
                     b.ToTable("DeliveryMan");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.Feature", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Feature");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Order", b =>
@@ -354,6 +328,9 @@ namespace RestaurantAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("coponid")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
@@ -365,6 +342,8 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("DeliveryId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("coponid");
 
                     b.ToTable("Order");
                 });
@@ -440,19 +419,6 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("RecipeFeedback");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.RecipeImage", b =>
-                {
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("RecipeId", "Image");
-
-                    b.ToTable("RecipeImages");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.RestaurantCateigory", b =>
@@ -538,55 +504,6 @@ namespace RestaurantAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("Resturantid");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ResturantFeedback");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.ResturantFeature", b =>
-                {
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResturantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FeatureId", "ResturantId");
-
-                    b.HasIndex("ResturantId");
-
-                    b.ToTable("ResturantFeature");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.ResturantFeedback", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("PostDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ResturantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ResturantId");
 
                     b.HasIndex("UserId");
 
@@ -778,17 +695,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.Copon", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Order", "Order")
-                        .WithOne("copon")
-                        .HasForeignKey("RestaurantAPI.Models.Copon", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Resturant", "Resturant")
@@ -824,6 +730,10 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RestaurantAPI.Models.Copon", "copon")
+                        .WithMany()
+                        .HasForeignKey("coponid");
+
                     b.Navigation("Address");
 
                     b.Navigation("Cart");
@@ -831,6 +741,8 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Deliveryman");
 
                     b.Navigation("User");
+
+                    b.Navigation("copon");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>
@@ -871,17 +783,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.RecipeImage", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.RestaurantCateigory", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Cateigory", "Cateigory")
@@ -901,42 +802,15 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Resturant");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.ResturantFeature", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Feature", "Feature")
-                        .WithMany("ResturantFeatures")
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestaurantAPI.Models.Resturant", "Resturant")
-                        .WithMany("ResturantFeatures")
-                        .HasForeignKey("ResturantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Feature");
-
-                    b.Navigation("Resturant");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.ResturantFeedback", b =>
                 {
-                    b.HasOne("RestaurantAPI.Models.Resturant", "Resturant")
+                    b.HasOne("RestaurantAPI.Models.Resturant", null)
                         .WithMany("resturantFeedbacks")
-                        .HasForeignKey("ResturantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Resturantid");
 
-                    b.HasOne("RestaurantAPI.Models.User", "User")
+                    b.HasOne("RestaurantAPI.Models.User", null)
                         .WithMany("ResturantFeedbacks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Resturant");
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Table", b =>
@@ -985,16 +859,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.Feature", b =>
-                {
-                    b.Navigation("ResturantFeatures");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.Order", b =>
-                {
-                    b.Navigation("copon");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>
                 {
                     b.Navigation("RecipeFeedbacks");
@@ -1007,8 +871,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("DeliveryMen");
 
                     b.Navigation("Recipes");
-
-                    b.Navigation("ResturantFeatures");
 
                     b.Navigation("Tables");
 

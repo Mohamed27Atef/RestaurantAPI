@@ -22,7 +22,6 @@ namespace RestaurantAPI.Models
 
         public virtual User? user { get; set; }
 
-        [ForeignKey("Recipe")]
         public int RecipeId { get; set; }
 
         public virtual Recipe? Recipe { get; set; }
