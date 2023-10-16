@@ -70,8 +70,8 @@ namespace RestaurantAPI.Models
         public int? DeliveryId { get; set; }
         public virtual DeliveryMan? Deliveryman { get; set; }
 
-        [Required]
-        [ForeignKey("Cart")]
+        //[Required]
+        //[ForeignKey("Cart")]
         public int CartId { get; set; }
         public virtual Cart? Cart { get; set; }
 

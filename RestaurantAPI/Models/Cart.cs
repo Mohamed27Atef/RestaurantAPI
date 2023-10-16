@@ -10,5 +10,7 @@ namespace RestaurantAPI.Models
         public string userId { get; set; }
 
         public virtual User? user { get; set; }
+
+        public virtual Order? order { get; set; }
     }
 }
