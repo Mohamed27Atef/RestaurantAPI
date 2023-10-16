@@ -1,12 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantAPI.Models
 {
     public class ResturantFeature
     {
-        public int id { get; set; }
+        [ForeignKey("Feature")]
+        [Required]
+        public int FeatureId { get; set; }
+        public virtual Feature? Feature { get; set; }
 
-        [Required(ErrorMessage = "Feature name is required.")]
-        public string Name { get; set; }
+        [ForeignKey("Resturant")]
+        [Required]
+        public int ResturantId { get; set; }
+        public virtual Resturant? Resturant { get; set; }
     }
 }
