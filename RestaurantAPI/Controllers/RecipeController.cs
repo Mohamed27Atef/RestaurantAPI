@@ -7,60 +7,104 @@ namespace RestaurantAPI.Controllers
 
     public class RecipeController : BaseApiClass
     {
-        private readonly IRecipeRepository recipeRepository;
+        private readonly IRecipeRepository _recipeRepository;
 
         public RecipeController(IRecipeRepository recipeRepository)
         {
-            this.recipeRepository = recipeRepository;
+            this._recipeRepository = recipeRepository;
         }
-
-        [HttpGet]
-        public ActionResult getAll()
+      
+        [HttpGet("api/recipe/restaurant/{restaurantId}")]
+        public IActionResult GetRecipesByRestaurant(int restaurantId)
         {
-            var recipes = recipeRepository.getAll();
-            if (recipes != null)
-                return Ok(recipes);
+            var recipes = _recipeRepository.getByRestaurantId(restaurantId);
 
-            return NotFound();
-        }
+            if (recipes == null)
+            {
+                return NotFound();
+            }
 
-        [HttpGet("{id:int}")]
-        public ActionResult getById(int id)
-        {
-            var recipe = recipeRepository.getById(id);
-            if (recipe != null)
-                return Ok(recipe);
-
-            return NotFound();
-        }
-
-        [HttpGet("getByResturantId/{id:int}")]
-        public ActionResult getByRestaurantId(int restaurantId)
-        {
-            var recipe = recipeRepository.getByRestaurantId(restaurantId);
-            if (recipe != null) 
-                return Ok(recipe);
-
-            return NotFound();
+            return Ok(recipes);
         }
 
         
-        [HttpGet("getByCatg/{id:int}")]
-        public ActionResult getByCatagroyId(int catagroyId)
+        [HttpGet("api/recipe/category/{categoryId}")]
+        public IActionResult GetRecipesByCategory(int categoryId)
         {
-            var recipe = recipeRepository.getByCategoryId(catagroyId);
-            if (recipe != null)
-                return Ok(recipe);
+            var recipes = _recipeRepository.getByCategoryId(categoryId);
 
-            return NotFound();
+            if (recipes == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(recipes);
         }
 
-        // create Recipe
+        [HttpGet("api/recipe/{id}")]
+        public IActionResult GetRecipe(int id)
+        {
+            var recipe = _recipeRepository.getById(id);
 
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
-        // edite recipe
+            return Ok(recipe);
+           
+        }
 
+       
+        [HttpPost("api/recipe")]
+        public IActionResult CreateRecipe([FromBody] Recipe recipe)
+        {
+            if (recipe == null)
+            {
+                return BadRequest("Invalid data");
+            }
 
-        // delete recipe
+            
+            recipe.TimeToGet = DateTime.Now;
+
+            _recipeRepository.add(recipe);
+
+            return CreatedAtAction("GetRecipe", new { id = recipe.id }, recipe);
+        }
+
+        
+        [HttpPut("api/recipe/{id}")]
+        public IActionResult UpdateRecipe(int id, [FromBody] Recipe recipe)
+        {
+            if (recipe == null || recipe.id != id)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            var existingRecipe = _recipeRepository.getById(id);
+            if (existingRecipe == null)
+            {
+                return NotFound();
+            }
+
+            _recipeRepository.update(recipe);
+
+            return NoContent();
+        }
+
+        
+        [HttpDelete("api/recipe/{id}")]
+        public IActionResult DeleteRecipe(int id)
+        {
+            var recipe = _recipeRepository.getById(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            _recipeRepository.delete(id);
+
+            return NoContent();
+        }
     }
 }
