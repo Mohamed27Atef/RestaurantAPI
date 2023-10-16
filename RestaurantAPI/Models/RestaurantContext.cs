@@ -27,7 +27,8 @@ namespace RestaurantAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
-            
+            modelBuilder.Entity<ResturantFeature>().HasKey(r => new { r.FeatureId, r.ResturantId });
+
 
             base.OnModelCreating(modelBuilder);
                     modelBuilder.Entity<RecipeImage>()
