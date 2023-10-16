@@ -1,4 +1,5 @@
 ﻿using RestaurantAPI.Models;
+using System.Data.Entity;
 
 namespace RestaurantAPI.Repository.ProductRepository
 {
@@ -23,22 +24,34 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public List<Recipe> getAll(string include = "")
         {
-            throw new NotImplementedException();
+            var recipes = Context.Recipes.Include(include).ToList();
+            if (recipes != null)
+                return recipes;
+            return null;
         }
 
         public Recipe getByCategoryId(int categoryId)
         {
-            throw new NotImplementedException();
+            var recipe = Context.Recipes.FirstOrDefault(r => r.categoryId == categoryId);
+            if (recipe != null)
+                return recipe;
+            return null;
         }
 
         public Recipe getById(int id)
         {
-            throw new NotImplementedException();
+            var recipe = Context.Recipes.FirstOrDefault(r=>r.id == id);
+            if (recipe != null)
+                return recipe;
+            return null;
         }
 
         public Recipe getByRestaurantId(int restaurantId)
         {
-            throw new NotImplementedException();
+            var recipe = Context.Recipes.FirstOrDefault(r => r.restaurantId == restaurantId);
+            if (recipe != null)
+                return recipe;
+            return null;
         }
 
         public int SaveChanges()
