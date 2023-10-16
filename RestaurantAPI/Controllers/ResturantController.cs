@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository.ProductRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RestaurantAPI.Controllers
 {
@@ -65,14 +67,27 @@ namespace RestaurantAPI.Controllers
         //post 
 
         [HttpPost]
-        public ActionResult PostResturant([FromBody] Resturant resturant)
+        public ActionResult PostResturant([FromBody] ResturantDto resturantDto)
         {
-            if (resturant == null)
+            if (resturantDto == null)
             {
                 return BadRequest("Invalid resturant data.");
             }
 
+            Resturant resturant = new Resturant()
+            {
+                id = resturantDto.id,
+                Name = resturantDto.Name,
+                Address = resturantDto.Address,
+                Cusinetype = resturantDto.Cusinetype,
+                Longitude = resturantDto.Longitude,
+                Latitude = resturantDto.Latitude,
+                Rate = resturantDto.Rate,
+                OpenHours = resturantDto.OpenHours,
+                Image = resturantDto.Image,
 
+            };
+            
             resturantRepository.add(resturant);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
@@ -85,16 +100,27 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPut]
-        public ActionResult updateResturant([FromBody] Resturant resturant)
+        public ActionResult updateResturant([FromBody] ResturantDto resturantDto)
         {
-            if (resturant == null)
+            if (resturantDto == null)
             {
                 return BadRequest("Invalid resturant data.");
             }
+            Resturant resturant = resturantRepository.getById(resturantDto.id);
 
-            var res = resturantRepository.getById(resturant.id);
-            if (res == null)
+            if (resturant == null)
                 return NotFound("Resturant Not Found!");
+
+            resturant.id = resturantDto.id;
+            resturant.Name = resturantDto.Name;
+            resturant.Address = resturantDto.Address;
+            resturant.Cusinetype = resturantDto.Cusinetype;
+            resturant.Longitude = resturantDto.Longitude;
+            resturant.Latitude = resturantDto.Latitude;
+            resturant.Rate = resturantDto.Rate;
+            resturant.OpenHours = resturantDto.OpenHours;
+            resturant.Image = resturantDto.Image;
+           
 
             resturantRepository.update(resturant);
             int Raws = resturantRepository.SaveChanges();
