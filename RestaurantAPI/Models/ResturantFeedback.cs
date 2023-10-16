@@ -19,11 +19,11 @@ namespace RestaurantAPI.Models
 
         [ForeignKey("Resturant")]
         public int ResturantId { get; set; }
-        public Resturant Resturant { get; set; }
+        public virtual Resturant? Resturant { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public virtual User? User { get; set; }
 
     }
 }
