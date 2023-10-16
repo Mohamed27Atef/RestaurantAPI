@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
@@ -13,12 +14,22 @@ namespace RestaurantAPI.Controllers
             this.recipeRepository = recipeRepository;
         }
 
+        [HttpGet]
+        public ActionResult getAll()
+        {
+            var recipes = recipeRepository.getAll();
+            if (recipes != null)
+                return Ok(recipes);
+
+            return NotFound();
+        }
+
         [HttpGet("{id:int}")]
         public ActionResult getById(int id)
         {
             var recipe = recipeRepository.getById(id);
             if (recipe != null)
-                return Ok();
+                return Ok(recipe);
 
             return NotFound();
         }
@@ -28,7 +39,7 @@ namespace RestaurantAPI.Controllers
         {
             var recipe = recipeRepository.getByRestaurantId(restaurantId);
             if (recipe != null) 
-                return Ok();
+                return Ok(recipe);
 
             return NotFound();
         }
@@ -39,7 +50,7 @@ namespace RestaurantAPI.Controllers
         {
             var recipe = recipeRepository.getByCategoryId(catagroyId);
             if (recipe != null)
-                return Ok();
+                return Ok(recipe);
 
             return NotFound();
         }
