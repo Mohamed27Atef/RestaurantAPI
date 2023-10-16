@@ -28,13 +28,8 @@ namespace RestaurantAPI.Models
         {
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
             base.OnModelCreating(modelBuilder);
-                    modelBuilder.Entity<RecipeImage>()
-            .HasKey(ri => new { ri.RecipeId, ri.Image });
-
-        modelBuilder.Entity<RecipeImage>()
-            .HasOne(ri => ri.Recipe)
-            .WithMany()
-            .HasForeignKey(ri => ri.RecipeId);
+            modelBuilder.Entity<RecipeImage>()
+                .HasKey(ri => new { ri.RecipeId, ri.Image });
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
