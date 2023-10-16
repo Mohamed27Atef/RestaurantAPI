@@ -1,31 +1,110 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
 {
 
     public class RecipeController : BaseApiClass
     {
-        private readonly IRecipeRepository productRepository;
+        private readonly IRecipeRepository _recipeRepository;
 
-        public RecipeController(IRecipeRepository productRepository)
+        public RecipeController(IRecipeRepository recipeRepository)
         {
-            this.productRepository = productRepository;
+            this._recipeRepository = recipeRepository;
         }
-        // get by restaurantId
+      
+        [HttpGet("api/recipe/restaurant/{restaurantId}")]
+        public IActionResult GetRecipesByRestaurant(int restaurantId)
+        {
+            var recipes = _recipeRepository.getByRestaurantId(restaurantId);
 
+            if (recipes == null)
+            {
+                return NotFound();
+            }
 
-        // get by id
+            return Ok(recipes);
+        }
 
+        
+        [HttpGet("api/recipe/category/{categoryId}")]
+        public IActionResult GetRecipesByCategory(int categoryId)
+        {
+            var recipes = _recipeRepository.getByCategoryId(categoryId);
 
-        // get CateogryId
+            if (recipes == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(recipes);
+        }
 
-        // create Recipe
+        [HttpGet("api/recipe/{id}")]
+        public IActionResult GetRecipe(int id)
+        {
+            var recipe = _recipeRepository.getById(id);
 
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
-        // edite recipe
+            return Ok(recipe);
+           
+        }
 
+       
+        [HttpPost("api/recipe")]
+        public IActionResult CreateRecipe([FromBody] Recipe recipe)
+        {
+            if (recipe == null)
+            {
+                return BadRequest("Invalid data");
+            }
 
-        // delete recipe
+            
+            recipe.TimeToGet = DateTime.Now;
+
+            _recipeRepository.add(recipe);
+
+            return CreatedAtAction("GetRecipe", new { id = recipe.id }, recipe);
+        }
+
+        
+        [HttpPut("api/recipe/{id}")]
+        public IActionResult UpdateRecipe(int id, [FromBody] Recipe recipe)
+        {
+            if (recipe == null || recipe.id != id)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            var existingRecipe = _recipeRepository.getById(id);
+            if (existingRecipe == null)
+            {
+                return NotFound();
+            }
+
+            _recipeRepository.update(recipe);
+
+            return NoContent();
+        }
+
+        
+        [HttpDelete("api/recipe/{id}")]
+        public IActionResult DeleteRecipe(int id)
+        {
+            var recipe = _recipeRepository.getById(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            _recipeRepository.delete(id);
+
+            return NoContent();
+        }
     }
 }
