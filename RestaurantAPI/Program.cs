@@ -23,7 +23,7 @@ builder.Services.AddCors (options =>
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RestaurantContext>(options =>
            options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
-builder.Services.AddIdentity<User,IdentityRole>()
+builder.Services.AddIdentity<ApplicationIdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<RestaurantContext>();
 builder.Services.AddAuthentication(options =>
     {

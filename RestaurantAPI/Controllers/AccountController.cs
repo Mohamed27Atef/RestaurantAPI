@@ -13,10 +13,10 @@ namespace RestaurantAPI.Controllers
 	
 	public class AccountController :BaseApiClass
 	{
-		private readonly UserManager<User> userManager;
+		private readonly UserManager<ApplicationIdentityUser> userManager;
 		private readonly IConfiguration config;
 
-		public AccountController(UserManager<User> _userManager,IConfiguration config)
+		public AccountController(UserManager<ApplicationIdentityUser> _userManager,IConfiguration config)
         {
 			userManager = _userManager;
 			this.config = config;
@@ -26,7 +26,7 @@ namespace RestaurantAPI.Controllers
 		{
             if ( ModelState.IsValid )
             {
-				User user = new User()
+				ApplicationIdentityUser user = new ApplicationIdentityUser()
 				{
 					//FirstName = userDto.FirstName,
 					//LastName = userDto.LastName,

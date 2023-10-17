@@ -18,7 +18,7 @@ namespace RestaurantAPI.Models
         public DateTime PostDate { get; set; }
 
         [ForeignKey("User")]
-        public string userId { get; set; }
+        public int userId { get; set; }
 
         public virtual User? user { get; set; }
 

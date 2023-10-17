@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 
 namespace RestaurantAPI.Models
 {
-    public class RestaurantContext : IdentityDbContext<User>
+    public class RestaurantContext : IdentityDbContext<ApplicationIdentityUser>
     {
 
         public RestaurantContext()
@@ -36,6 +36,7 @@ namespace RestaurantAPI.Models
         public virtual DbSet<ResturantFeature> ResturantFeatures { get; set; }
         public virtual DbSet<ResturantFeedback> ResturantFeedbacks { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

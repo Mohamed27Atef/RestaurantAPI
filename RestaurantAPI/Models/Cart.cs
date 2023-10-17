@@ -7,7 +7,7 @@ namespace RestaurantAPI.Models
         public int id { get; set; }
 
         [ForeignKey("user")]
-        public string userId { get; set; }
+        public int userId { get; set; }
 
         public virtual User? user { get; set; }
 

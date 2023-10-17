@@ -3,16 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace RestaurantAPI.Models
 {
-    public class User : IdentityUser
+    public class User
     {
-
-        [Required]
-        public DateTime CreatedAt { get; set; }
-
+        public int id { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string application_user_id { get; set; }
+        public virtual ApplicationIdentityUser? ApplicationUser { get; set; }
+       
         public string Image { get; set; }
 
-        [MaxLength(500)]
-        public string Address { get; set; }
 
         [MaxLength(255)]
         public string Location { get; set; }
