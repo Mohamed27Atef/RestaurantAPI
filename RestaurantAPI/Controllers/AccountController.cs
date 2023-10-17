@@ -29,11 +29,14 @@ namespace RestaurantAPI.Controllers
 		{
             if ( !ModelState.IsValid )
                 return BadRequest(ModelState);
+            bool emailExists = await CheckIfEmailExists(userDto.Email);
+            if (emailExists)
+            {
+                return BadRequest("Email already exists");
+            }
 
-			// chech if the email is exist or no........... => hossam
-			// make it in anther method and make it private
 
-                ApplicationIdentityUser user = new ApplicationIdentityUser()
+            ApplicationIdentityUser user = new ApplicationIdentityUser()
 				{
 					//FirstName = userDto.FirstName,
 					//LastName = userDto.LastName,
@@ -95,5 +98,10 @@ namespace RestaurantAPI.Controllers
 
 			return claims;
         }
-	}
+        private async Task<bool> CheckIfEmailExists(string email)
+        {
+            var existingUser = await userManager.FindByEmailAsync(email);
+            return (existingUser != null);
+        }
+    }
 }
