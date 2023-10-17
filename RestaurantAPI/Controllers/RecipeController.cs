@@ -81,7 +81,7 @@ namespace RestaurantAPI.Controllers
             return Created("",recipe); // get the url.....
         }
 
-        
+
         [HttpPut("{id}")]
         public ActionResult<ResultsDto> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
         {
@@ -112,7 +112,7 @@ namespace RestaurantAPI.Controllers
                 {
                     reicpe = existingRecipe
                 }
-            }
+            };
         }
 
         
