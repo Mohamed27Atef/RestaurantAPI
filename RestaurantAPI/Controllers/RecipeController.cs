@@ -1,5 +1,8 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.results;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 namespace RestaurantAPI.Controllers
@@ -57,35 +60,59 @@ namespace RestaurantAPI.Controllers
 
        
         [HttpPost()]
-        public IActionResult CreateRecipe([FromBody] Recipe recipe)
+        public ActionResult CreateRecipe([FromBody] RecipeDto recipeDto)
         {
-            if (recipe == null)
-            {
+            if (recipeDto == null)
                 return BadRequest("Invalid data");
-            }
-            _recipeRepository.add(recipe);
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.id }, recipe);
+            Recipe recipe = new Recipe()
+            {
+                recipteImages = recipeDto.RecipeImages,
+                categoryId = recipeDto.CategoryId,
+                restaurantId = recipeDto.RestaurantId,
+                Description = recipeDto.Description,
+                name = recipeDto.Name,
+                Price = recipeDto.Price,
+            };
+
+            _recipeRepository.add(recipe);
+            _recipeRepository.SaveChanges();
+
+            return Created("",recipe); // get the url.....
         }
 
         
         [HttpPut("{id}")]
-        public IActionResult UpdateRecipe(int id, [FromBody] Recipe recipe)
+        public ActionResult<ResultsDto> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
         {
-            if (recipe == null || recipe.id != id)
-            {
+            if (recipeDto == null)
                 return BadRequest("Invalid data");
-            }
+
+
 
             var existingRecipe = _recipeRepository.getById(id);
             if (existingRecipe == null)
-            {
                 return NotFound();
+
+            existingRecipe.recipteImages = recipeDto.RecipeImages;
+            existingRecipe.categoryId = recipeDto.CategoryId;
+            existingRecipe.restaurantId = recipeDto.RestaurantId;
+            existingRecipe.Description = recipeDto.Description;
+            existingRecipe.name = recipeDto.Name;
+            existingRecipe.Price = recipeDto.Price;
+
+
+            _recipeRepository.update(existingRecipe);
+
+            return new ResultsDto()
+            {
+                statusCode = 200,
+                msg = "updated success",
+                data = new UpdatedResult()
+                {
+                    reicpe = existingRecipe
+                }
             }
-
-            _recipeRepository.update(recipe);
-
-            return NoContent();
         }
 
         
