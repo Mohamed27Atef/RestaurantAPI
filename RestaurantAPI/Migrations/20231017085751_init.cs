@@ -45,7 +45,6 @@ namespace RestaurantAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    customer_idId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -66,12 +65,6 @@ namespace RestaurantAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_AspNetUsers_customer_idId",
-                        column: x => x.customer_idId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -416,8 +409,7 @@ namespace RestaurantAPI.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    application_user_id = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    application_user_id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
@@ -427,10 +419,11 @@ namespace RestaurantAPI.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Users_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Users_AspNetUsers_application_user_id",
+                        column: x => x.application_user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Users_Carts_CartId",
                         column: x => x.CartId,
@@ -604,11 +597,6 @@ namespace RestaurantAPI.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_customer_idId",
-                table: "AspNetUsers",
-                column: "customer_idId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -715,6 +703,12 @@ namespace RestaurantAPI.Migrations
                 column: "ResturantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_application_user_id",
+                table: "Users",
+                column: "application_user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_CartId",
                 table: "Users",
                 column: "CartId");
@@ -724,11 +718,6 @@ namespace RestaurantAPI.Migrations
                 table: "Users",
                 column: "table_id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userId",
-                table: "Users",
-                column: "userId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_CartItems_Carts_CartId",
@@ -751,7 +740,7 @@ namespace RestaurantAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Users_AspNetUsers_userId",
+                name: "FK_Users_AspNetUsers_application_user_id",
                 table: "Users");
 
             migrationBuilder.DropForeignKey(
