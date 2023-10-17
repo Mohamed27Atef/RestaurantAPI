@@ -25,6 +25,6 @@ namespace RestaurantAPI.Dto
             public int CategoryId { get; set; }
 
 
-            public virtual List<RecipeImage>? RecipeImages { get; set; } = new List<RecipeImage>();
+            public virtual List<string>? RecipeImages { get; set; } = new List<string>();
         }
 }

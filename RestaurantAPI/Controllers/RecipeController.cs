@@ -67,7 +67,7 @@ namespace RestaurantAPI.Controllers
 
             Recipe recipe = new Recipe()
             {
-                recipteImages = recipeDto.RecipeImages,
+                //recipteImages = recipeDto.RecipeImages,
                 categoryId = recipeDto.CategoryId,
                 restaurantId = recipeDto.RestaurantId,
                 Description = recipeDto.Description,
@@ -94,7 +94,7 @@ namespace RestaurantAPI.Controllers
             if (existingRecipe == null)
                 return NotFound();
 
-            existingRecipe.recipteImages = recipeDto.RecipeImages;
+            //existingRecipe.recipteImages = recipeDto.RecipeImages;
             existingRecipe.categoryId = recipeDto.CategoryId;
             existingRecipe.restaurantId = recipeDto.RestaurantId;
             existingRecipe.Description = recipeDto.Description;
@@ -103,7 +103,7 @@ namespace RestaurantAPI.Controllers
 
 
             _recipeRepository.update(existingRecipe);
-
+            _recipeRepository.SaveChanges();
             return new ResultsDto()
             {
                 statusCode = 200,
