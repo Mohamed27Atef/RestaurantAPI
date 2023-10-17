@@ -12,7 +12,7 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231017073810_init")]
+    [Migration("20231017085751_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -246,10 +246,6 @@ namespace RestaurantAPI.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("customer_idId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -259,8 +255,6 @@ namespace RestaurantAPI.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("customer_idId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -725,22 +719,20 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<string>("application_user_id")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("table_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("id");
 
                     b.HasIndex("CartId");
 
-                    b.HasIndex("table_id")
+                    b.HasIndex("application_user_id")
                         .IsUnique();
 
-                    b.HasIndex("userId");
+                    b.HasIndex("table_id")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -794,17 +786,6 @@ namespace RestaurantAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.ApplicationIdentityUser", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.ApplicationIdentityUser", "customer_id")
-                        .WithMany()
-                        .HasForeignKey("customer_idId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("customer_id");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Cart", b =>
@@ -1025,27 +1006,34 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RestaurantAPI.Models.ApplicationIdentityUser", "ApplicationUser")
+                        .WithOne("User")
+                        .HasForeignKey("RestaurantAPI.Models.User", "application_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RestaurantAPI.Models.Table", "table")
                         .WithOne("user")
                         .HasForeignKey("RestaurantAPI.Models.User", "table_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantAPI.Models.ApplicationIdentityUser", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Cart");
 
                     b.Navigation("table");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Address", b =>
                 {
                     b.Navigation("Orders")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RestaurantAPI.Models.ApplicationIdentityUser", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Cart", b =>
