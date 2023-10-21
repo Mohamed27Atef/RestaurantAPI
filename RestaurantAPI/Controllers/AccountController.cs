@@ -31,9 +31,7 @@ namespace RestaurantAPI.Controllers
                 return BadRequest(ModelState);
             bool emailExists = await CheckIfEmailExists(userDto.Email);
             if (emailExists)
-            {
                 return BadRequest("Email already exists");
-            }
 
 
             ApplicationIdentityUser user = new ApplicationIdentityUser()
@@ -54,7 +52,7 @@ namespace RestaurantAPI.Controllers
 				
         }
 		[HttpPost("LogIn")]
-		public async Task<ActionResult<ResultsDto>> LogIn(LogInDto userDto)
+		public async Task<ActionResult<UserDTOResult>> LogIn(LogInDto userDto)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest();
@@ -69,16 +67,12 @@ namespace RestaurantAPI.Controllers
 
 			List<Claim> claims = await GetClaims(user);
             JwtSecurityToken Mytoken = token.generateToken(claims);
-
-			return new ResultsDto()
-			{
-				statusCode = 200,
-				data= new UserDTOResult()
-				{
-					token = new JwtSecurityTokenHandler().WriteToken(Mytoken),
-					expiration = Mytoken.ValidTo
-				}
-			};				      
+          
+            return Ok(new UserDTOResult()
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(Mytoken),
+                expiration = Mytoken.ValidTo
+            });				      
 		}
 
 

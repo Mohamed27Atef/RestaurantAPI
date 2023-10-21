@@ -49,7 +49,7 @@ namespace RestaurantAPI.Services
         public static WebApplicationBuilder registerDBAndIdentityService(this WebApplicationBuilder builder)
         {
             builder.Services.AddDbContext<RestaurantContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
+            options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DB")));
             builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<RestaurantContext>();
 

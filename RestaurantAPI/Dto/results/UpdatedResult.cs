@@ -2,12 +2,9 @@
 
 namespace RestaurantAPI.Dto.results
 {
-    public class UpdatedResult : IResult
+    public class UpdatedRecipeResult
     {
         public Recipe reicpe { get; set; }
-        Task IResult.ExecuteAsync(HttpContext httpContext)
-        {
-            throw new NotImplementedException();
-        }
+        public string? msg { get; set; }
     }
 }

@@ -83,7 +83,7 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public ActionResult<ResultsDto> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
+        public ActionResult<UpdatedRecipeResult> UpdateRecipe(int id, [FromBody] RecipeDto recipeDto)
         {
             if (recipeDto == null)
                 return BadRequest("Invalid data");
@@ -104,15 +104,10 @@ namespace RestaurantAPI.Controllers
 
             _recipeRepository.update(existingRecipe);
             _recipeRepository.SaveChanges();
-            return new ResultsDto()
+            return Ok(new UpdatedRecipeResult()
             {
-                statusCode = 200,
-                msg = "updated success",
-                data = new UpdatedResult()
-                {
-                    reicpe = existingRecipe
-                }
-            };
+                reicpe = existingRecipe
+            });
         }
 
         
