@@ -45,7 +45,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
 
         }
 
-        public List<ResturantDto> getByCategoryId(int category_id)
+        public IEnumerable<ResturantDto> getByCategoryId(int category_id)
         {
             return Context.RestaurantCateigories.Where(ca => ca.CategoryId == category_id).Include(c => c.Resturant).Select(t => MapRestaurantToDtoService.mapResToDto(t.Resturant)).ToList();
             
@@ -56,9 +56,12 @@ namespace RestaurantAPI.Repository.ResturantRepository
             return Context.Resturants.FirstOrDefault(r => r.id == id);
         }
 
-        public List<ResturantDto> getByName(string name)
+        public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId)
         {
-            return Context.Resturants.Where(res => res.Name.Contains(name)).Select(t => MapRestaurantToDtoService.mapResToDto(t)).ToList();
+          if (categoryId == 0)
+                return Context.Resturants.Where(res => res.Name.Contains(name)).Select(t => MapRestaurantToDtoService.mapResToDto(t)).ToList();
+            return getByCategoryId(categoryId).Where(res => res.Name.Contains(name)).ToList();
+
         }
 
         public int SaveChanges()

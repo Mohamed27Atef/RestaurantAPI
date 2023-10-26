@@ -44,6 +44,8 @@ app.UseAuthentication();
 
 app.UseCors("myCorse");
 
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();

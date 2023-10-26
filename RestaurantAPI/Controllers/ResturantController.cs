@@ -27,8 +27,26 @@ namespace RestaurantAPI.Controllers
         public ActionResult getAll()
         {
             var allREsturants = resturantRepository.getAll();
+            List<ResturantDto> resturantDtos = new List<ResturantDto>();
             if(allREsturants != null)
-                return Ok(allREsturants);
+            {
+                foreach (var item in allREsturants)
+                {
+                    resturantDtos.Add(new ResturantDto()
+                    {
+                        Address = item.Address,
+                        Cusinetype = item.Cusinetype,
+                        id = item.id,
+                        Image = item.Image,
+                        Latitude = item.Latitude,
+                        Longitude = item.Longitude,
+                        Name = item.Name,
+                        OpenHours = item.OpenHours,
+                        Rate = item.Rate
+                    });
+                }
+                return Ok(resturantDtos);
+            }
 
             return NotFound();
         }
@@ -43,13 +61,12 @@ namespace RestaurantAPI.Controllers
             return NotFound();
         }
 
-        [HttpGet("getByName/{name}")]
-        public ActionResult getByName(string name)
+        [HttpGet("search")]
+        public ActionResult getByName(string q, int cat)
         {
-            var resturant = resturantRepository.getByName(name);
+            var resturant = resturantRepository.getByNameAndCategoryId(q, cat);
             if (resturant != null)
                 return Ok(resturant);
-
             return NotFound();
         }
 

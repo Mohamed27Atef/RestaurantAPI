@@ -7,8 +7,8 @@ namespace RestaurantAPI.Repository.ResturantRepository
     public interface IResturanrRepo:IGenericRepository<Resturant>
     {
         public Resturant getByAddress(string address);
-        public List<ResturantDto> getByCategoryId(int category_id);
-        public List<ResturantDto> getByName(string name);
+        public IEnumerable<ResturantDto> getByCategoryId(int category_id);
+        public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId);
         public void UpdateIamge(string newUrl);
     }
 }
