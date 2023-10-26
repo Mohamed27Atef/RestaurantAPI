@@ -43,7 +43,7 @@ namespace RestaurantAPI.Controllers
             return NotFound();
         }
 
-        [HttpGet("/getByName/{name}")]
+        [HttpGet("getByName/{name}")]
         public ActionResult getByName(string name)
         {
             var resturant = resturantRepository.getByName(name);
@@ -62,6 +62,18 @@ namespace RestaurantAPI.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("getByCategory/{category_id}")]
+        public ActionResult getByCategory(int category_id)
+        {
+            var resturant = resturantRepository.getByCategoryId(category_id);
+
+            if (resturant != null)
+                return Ok(resturant);
+
+            return NotFound();
+        }
+
 
         //post 
 

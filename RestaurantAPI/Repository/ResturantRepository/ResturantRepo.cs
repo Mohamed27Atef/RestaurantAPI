@@ -1,4 +1,6 @@
-﻿using RestaurantAPI.Models;
+﻿using RestaurantAPI.Dto;
+using RestaurantAPI.Models;
+using RestaurantAPI.Services;
 using System.Data.Entity;
 
 namespace RestaurantAPI.Repository.ResturantRepository
@@ -43,14 +45,20 @@ namespace RestaurantAPI.Repository.ResturantRepository
 
         }
 
+        public List<ResturantDto> getByCategoryId(int category_id)
+        {
+            return Context.RestaurantCateigories.Where(ca => ca.CategoryId == category_id).Include(c => c.Resturant).Select(t => MapRestaurantToDtoService.mapResToDto(t.Resturant)).ToList();
+            
+        }
+
         public Resturant getById(int id)
         {
             return Context.Resturants.FirstOrDefault(r => r.id == id);
         }
 
-        public Resturant getByName(string name)
+        public List<ResturantDto> getByName(string name)
         {
-            return Context.Resturants.FirstOrDefault(r => r.Name == name);
+            return Context.Resturants.Where(res => res.Name.Contains(name)).Select(t => MapRestaurantToDtoService.mapResToDto(t)).ToList();
         }
 
         public int SaveChanges()

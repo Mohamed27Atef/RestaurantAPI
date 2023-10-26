@@ -16,6 +16,7 @@ namespace RestaurantAPI.Services
         public static WebApplicationBuilder registerAllService(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IResturanrRepo, ResturantRepo>();
             builder.Services.AddScoped<ImageService, ImageService>();
             builder.Services.AddScoped<IToken, TokenService>();
