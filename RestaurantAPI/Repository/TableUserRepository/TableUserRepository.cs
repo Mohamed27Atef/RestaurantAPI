@@ -32,7 +32,7 @@ namespace RestaurantAPI.Repository
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return context.SaveChanges();
         }
 
         public void update(UserTable entity)

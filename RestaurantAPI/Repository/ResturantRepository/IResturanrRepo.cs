@@ -9,6 +9,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
         public Resturant getByAddress(string address);
         public IEnumerable<ResturantDto> getByCategoryId(int category_id);
         public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId);
+        public List<ResturantDto> getByName(string name);
         public void UpdateIamge(string newUrl);
     }
 }
