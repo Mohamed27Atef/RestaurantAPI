@@ -20,6 +20,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
+
+
 builder.addCorseConfig();
 
 builder.registerDBAndIdentityService();
