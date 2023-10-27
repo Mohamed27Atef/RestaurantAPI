@@ -16,15 +16,20 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
-        public bool createReservationTable(int table_id)
+        public int isAvailable(TableType tableType)
         {
-            if (tableIsAvailable(table_id))
-            {
-                Table table = context.Tables.Find(table_id);
-                table.AvailableState = AvailableState.Reserved;
-                context.Tables.Update(table);
-            }
-            return false;
+            Table table = context.Tables.Where(t => t.TableType == tableType && t.AvailableState == AvailableState.Available).FirstOrDefault();
+            if (table == null)
+                return -1;
+            return table.Id;
+        }
+
+        public void createReservationTable(int table_id)
+        {
+            Table table = context.Tables.Find(table_id);
+            table.AvailableState = AvailableState.Reserved;
+            context.Tables.Update(table);
+            SaveChanges();
         }
 
         public void delete(int id)

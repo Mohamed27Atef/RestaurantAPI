@@ -28,7 +28,7 @@ namespace RestaurantAPI.Models
         public int RestaurantId { get; set; }
 
         [Required]
-        public AvailableState AvailableState { get; set; }
+        public AvailableState AvailableState { get; set; } = AvailableState.Available;
 
         [Required]
         public TableType TableType { get; set; }
