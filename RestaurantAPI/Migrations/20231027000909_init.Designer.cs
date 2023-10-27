@@ -12,7 +12,7 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231017085751_init")]
+    [Migration("20231027000909_init")]
     partial class init
     {
         /// <inheritdoc />
