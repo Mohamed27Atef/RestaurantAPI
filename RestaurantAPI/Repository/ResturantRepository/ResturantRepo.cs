@@ -56,6 +56,11 @@ namespace RestaurantAPI.Repository.ResturantRepository
             return Context.Resturants.FirstOrDefault(r => r.id == id);
         }
 
+        public List<ResturantDto> getByName(string name)
+        {
+            return Context.Resturants.Where(res => res.Name.Contains(name)).Select(t => MapRestaurantToDtoService.mapResToDto(t)).ToList();
+        }
+
         public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId)
         {
           if (categoryId == 0)

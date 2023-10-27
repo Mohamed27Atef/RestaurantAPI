@@ -37,12 +37,17 @@ namespace RestaurantAPI.Models
         public virtual DbSet<ResturantFeedback> ResturantFeedbacks { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserTable> UserTables { get; set; }
+        public virtual DbSet<CartUser> CartUsers { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
             modelBuilder.Entity<ResturantFeature>().HasKey(r => new { r.FeatureId, r.ResturantId });
+            modelBuilder.Entity<CartUser>().HasKey(r => new { r.user_id, r.cart_id });
+            modelBuilder.Entity<UserTable>().HasKey(r => new { r.user_id, r.table_id });
 
 
             base.OnModelCreating(modelBuilder);

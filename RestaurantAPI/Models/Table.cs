@@ -28,19 +28,18 @@ namespace RestaurantAPI.Models
         public int RestaurantId { get; set; }
 
         [Required]
-        public AvailableState AvailableState { get; set; }
+        public AvailableState AvailableState { get; set; } = AvailableState.Available;
 
         [Required]
         public TableType TableType { get; set; }
 
+        public virtual UserTable? UserTable { get; set; }
 
-        
         [Required]
         [ForeignKey("Resturant")]
         public int ResturantId { get; set; }
         public virtual Resturant? Resturant { get; set; }
 
-        public virtual User? user { get; set; }
     }
     }
 

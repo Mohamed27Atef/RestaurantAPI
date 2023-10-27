@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -17,12 +18,18 @@ namespace RestaurantAPI.Controllers
 		private readonly UserManager<ApplicationIdentityUser> userManager;
 		private readonly IConfiguration config;
         private readonly IToken token;
+        private readonly IUserRepository userRepository;
 
-        public AccountController(UserManager<ApplicationIdentityUser> _userManager,IConfiguration config, IToken token)
+        public AccountController(
+            UserManager<ApplicationIdentityUser> _userManager,
+            IConfiguration config, 
+            IToken token,
+            IUserRepository userRepository)
         {
 			userManager = _userManager;
 			this.config = config;
             this.token = token;
+            this.userRepository = userRepository;
         }
         [HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterDto userDto)
@@ -35,20 +42,26 @@ namespace RestaurantAPI.Controllers
 
 
             ApplicationIdentityUser user = new ApplicationIdentityUser()
-				{
-					//FirstName = userDto.FirstName,
-					//LastName = userDto.LastName,
-					Email = userDto.Email,
-					Address = userDto.Address,
-					UserName = userDto.Email.Split('@')[0],
-					PhoneNumber = userDto.Phone,
-					CreatedAt = DateTime.UtcNow
-				};
-				var result =await userManager.CreateAsync(user,userDto.Password);
-				if (!result.Succeeded)
-					return BadRequest(result.Errors.FirstOrDefault());
+			{
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+				Address = userDto.Address,
+				UserName = userDto.Email.Split('@')[0],
+				PhoneNumber = userDto.Phone,
+				CreatedAt = DateTime.UtcNow
+			};
+			var result =await userManager.CreateAsync(user,userDto.Password);
+			if (!result.Succeeded)
+				return BadRequest(result.Errors.FirstOrDefault());
 
-				return Ok("Account created successfuly");
+            User myUser = new User()
+            {
+                application_user_id = user.Id,
+            };
+            userRepository.add(myUser);
+            userRepository.SaveChanges();
+            return Ok("Account created successfuly");
 				
         }
 		[HttpPost("LogIn")]

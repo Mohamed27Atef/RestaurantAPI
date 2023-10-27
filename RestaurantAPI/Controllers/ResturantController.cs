@@ -62,9 +62,18 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("search")]
-        public ActionResult getByName(string q, int cat)
+        public ActionResult getByNameAndCategory(string q, int cat)
         {
             var resturant = resturantRepository.getByNameAndCategoryId(q, cat);
+            if (resturant != null)
+                return Ok(resturant);
+            return NotFound();
+        }
+
+        [HttpGet("search/{q}")]
+        public ActionResult getByName(string q)
+        {
+            var resturant = resturantRepository.getByName(q);
             if (resturant != null)
                 return Ok(resturant);
             return NotFound();

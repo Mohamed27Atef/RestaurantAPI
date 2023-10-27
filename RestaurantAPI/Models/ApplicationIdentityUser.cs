@@ -5,6 +5,8 @@ namespace RestaurantAPI.Models
 {
     public class ApplicationIdentityUser : IdentityUser
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public virtual User? User { get; set; }
 
         [Required]

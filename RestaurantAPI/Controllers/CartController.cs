@@ -31,9 +31,7 @@ namespace RestaurantAPI.Controllers
                     cartDtos.Add(new CartDTO()
                     {
 
-                        Id = item.id,
-                        UserId = item.userId
-                        
+                        Id = item.id                        
                     });
                 }
                 return Ok(cartDtos);
@@ -65,9 +63,7 @@ namespace RestaurantAPI.Controllers
             Cart cart = new Cart()
             {
 
-                id = cartDto.Id,
-                userId = cartDto.UserId
-
+                id = cartDto.Id
             };
 
             IcartRepo.add(cart);
@@ -94,7 +90,7 @@ namespace RestaurantAPI.Controllers
                 return NotFound("Cart Not Found!");
 
 
-            cart.userId = cartDto.UserId;
+            //cart.userId = cartDto.UserId;
 
             IcartRepo.update(cart);
             int Raws = IcartRepo.SaveChanges();
