@@ -33,14 +33,13 @@ namespace RestaurantAPI.Models
         [Required]
         public TableType TableType { get; set; }
 
+        public virtual UserTable? UserTable { get; set; }
 
-        
         [Required]
         [ForeignKey("Resturant")]
         public int ResturantId { get; set; }
         public virtual Resturant? Resturant { get; set; }
 
-        public virtual User? user { get; set; }
     }
     }
 
