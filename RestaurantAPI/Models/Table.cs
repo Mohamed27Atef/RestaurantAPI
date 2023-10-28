@@ -12,8 +12,10 @@ namespace RestaurantAPI.Models
 
     public enum TableType
     {
-        Family,
-        Solo,
+        Family, // for family
+        Solo, // 1
+        mini, // 2-3
+        medium, // 4 - 5
     }
     public class Table
     {
@@ -21,11 +23,9 @@ namespace RestaurantAPI.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int NumberOfPeople { get; set; }
+        //[Required]
+        //public int table_number { get; set; }
 
-        [Required]
-        public int RestaurantId { get; set; }
 
         [Required]
         public AvailableState AvailableState { get; set; } = AvailableState.Available;

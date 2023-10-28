@@ -61,7 +61,7 @@ namespace RestaurantAPI.Controllers
             };
             userRepository.add(myUser);
             userRepository.SaveChanges();
-            return Ok("Account created successfuly");
+            return Created("Account created successfuly", null);
 				
         }
 		[HttpPost("LogIn")]

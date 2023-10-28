@@ -28,7 +28,11 @@ namespace RestaurantAPI.Controllers
             UserTable userTable = new UserTable()
             {
                 table_id = table_id,
-                user_id = 1, // get the current user who logged 
+                user_id = 1, // get the current user who logged
+                dateTime = table.dateTime,
+                name = table.name,
+                phone = table.phone
+
             };
 
             tableRepository.createReservationTable(table_id);

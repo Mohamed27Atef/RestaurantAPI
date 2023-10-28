@@ -9,9 +9,7 @@ using RestaurantAPI.Services;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class orderController : ControllerBase
+    public class orderController : BaseApiClass
     {
         private readonly IOrderRepository IorderRepo;
         public orderController(IOrderRepository _IorderRepo)
