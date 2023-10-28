@@ -11,7 +11,7 @@ namespace RestaurantAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class orderController : ControllerBase
+    public class orderController : BaseApiClass
     {
         private readonly IOrderRepository IorderRepo;
         public orderController(IOrderRepository _IorderRepo)
@@ -21,9 +21,9 @@ namespace RestaurantAPI.Controllers
         //get
 
         [HttpGet()]
-        public ActionResult getAll()
+        public ActionResult GetAll()
         {
-            var allOrders = IorderRepo.getAll();
+            var allOrders = IorderRepo.GetAll();
             List<OrderDTO> orderDtos = new List<OrderDTO>();
             if (allOrders != null)
             {
@@ -53,16 +53,42 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult getById(int id)
+        public ActionResult GetById(int id)
         {
-            var order = IorderRepo.getById(id);
+            var order = IorderRepo.GetById(id);
             if (order != null)
                 return Ok(order);
 
             return NotFound();
         }
+        [HttpGet("byLocation")]
+        public ActionResult GetByLocation([FromQuery] string location)
+        {
+            var orders = IorderRepo.GetByLocation(location);
+            if (orders != null)
+                return Ok(orders);
 
+            return NotFound();
+        }
+        [HttpGet("OrderTotalPrice/{id}")]
+        public ActionResult GetOrderTotalPrice( int id)
+        {
+            var orderTotalPrice  = IorderRepo.GetOrderByIdTotalPrice(id);
+            if (orderTotalPrice != null)
+                return Ok(orderTotalPrice);
 
+            return NotFound();
+        }
+
+        [HttpGet("allOrdersTotalPrice/")]
+        public ActionResult GetAllOrdersTotalPrice()
+        {
+            var allOrdersTotalPrice = IorderRepo.GetAllOrderTotalPrice();
+            if (allOrdersTotalPrice != null)
+                return Ok(allOrdersTotalPrice);
+
+            return NotFound();
+        }
         //post 
 
         [HttpPost]
@@ -91,7 +117,7 @@ namespace RestaurantAPI.Controllers
 
             };
 
-            IorderRepo.add(order);
+            IorderRepo.Add(order);
             int Raws = IorderRepo.SaveChanges();
             if (Raws > 0)
             {
@@ -103,13 +129,13 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPut]
-        public ActionResult updateOrder(int id,[FromBody] OrderDTO orderDto)
+        public ActionResult UpdateOrder(int id,[FromBody] OrderDTO orderDto)
         {
             if (orderDto == null)
             {
                 return BadRequest("Invalid Order data.");
             }
-            Order order = IorderRepo.getById(id);
+            Order order = IorderRepo.GetById(id);
 
             if (order == null)
                 return NotFound("Order Not Found!");
@@ -130,7 +156,7 @@ namespace RestaurantAPI.Controllers
 
 
 
-            IorderRepo.update(order);
+            IorderRepo.Update(order);
             int Raws = IorderRepo.SaveChanges();
             if (Raws > 0)
             {
@@ -142,18 +168,18 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpDelete]
-        public ActionResult deleteOrder(int id)
+        public ActionResult DeleteOrder(int id)
         {
             if (id < 0)
             {
                 return BadRequest("Invalid order id.");
             }
 
-            var res = IorderRepo.getById(id);
+            var res = IorderRepo.GetById(id);
             if (res == null)
                 return NotFound("Order Not Found!");
 
-            IorderRepo.delete(id);
+            IorderRepo.Delete(id);
             int Raws = IorderRepo.SaveChanges();
             if (Raws > 0)
             {

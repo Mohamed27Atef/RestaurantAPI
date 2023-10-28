@@ -59,7 +59,7 @@ namespace RestaurantAPI.Controllers
             {
                 application_user_id = user.Id,
             };
-            userRepository.add(myUser);
+            userRepository.Add(myUser);
             userRepository.SaveChanges();
             return Ok("Account created successfuly");
 				

@@ -26,7 +26,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet()]
         public ActionResult getAll()
         {
-            var allREsturants = resturantRepository.getAll();
+            var allREsturants = resturantRepository.GetAll();
             List<ResturantDto> resturantDtos = new List<ResturantDto>();
             if(allREsturants != null)
             {
@@ -54,7 +54,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult getById(int id)
         {
-            var resturant = resturantRepository.getById(id);
+            var resturant = resturantRepository.GetById(id);
             if (resturant != null)
                 return Ok(resturant);
 
@@ -125,7 +125,7 @@ namespace RestaurantAPI.Controllers
 
             };
             
-            resturantRepository.add(resturant);
+            resturantRepository.Add(resturant);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
             {
@@ -143,7 +143,7 @@ namespace RestaurantAPI.Controllers
             {
                 return BadRequest("Invalid resturant data.");
             }
-            Resturant resturant = resturantRepository.getById(resturantDto.id);
+            Resturant resturant = resturantRepository.GetById(resturantDto.id);
 
             if (resturant == null)
                 return NotFound("Resturant Not Found!");
@@ -159,7 +159,7 @@ namespace RestaurantAPI.Controllers
             resturant.Image = resturantDto.Image;
            
 
-            resturantRepository.update(resturant);
+            resturantRepository.Update(resturant);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
             {
@@ -178,11 +178,11 @@ namespace RestaurantAPI.Controllers
                 return BadRequest("Invalid resturant id.");
             }
 
-            var res = resturantRepository.getById(id);
+            var res = resturantRepository.GetById(id);
             if (res == null)
                 return NotFound("Resturant Not Found!");
 
-            resturantRepository.delete(id);
+            resturantRepository.Delete(id);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
             {
@@ -196,7 +196,7 @@ namespace RestaurantAPI.Controllers
         [HttpPut("updateImage/{id}")]
         public ActionResult UpdateRestaurantImage(int id, IFormFile newImage)
         {
-            var res = resturantRepository.getById(id);
+            var res = resturantRepository.GetById(id);
             if (res == null)
                 return NotFound("Resturant Not Found!");
 
@@ -213,7 +213,7 @@ namespace RestaurantAPI.Controllers
             }
 
             res.Image = imageUrl;
-            resturantRepository.update(res);
+            resturantRepository.Update(res);
             int rowsAffected = resturantRepository.SaveChanges();
 
             if (rowsAffected > 0)

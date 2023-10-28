@@ -5,26 +5,26 @@ using RestaurantAPI.Services;
 
 namespace RestaurantAPI.Repository.OrderRepository
 {
-    public class OrderRepositorycs: IOrderRepository
+    public class OrderRepository: IOrderRepository
     {
         private readonly RestaurantContext Context;
-        public OrderRepositorycs(RestaurantContext context)
+        public OrderRepository(RestaurantContext context)
         {
             Context = context;
         }
 
-        public void add(Order entity)
+        public void Add(Order entity)
         {
             Context.Orders.Add(entity);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             Order order = Context.Orders.FirstOrDefault(r => r.Id == id);
             Context.Orders.Remove(order);
         }
 
-        public List<Order> getAll(string include = "")
+        public List<Order> GetAll(string include = "")
         {
             var query = Context.Orders.AsQueryable();
             if (!String.IsNullOrEmpty(include))
@@ -38,17 +38,35 @@ namespace RestaurantAPI.Repository.OrderRepository
             return query.ToList();
         }
 
-        public Order getById(int id)
+        public Order GetById(int id)
         {
             return Context.Orders.FirstOrDefault(r => r.Id == id);
         }
 
+        public List<Order> GetByLocation(string location)
+        {
+            return Context.Orders.Where(r => r.Location == location).ToList();
+        }
+        public decimal GetOrderByIdTotalPrice(int id)
+        {
+            return Context.Orders.FirstOrDefault(r => r.Id == id).TotalPrice;
+
+        }
+        public decimal GetAllOrderTotalPrice() {
+            var allOrder = Context.Orders.ToList();
+            decimal allOrdersTotalPrice = 0;
+
+            foreach (var order in allOrder)
+                allOrdersTotalPrice += order.TotalPrice;
+
+            return allOrdersTotalPrice;
+        }
         public int SaveChanges()
         {
             return Context.SaveChanges();
         }
 
-        public void update(Order entity)
+        public void Update(Order entity)
         {
             Context.Orders.Update(entity);
         }

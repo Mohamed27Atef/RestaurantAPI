@@ -47,7 +47,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetRecipe(int id)
         {
-            var recipe = _recipeRepository.getById(id);
+            var recipe = _recipeRepository.GetById(id);
 
             if (recipe == null)
             {
@@ -75,7 +75,7 @@ namespace RestaurantAPI.Controllers
                 Price = recipeDto.Price,
             };
 
-            _recipeRepository.add(recipe);
+            _recipeRepository.Add(recipe);
             _recipeRepository.SaveChanges();
 
             return Created("",recipe); // get the url.....
@@ -90,7 +90,7 @@ namespace RestaurantAPI.Controllers
 
 
 
-            var existingRecipe = _recipeRepository.getById(id);
+            var existingRecipe = _recipeRepository.GetById(id);
             if (existingRecipe == null)
                 return NotFound();
 
@@ -102,7 +102,7 @@ namespace RestaurantAPI.Controllers
             existingRecipe.Price = recipeDto.Price;
 
 
-            _recipeRepository.update(existingRecipe);
+            _recipeRepository.Update(existingRecipe);
             _recipeRepository.SaveChanges();
             return Ok(new UpdatedRecipeResult()
             {
@@ -114,13 +114,13 @@ namespace RestaurantAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteRecipe(int id)
         {
-            var recipe = _recipeRepository.getById(id);
+            var recipe = _recipeRepository.GetById(id);
             if (recipe == null)
             {
                 return NotFound();
             }
 
-            _recipeRepository.delete(id);
+            _recipeRepository.Delete(id);
 
             return NoContent();
         }

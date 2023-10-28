@@ -33,7 +33,7 @@ namespace RestaurantAPI.Controllers
 
             tableRepository.createReservationTable(table_id);
             tableRepository.SaveChanges();
-            tableUserRepository.add(userTable);
+            tableUserRepository.Add(userTable);
             tableUserRepository.SaveChanges();
             return NoContent();
 

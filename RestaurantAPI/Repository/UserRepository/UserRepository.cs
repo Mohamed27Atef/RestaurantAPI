@@ -12,22 +12,22 @@ namespace RestaurantAPI.Repository
             this.context = context;
         }
 
-        public void add(User entity)
+        public void Add(User entity)
         {
             context.Users.Add(entity);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<User> getAll(string include = "")
+        public List<User> GetAll(string include = "")
         {
             throw new NotImplementedException();
         }
 
-        public User getById(int id)
+        public User GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,7 +37,7 @@ namespace RestaurantAPI.Repository
             return context.SaveChanges();
         }
 
-        public void update(User entity)
+        public void Update(User entity)
         {
             throw new NotImplementedException();
         }

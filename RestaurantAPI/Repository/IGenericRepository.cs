@@ -3,15 +3,15 @@
     public interface IGenericRepository<T> where T : class
     {
 
-        T getById(int id);
+        T GetById(int id);
       
-        List<T> getAll(string include = "");
+        List<T> GetAll(string include = "");
 
-        void add(T entity);
+        void Add(T entity);
 
-        void update(T entity);
+        void Update(T entity);
 
-        void delete(int id);
+        void Delete(int id);
 
         public int SaveChanges();
 
