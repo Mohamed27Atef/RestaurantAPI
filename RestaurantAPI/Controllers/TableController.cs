@@ -9,11 +9,16 @@ namespace RestaurantAPI.Controllers
     {
         private readonly ITableRepository tableRepository;
         private readonly ITableUserRepository tableUserRepository;
+        private readonly IUserRepository userRepository;
 
-        public TableController(ITableRepository tableRepository, ITableUserRepository tableUserRepository)
+        public TableController(
+            ITableRepository tableRepository,
+            ITableUserRepository tableUserRepository,
+            IUserRepository userRepository)
         {
             this.tableRepository = tableRepository;
             this.tableUserRepository = tableUserRepository;
+            this.userRepository = userRepository;
         }
 
         [HttpPost]
@@ -21,14 +26,14 @@ namespace RestaurantAPI.Controllers
         {
             int table_id = tableRepository.isAvailable((TableType)table.TableType);
             
-            if(table_id == -1)
+            if(table_id == -1) 
                 return BadRequest();
 
             // create table user
             UserTable userTable = new UserTable()
             {
                 table_id = table_id,
-                user_id = 1, // get the current user who logged
+                user_id = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id, // get the current user who logged
                 dateTime = table.dateTime,
                 name = table.name,
                 phone = table.phone

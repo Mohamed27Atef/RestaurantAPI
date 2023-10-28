@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -110,5 +111,7 @@ namespace RestaurantAPI.Controllers
             var existingUser = await userManager.FindByEmailAsync(email);
             return (existingUser != null);
         }
+
+        
     }
 }

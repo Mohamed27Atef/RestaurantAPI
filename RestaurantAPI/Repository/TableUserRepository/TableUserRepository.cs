@@ -35,6 +35,11 @@ namespace RestaurantAPI.Repository
             return context.UserTables.Find(id);
         }
 
+        public UserTable GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public int SaveChanges()
         {
             return context.SaveChanges();

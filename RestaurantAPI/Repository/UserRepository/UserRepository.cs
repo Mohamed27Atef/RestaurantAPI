@@ -32,6 +32,11 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
+        public User getUserByApplicationUserId(string applicationUserId)
+        {
+            return context.Users.Where(u => u.application_user_id == applicationUserId).FirstOrDefault();
+        }
+
         public int SaveChanges()
         {
             return context.SaveChanges();
