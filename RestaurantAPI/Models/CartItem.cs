@@ -16,9 +16,6 @@ namespace RestaurantAPI.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; set; }
 
-        [Required]
-        public int RestaurantId { get; set; }
-
 
 
         [Required]

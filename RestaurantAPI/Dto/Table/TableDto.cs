@@ -5,11 +5,12 @@ namespace RestaurantAPI.Dto
 {
     public class TableDto
     {
-        public int NumberOfPeople { get; set; }
+        public DateTime dateTime { get; set; } = DateTime.Now;
 
         public int RestaurantId { get; set; }
-        public int user_id { get; set; }
 
         public int TableType { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
     }
 }

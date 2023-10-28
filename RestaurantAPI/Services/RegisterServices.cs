@@ -27,6 +27,8 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITableUserRepository, TableUserRepository>();
+            builder.Services.AddScoped<ICartUserRrepository, CartUserRrepository>();
+            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 
             return builder;
         }

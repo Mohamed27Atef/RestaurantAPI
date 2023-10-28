@@ -1,4 +1,5 @@
-﻿using RestaurantAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Repository
 {
@@ -23,6 +24,21 @@ namespace RestaurantAPI.Repository
         public List<UserTable> GetAll(string include = "")
         {
             throw new NotImplementedException();
+        }
+
+        public List<UserTable> GetAllByRestaurantId(int restaurantId)
+        {
+            return context.UserTables.Where(r => r.restaurnatId == restaurantId).ToList();
+        }
+
+        public List<UserTable> GetAllByUserId(int userId)
+        {
+            return context.UserTables.Where(r => r.user_id == userId).Include(r => r.Table).Include(r => r.resturant).ToList();
+        }
+
+        public UserTable getById(int id)
+        {
+            return context.UserTables.Find(id);
         }
 
         public UserTable GetById(int id)

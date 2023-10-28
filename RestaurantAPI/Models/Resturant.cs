@@ -40,6 +40,7 @@ namespace RestaurantAPI.Models
         public virtual List<DeliveryMan>? DeliveryMen { get; set; } = new List<DeliveryMan>();
 
         public virtual List<ResturantFeature>? ResturantFeatures { get; set; } = new List<ResturantFeature>();
+        public virtual List<UserTable>? UserTables { get; set; } = new List<UserTable>();
 
 
 

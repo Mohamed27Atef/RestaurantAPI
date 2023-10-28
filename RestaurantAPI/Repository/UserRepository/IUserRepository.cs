@@ -5,5 +5,6 @@ namespace RestaurantAPI.Repository
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        User getUserByApplicationUserId(string  applicationUserId);
     }
 }

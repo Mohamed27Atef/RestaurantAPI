@@ -47,7 +47,6 @@ namespace RestaurantAPI.Models
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
             modelBuilder.Entity<ResturantFeature>().HasKey(r => new { r.FeatureId, r.ResturantId });
             modelBuilder.Entity<CartUser>().HasKey(r => new { r.user_id, r.cart_id });
-            modelBuilder.Entity<UserTable>().HasKey(r => new { r.user_id, r.table_id });
 
 
             base.OnModelCreating(modelBuilder);

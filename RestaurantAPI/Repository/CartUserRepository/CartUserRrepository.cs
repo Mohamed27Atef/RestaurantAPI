@@ -1,20 +1,19 @@
 ﻿using RestaurantAPI.Models;
-using RestaurantAPI.Repository;
 
 namespace RestaurantAPI.Repository
 {
-    public class UserRepository : IUserRepository
+    public class CartUserRrepository : ICartUserRrepository
     {
         private readonly RestaurantContext context;
 
-        public UserRepository(RestaurantContext context)
+        public CartUserRrepository(RestaurantContext context)
         {
             this.context = context;
         }
 
-        public void Add(User entity)
+        public void Add(CartUser entity)
         {
-            context.Users.Add(entity);
+            throw new NotImplementedException();
         }
 
         public void Delete(int id)
@@ -22,27 +21,27 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
-        public List<User> GetAll(string include = "")
+        public List<CartUser> GetAll(string include = "")
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(int id)
+        public CartUser GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public User getUserByApplicationUserId(string applicationUserId)
+        public Cart getCartByUserId(int userId)
         {
-            return context.Users.Where(u => u.application_user_id == applicationUserId).FirstOrDefault();
+            return context.CartUsers.Where(u => u.user_id == userId).Select(t => t.cart).FirstOrDefault();
         }
 
         public int SaveChanges()
         {
-            return context.SaveChanges();
+            throw new NotImplementedException();
         }
 
-        public void Update(User entity)
+        public void Update(CartUser entity)
         {
             throw new NotImplementedException();
         }
