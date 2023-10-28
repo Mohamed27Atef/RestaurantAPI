@@ -10,7 +10,7 @@ namespace RestaurantAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase
+    public class CartController : BaseApiClass
     {
         private readonly ICartRepository IcartRepo;
         public CartController(ICartRepository _IcartRepo)
@@ -22,7 +22,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet()]
         public ActionResult getAll()
         {
-            var allcarts = IcartRepo.getAll();
+            var allcarts = IcartRepo.GetAll();
             List<CartDTO> cartDtos = new List<CartDTO>();
             if (allcarts != null)
             {
@@ -43,7 +43,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult getById(int id)
         {
-            var cart = IcartRepo.getById(id);
+            var cart = IcartRepo.GetById(id);
             if (cart != null)
                 return Ok(cart);
 
@@ -66,7 +66,7 @@ namespace RestaurantAPI.Controllers
                 id = cartDto.Id
             };
 
-            IcartRepo.add(cart);
+            IcartRepo.Add(cart);
             int Raws = IcartRepo.SaveChanges();
             if (Raws > 0)
             {
@@ -84,7 +84,7 @@ namespace RestaurantAPI.Controllers
             {
                 return BadRequest("Invalid Cart data.");
             }
-            Cart cart = IcartRepo.getById(id);
+            Cart cart = IcartRepo.GetById(id);
 
             if (cart == null)
                 return NotFound("Cart Not Found!");
@@ -92,7 +92,7 @@ namespace RestaurantAPI.Controllers
 
             //cart.userId = cartDto.UserId;
 
-            IcartRepo.update(cart);
+            IcartRepo.Update(cart);
             int Raws = IcartRepo.SaveChanges();
             if (Raws > 0)
             {
@@ -111,11 +111,11 @@ namespace RestaurantAPI.Controllers
                 return BadRequest("Invalid cart id.");
             }
 
-            var res = IcartRepo.getById(id);
+            var res = IcartRepo.GetById(id);
             if (res == null)
                 return NotFound("Cart Not Found!");
 
-            IcartRepo.delete(id);
+            IcartRepo.Delete(id);
             int Raws = IcartRepo.SaveChanges();
             if (Raws > 0)
             {

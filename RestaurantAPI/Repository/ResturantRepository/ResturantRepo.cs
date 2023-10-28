@@ -14,18 +14,18 @@ namespace RestaurantAPI.Repository.ResturantRepository
             Context = context;
         }
 
-        public void add(Resturant entity)
+        public void Add(Resturant entity)
         {
             Context.Resturants.Add(entity);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             Resturant res = Context.Resturants.FirstOrDefault(r => r.id == id);
             Context.Resturants.Remove(res);
         }
 
-        public List<Resturant> getAll(string include = "")
+        public List<Resturant> GetAll(string include = "")
         {
             var query = Context.Resturants.AsQueryable();
             if (!String.IsNullOrEmpty(include))
@@ -51,7 +51,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
             
         }
 
-        public Resturant getById(int id)
+        public Resturant GetById(int id)
         {
             return Context.Resturants.FirstOrDefault(r => r.id == id);
         }
@@ -74,7 +74,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
             return Context.SaveChanges();
         }
 
-        public void update(Resturant entity)
+        public void Update(Resturant entity)
         {
             Context.Resturants.Update(entity);
         }

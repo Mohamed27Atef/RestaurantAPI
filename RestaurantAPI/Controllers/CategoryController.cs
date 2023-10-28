@@ -15,7 +15,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public ActionResult categories()
         {
-            return Ok(categoryRepository.getAll());
+            return Ok(categoryRepository.GetAll());
         }
     }
 }

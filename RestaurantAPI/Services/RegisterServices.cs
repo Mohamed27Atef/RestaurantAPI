@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository.OrderRepository;
+using RestaurantAPI.Repository.CartRepository;
 
 namespace RestaurantAPI.Services
 {
@@ -19,6 +20,8 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IResturanrRepo, ResturantRepo>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ImageService, ImageService>();
             builder.Services.AddScoped<IToken, TokenService>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();

@@ -10,17 +10,17 @@ namespace RestaurantAPI.Repository
         {
             this.context = context;
         }
-        public void add(UserTable entity)
+        public void Add(UserTable entity)
         {
             context.UserTables.Add(entity);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<UserTable> getAll(string include = "")
+        public List<UserTable> GetAll(string include = "")
         {
             throw new NotImplementedException();
         }
@@ -40,7 +40,7 @@ namespace RestaurantAPI.Repository
             return context.SaveChanges();
         }
 
-        public void update(UserTable entity)
+        public void Update(UserTable entity)
         {
             throw new NotImplementedException();
         }

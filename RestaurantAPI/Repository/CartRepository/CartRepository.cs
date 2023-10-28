@@ -12,18 +12,18 @@ namespace RestaurantAPI.Repository.CartRepository
             Context = context;
         }
 
-        public void add(Cart entity)
+        public void Add(Cart entity)
         {
             Context.Carts.Add(entity);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             Cart cart = Context.Carts.FirstOrDefault(r => r.id == id);
             Context.Carts.Remove(cart);
         }
 
-        public List<Cart> getAll(string include = "")
+        public List<Cart> GetAll(string include = "")
         {
             var query = Context.Carts.AsQueryable();
             if (!String.IsNullOrEmpty(include))
@@ -37,7 +37,7 @@ namespace RestaurantAPI.Repository.CartRepository
             return query.ToList();
         }
 
-        public Cart getById(int id)
+        public Cart GetById(int id)
         {
             return Context.Carts.FirstOrDefault(r => r.id == id);
         }
@@ -47,7 +47,7 @@ namespace RestaurantAPI.Repository.CartRepository
             return Context.SaveChanges();
         }
 
-        public void update(Cart entity)
+        public void Update(Cart entity)
         {
             Context.Carts.Update(entity);
         }

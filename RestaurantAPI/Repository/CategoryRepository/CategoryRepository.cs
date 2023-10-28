@@ -12,22 +12,22 @@ namespace RestaurantAPI.Repository
             this.context = context;
         }
 
-        public void add(Cateigory entity)
+        public void Add(Cateigory entity)
         {
             throw new NotImplementedException();
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Cateigory> getAll(string include = "")
+        public List<Cateigory> GetAll(string include = "")
         {
             return context.Cateigorys.ToList();
         }
 
-        public Cateigory getById(int id)
+        public Cateigory GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,7 +37,7 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
-        public void update(Cateigory entity)
+        public void Update(Cateigory entity)
         {
             throw new NotImplementedException();
         }

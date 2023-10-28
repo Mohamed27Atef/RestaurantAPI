@@ -13,7 +13,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
 
 
-        public List<Recipe> getAll(string include = "")
+        public List<Recipe> GetAll(string include = "")
         {
             var recipes = Context.Recipes.Include(include).ToList();
             if (recipes != null)
@@ -29,7 +29,7 @@ namespace RestaurantAPI.Repository.ProductRepository
             return null;
         }
 
-        public Recipe getById(int id)
+        public Recipe GetById(int id)
         {
             var recipe = Context.Recipes.FirstOrDefault(r=>r.id == id);
             if (recipe != null)
@@ -50,17 +50,17 @@ namespace RestaurantAPI.Repository.ProductRepository
             throw new NotImplementedException();
         }
 
-        public void update(Recipe entity)
+        public void Update(Recipe entity)
         {
             throw new NotImplementedException();
         }
 
-        public void add(Recipe entity)
+        public void Add(Recipe entity)
         {
             throw new NotImplementedException();
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
