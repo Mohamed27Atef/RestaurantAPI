@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
@@ -22,6 +23,7 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult createResrevatoinTable(TableDto table)
         {
             int table_id = tableRepository.isAvailable((TableType)table.TableType);

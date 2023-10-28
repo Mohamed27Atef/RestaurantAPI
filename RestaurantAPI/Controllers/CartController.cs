@@ -8,8 +8,6 @@ using RestaurantAPI.Repository.OrderRepository;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CartController : BaseApiClass
     {
         private readonly ICartRepository IcartRepo;
