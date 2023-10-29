@@ -5,7 +5,8 @@ namespace RestaurantAPI.Repository
 {
     public interface IRecipeRepository : IGenericRepository <Recipe>
     {
-        Recipe getByRestaurantId(int restaurantId);
-        Recipe getByCategoryId(int categoryId);
+        //Recipe getByRestaurantId(int restaurantId);
+        List<Recipe> getByMenuId(int menuId);
+
     }
 }

@@ -41,7 +41,7 @@ namespace RestaurantAPI.Models
         public virtual DbSet<CartUser> CartUsers { get; set; }
         public virtual DbSet<ClosingDay> ClosingDays { get; set; }
         public virtual DbSet<RestaurantImage> RestaurantImages { get; set; }
-        public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
 
 
 

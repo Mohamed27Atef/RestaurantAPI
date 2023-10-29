@@ -37,7 +37,7 @@ namespace RestaurantAPI.Models
 
         public virtual List<RestaurantCateigory>? Cateigories { get; set; } = new List<RestaurantCateigory>();
 
-        public virtual List<Recipe>? Recipes { get; set;} = new List<Recipe>();
+        public virtual List<Menu>? Menus { get; set;} = new List<Menu>();
 
         public virtual List<ResturantFeedback>? resturantFeedbacks { get; set; } = new List<ResturantFeedback>();
 

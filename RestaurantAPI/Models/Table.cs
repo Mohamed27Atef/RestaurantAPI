@@ -41,5 +41,5 @@ namespace RestaurantAPI.Models
         public virtual Resturant? Resturant { get; set; }
 
     }
-    }
+}
 

@@ -1,5 +1,5 @@
-﻿using RestaurantAPI.Models;
-using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Repository.ProductRepository
 {
@@ -21,13 +21,13 @@ namespace RestaurantAPI.Repository.ProductRepository
             return null;
         }
 
-        public Recipe getByCategoryId(int categoryId)
-        {
-            var recipe = Context.Recipes.FirstOrDefault(r => r.recipeCategoryId == categoryId);
-            if (recipe != null)
-                return recipe;
-            return null;
-        }
+        //public Recipe getByCategoryId(int categoryId)
+        //{
+        //    var recipe = Context.Recipes.FirstOrDefault(r => r.recipeCategoryId == categoryId);
+        //    if (recipe != null)
+        //        return recipe;
+        //    return null;
+        //}
 
         public Recipe GetById(int id)
         {
@@ -37,13 +37,13 @@ namespace RestaurantAPI.Repository.ProductRepository
             return null;
         }
 
-        public Recipe getByRestaurantId(int restaurantId)
-        {
-            var recipe = Context.Recipes.FirstOrDefault(r => r.restaurantId == restaurantId);
-            if (recipe != null)
-                return recipe;
-            return null;
-        }
+        //public Recipe getByRestaurantId(int restaurantId)
+        //{
+        //    var recipe = Context.Recipes.FirstOrDefault(r => r.restaurantId == restaurantId);
+        //    if (recipe != null)
+        //        return recipe;
+        //    return null;
+        //}
 
         public int SaveChanges()
         {
@@ -65,6 +65,9 @@ namespace RestaurantAPI.Repository.ProductRepository
             throw new NotImplementedException();
         }
 
-
+        public List<Recipe> getByMenuId(int menuId)
+        {
+            return Context.Recipes.Where(r => r.menuId == menuId).ToList();
+        }
     }
 }
