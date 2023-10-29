@@ -26,7 +26,14 @@ namespace RestaurantAPI.Models
         [Range(0, 24, ErrorMessage = "Open hours must be between 0 and 24.")]
         public decimal OpenHours { get; set; }
 
+        [Range(0, 24, ErrorMessage = "Closing hours must be between 0 and 24.")]
+        public decimal ClosingHours { get; set; }
+
+        [Required]
+        public string email { get; set; } // check if it is a valid email
+
         public string Image { get; set; }
+        public string phone { get; set; }
 
         public virtual List<RestaurantCateigory>? Cateigories { get; set; } = new List<RestaurantCateigory>();
 
@@ -41,6 +48,8 @@ namespace RestaurantAPI.Models
 
         public virtual List<ResturantFeature>? ResturantFeatures { get; set; } = new List<ResturantFeature>();
         public virtual List<UserTable>? UserTables { get; set; } = new List<UserTable>();
+        public virtual List<ClosingDay>? ClosingDays { get; set; } = new List<ClosingDay>();
+        public virtual List<RestaurantImage>? RestaurantImages { get; set; } = new List<RestaurantImage>();
 
 
 

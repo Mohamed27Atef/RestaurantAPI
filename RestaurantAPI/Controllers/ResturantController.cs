@@ -42,7 +42,7 @@ namespace RestaurantAPI.Controllers
                         Longitude = item.Longitude,
                         Name = item.Name,
                         OpenHours = item.OpenHours,
-                        Rate = item.Rate
+                        Rate = item.Rate,
                     });
                 }
                 return Ok(resturantDtos);
@@ -55,11 +55,52 @@ namespace RestaurantAPI.Controllers
         public ActionResult getById(int id)
         {
             var resturant = resturantRepository.GetById(id);
+
+
             if (resturant != null)
-                return Ok(resturant);
+            {
+                GetOneRestaurantDto restaurantDto = new GetOneRestaurantDto()
+                {
+                    Address = resturant.Address,
+                    closingHours = resturant.ClosingHours,
+                    Cusinetype = resturant.Cusinetype,
+                    id = resturant.id,
+                    Image = resturant.Image,
+                    Latitude = resturant.Latitude,
+                    Longitude = resturant.Longitude,
+                    Name = resturant.Name,
+                    OpenHours = resturant.OpenHours,
+                    Rate = resturant.Rate,
+                    email = resturant.email,
+                    phone = resturant.phone
+                };
+
+                foreach (var item in resturant.RestaurantImages)
+                    restaurantDto.images.Add(item.imageUrl);
+            
+                foreach (var item in resturant.ClosingDays)
+                    restaurantDto.clossingDays.Add(item.day.ToString());
+            
+
+                return Ok(restaurantDto);
+            }
 
             return NotFound();
         }
+
+        [HttpGet("getimages/{id}")]
+        public ActionResult getRestaurantImages(int id)
+        {
+            var resturant = resturantRepository.GetById(id);
+
+
+            if (resturant != null)
+                return Ok(resturantRepository.getResaurantIamges(id));
+
+            return NotFound();
+        }
+
+
 
         [HttpGet("search")]
         public ActionResult getByNameAndCategory(string q, int cat)

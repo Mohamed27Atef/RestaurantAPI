@@ -39,6 +39,9 @@ namespace RestaurantAPI.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<CartUser> CartUsers { get; set; }
+        public virtual DbSet<ClosingDay> ClosingDays { get; set; }
+        public virtual DbSet<RestaurantImage> RestaurantImages { get; set; }
+
 
 
 
@@ -47,6 +50,8 @@ namespace RestaurantAPI.Models
             modelBuilder.Entity<RestaurantCateigory>().HasKey(r => new { r.CategoryId, r.RestaurantId });
             modelBuilder.Entity<ResturantFeature>().HasKey(r => new { r.FeatureId, r.ResturantId });
             modelBuilder.Entity<CartUser>().HasKey(r => new { r.user_id, r.cart_id });
+            modelBuilder.Entity<ClosingDay>().HasKey(r => new { r.restaurantId, r.day});
+            modelBuilder.Entity<RestaurantImage>().HasKey(r => new { r.restaurantId, r.imageUrl});
 
 
             base.OnModelCreating(modelBuilder);

@@ -1,7 +1,7 @@
-﻿using RestaurantAPI.Dto;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
-using System.Data.Entity;
 
 namespace RestaurantAPI.Repository.ResturantRepository
 {
@@ -53,8 +53,20 @@ namespace RestaurantAPI.Repository.ResturantRepository
 
         public Resturant GetById(int id)
         {
-            return Context.Resturants.FirstOrDefault(r => r.id == id);
+            return Context.Resturants.Where(r => r.id == id)
+                //.Include(r => r.Recipes)
+                //.Include(r => r.resturantFeedbacks)
+                .Include(r => r.ClosingDays)
+                //.Include(r => r.RestaurantImages)
+                .FirstOrDefault();
         }
+
+        public List<string> getResaurantIamges(int restaruantId)
+        {
+            return Context.RestaurantImages.Where(r => r.restaurantId == restaruantId).Select(r => r.imageUrl).ToList();
+        }
+
+
 
         public List<ResturantDto> getByName(string name)
         {

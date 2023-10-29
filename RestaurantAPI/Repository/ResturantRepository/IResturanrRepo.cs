@@ -11,5 +11,6 @@ namespace RestaurantAPI.Repository.ResturantRepository
         public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId);
         public List<ResturantDto> getByName(string name);
         public void UpdateIamge(string newUrl);
+        List<string> getResaurantIamges(int restaruantId);
     }
 }
