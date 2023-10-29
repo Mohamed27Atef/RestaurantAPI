@@ -68,7 +68,7 @@ namespace RestaurantAPI.Controllers
             Recipe recipe = new Recipe()
             {
                 //recipteImages = recipeDto.RecipeImages,
-                categoryId = recipeDto.CategoryId,
+                recipeCategoryId = recipeDto.CategoryId,
                 restaurantId = recipeDto.RestaurantId,
                 Description = recipeDto.Description,
                 name = recipeDto.Name,
@@ -95,7 +95,7 @@ namespace RestaurantAPI.Controllers
                 return NotFound();
 
             //existingRecipe.recipteImages = recipeDto.RecipeImages;
-            existingRecipe.categoryId = recipeDto.CategoryId;
+            existingRecipe.recipeCategoryId = recipeDto.CategoryId;
             existingRecipe.restaurantId = recipeDto.RestaurantId;
             existingRecipe.Description = recipeDto.Description;
             existingRecipe.name = recipeDto.Name;

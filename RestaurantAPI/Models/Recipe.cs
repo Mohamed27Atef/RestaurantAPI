@@ -28,11 +28,10 @@ namespace RestaurantAPI.Models
 
         public virtual Resturant? restaurant { get; set; }
 
+        [ForeignKey("RecipeCategory")]
+        public int recipeCategoryId { get; set; }
 
-        [ForeignKey("Cateigory")]
-        public int categoryId { get; set; }
-
-        public virtual Cateigory? Cateigory { get; set; }
+        public virtual RecipeCategory? RecipeCategory { get; set; }
 
         public virtual List<RecipeFeedback>? RecipeFeedbacks { get; set; }
 

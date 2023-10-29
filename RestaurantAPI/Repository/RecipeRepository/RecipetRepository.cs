@@ -23,7 +23,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public Recipe getByCategoryId(int categoryId)
         {
-            var recipe = Context.Recipes.FirstOrDefault(r => r.categoryId == categoryId);
+            var recipe = Context.Recipes.FirstOrDefault(r => r.recipeCategoryId == categoryId);
             if (recipe != null)
                 return recipe;
             return null;
