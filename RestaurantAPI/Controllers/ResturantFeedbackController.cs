@@ -140,7 +140,6 @@ namespace RestaurantAPI.Controllers
                 return NoContent();
             }
 
-
             return NotFound("ResturantFeedBack updated failed.");
         }
     }
