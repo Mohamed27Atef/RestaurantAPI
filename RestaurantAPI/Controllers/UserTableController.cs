@@ -53,11 +53,11 @@ namespace RestaurantAPI.Controllers
             {
                 userTableDto.Add(new UserReservationDto()
                 {
-                    dateTime = item.dateTime,
-                    restaurantName = item.resturant.Name,
-                    tableType = item.Table.TableType,
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
+                    dateTime = item.dateTime,
+                    tableType = item.Table.TableType,
+                    restaurantName = item.resturant.Name,
                 });
             }
 
