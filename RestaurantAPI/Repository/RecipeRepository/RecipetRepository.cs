@@ -31,7 +31,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public Recipe GetById(int id)
         {
-            var recipe = Context.Recipes.FirstOrDefault(r=>r.id == id);
+            var recipe = Context.Recipes.Where(r=>r.id == id).Include(r => r.recipteImages).Include(r => r.Menu).FirstOrDefault();
             if (recipe != null)
                 return recipe;
             return null;

@@ -58,19 +58,31 @@ namespace RestaurantAPI.Controllers
         //    return Ok(recipeDtos);
         //}
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetRecipe(int id)
-        //{
-        //    var recipe = _recipeRepository.GetById(id);
+        [HttpGet("{id}")]
+        public IActionResult GetRecipe(int id)
+        {
+            var recipe = _recipeRepository.GetById(id);
 
-        //    if (recipe == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return Ok(recipe);
+            if (recipe == null)
+                return NotFound();
 
-        //}
+            RecipeDto recipeDto = new RecipeDto()
+            {
+                Description = recipe.Description,
+                imageUrl = recipe.imageUrl,
+                Name = recipe.name,
+                Price = recipe.Price,
+                menuName = recipe.Menu.title
+            };
+
+            foreach (var item in recipe.recipteImages)
+                recipeDto.images.Add(item.Image);
+
+
+            return Ok(recipeDto);
+
+        }
 
 
         //[HttpPost()]
