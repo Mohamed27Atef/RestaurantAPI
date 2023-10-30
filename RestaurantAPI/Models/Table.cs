@@ -14,8 +14,8 @@ namespace RestaurantAPI.Models
     {
         Family, // for family
         Solo, // 1
-        mini, // 2-3
-        medium, // 4 - 5
+        Mini, // 2-3
+        Medium, // 4 - 5
     }
     public class Table
     {

@@ -168,7 +168,7 @@ namespace RestaurantAPI.Controllers
                 tablerestaurantDto.Add(new TablerestaurantDto()
                 {
                     id = item.Id,
-                    tableType = item.TableType
+                    tableType = item.TableType.ToString()
                 });
             }
 
