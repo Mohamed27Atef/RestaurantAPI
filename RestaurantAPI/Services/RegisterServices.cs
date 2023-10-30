@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository.OrderRepository;
 using RestaurantAPI.Repository.CartRepository;
+using RestaurantAPI.Repository.LocationRepository;
 
 namespace RestaurantAPI.Services
 {
@@ -30,6 +31,7 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<ICartUserRrepository, CartUserRrepository>();
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 
             return builder;
         }

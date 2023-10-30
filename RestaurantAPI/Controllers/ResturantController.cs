@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository.LocationRepository;
 using RestaurantAPI.Repository.ProductRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
@@ -100,12 +102,27 @@ namespace RestaurantAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("getByAddress/{address}")]
+        public ActionResult getRestaurantByLocation(string address)
+        {
+            return Ok(resturantRepository.getByAddress(address));
+        }
+
 
 
         [HttpGet("search")]
         public ActionResult getByNameAndCategory(string q, int cat)
         {
             var resturant = resturantRepository.getByNameAndCategoryId(q, cat);
+            if (resturant != null)
+                return Ok(resturant);
+            return NotFound();
+        }
+
+        [HttpGet("searchByLocatoinAndCategoryAndName")]
+        public ActionResult searchByLocatoinAndCategoryAndName(string q, int cat, string location)
+        {
+            var resturant = resturantRepository.getByLocatoinAndCagegoryAndName(q, cat, location);
             if (resturant != null)
                 return Ok(resturant);
             return NotFound();
@@ -139,6 +156,23 @@ namespace RestaurantAPI.Controllers
                 return Ok(resturant);
 
             return NotFound();
+        }
+
+        [HttpGet("getTableRestaurant/{restaurantId}")]
+        public ActionResult getTableOfRestaurant(int restaurantId)
+        {
+            var tables = resturantRepository.getTaleRestaurant(restaurantId);
+            List< TablerestaurantDto> tablerestaurantDto = new();
+            foreach (var item in tables)
+            {
+                tablerestaurantDto.Add(new TablerestaurantDto()
+                {
+                    id = item.Id,
+                    tableType = item.TableType
+                });
+            }
+
+            return Ok(tablerestaurantDto);
         }
 
 
