@@ -9,6 +9,6 @@ namespace RestaurantAPI.Repository
         void createReservationTable(int table_id);
         bool tableIsAvailable(int table_id);
         int isAvailable(TableType tableType);
-
+        List<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId);
     }
 }

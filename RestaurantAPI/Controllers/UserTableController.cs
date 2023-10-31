@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.UserTable;
 using RestaurantAPI.Models;
@@ -35,6 +36,7 @@ namespace RestaurantAPI.Controllers
                     phone = item.phone,
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
+                    duration = item.duration,
                 }) ; 
             }
 
@@ -56,13 +58,16 @@ namespace RestaurantAPI.Controllers
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
                     dateTime = item.dateTime,
-                    tableType = item.Table.TableType,
+                    tableType = item.Table.TableType.ToString(),
                     restaurantName = item.resturant.Name,
+                    duration = item.duration
                 });
             }
 
             return Ok(userTableDto);
         }
+
+
 
     }
 }

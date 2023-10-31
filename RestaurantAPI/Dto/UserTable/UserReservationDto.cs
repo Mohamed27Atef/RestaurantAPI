@@ -8,7 +8,8 @@ namespace RestaurantAPI.Dto.UserTable
         public DateTime dateTime { get; set; } = DateTime.Now;
         public int tableNumber { get; set; }
         public string restaurantName { get; set; }
-        public TableType tableType { get; set; }
+        public string tableType { get; set; }
+        public int duration { get; set; }
 
     }
 }

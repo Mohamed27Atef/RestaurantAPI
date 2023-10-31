@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 
@@ -38,8 +40,8 @@ namespace RestaurantAPI.Controllers
                 user_id = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id, // get the current user who logged
                 dateTime = table.dateTime,
                 name = table.name,
-                phone = table.phone
-
+                phone = table.phone,
+                duration = table.duration,
             };
 
             tableRepository.createReservationTable(table_id);
@@ -49,6 +51,25 @@ namespace RestaurantAPI.Controllers
             return NoContent();
 
 
+        }
+
+        [HttpGet("getAvailableTalbe")]
+        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId)
+        {
+            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId);
+
+            List<TablerestaurantDto> tableDtos = new List<TablerestaurantDto>();
+
+            foreach (var item in table)
+            {
+                tableDtos.Add(new TablerestaurantDto()
+                {
+                    id = item.Id,
+                    tableType = item.TableType.ToString()
+                }) ;
+            }
+
+            return Ok(tableDtos);
         }
 
 
