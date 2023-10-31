@@ -56,7 +56,7 @@ namespace RestaurantAPI.Controllers
         [HttpGet("getAvailableTalbe")]
         public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId)
         {
-            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId);
+            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId).DistinctBy(r => r.TableType.ToString());
 
             List<TablerestaurantDto> tableDtos = new List<TablerestaurantDto>();
 

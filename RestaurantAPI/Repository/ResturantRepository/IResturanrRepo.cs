@@ -16,6 +16,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
         List<string> getResaurantIamges(int restaruantId);
         List<ResturantDto> getByLocatoinAndCagegoryAndName(string q, int cat, string location);
         List<Table> getTaleRestaurant(int restaruantId);
+        OpenCloseHours getOpenCloseHours(int restaurantId);
 
 
     }

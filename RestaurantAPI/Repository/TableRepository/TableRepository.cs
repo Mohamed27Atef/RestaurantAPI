@@ -66,10 +66,10 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
-        public List<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId)
+        public IEnumerable<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId)
         {
+            return context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
 
-              return  context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date  || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
         }
     }
 }
