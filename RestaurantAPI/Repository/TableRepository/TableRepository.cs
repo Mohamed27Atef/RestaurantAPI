@@ -69,7 +69,6 @@ namespace RestaurantAPI.Repository
         public List<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId)
         {
 
-            var test = time.Hour;
               return  context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date  || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
         }
     }
