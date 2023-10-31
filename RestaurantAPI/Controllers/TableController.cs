@@ -28,10 +28,8 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult createResrevatoinTable(TableDto table)
         {
-            int table_id = tableRepository.isAvailable((TableType)table.TableType);
+            int table_id = tableRepository.getIdByTableType((TableType)table.TableType);
             
-            if(table_id == -1) 
-                return BadRequest();
 
             // create table user
             UserTable userTable = new UserTable()
@@ -44,8 +42,8 @@ namespace RestaurantAPI.Controllers
                 duration = table.duration,
             };
 
-            tableRepository.createReservationTable(table_id);
-            tableRepository.SaveChanges();
+            //tableRepository.createReservationTable(table_id);
+            //tableRepository.SaveChanges();
             tableUserRepository.Add(userTable);
             tableUserRepository.SaveChanges();
             return NoContent();

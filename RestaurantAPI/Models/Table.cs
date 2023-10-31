@@ -27,8 +27,8 @@ namespace RestaurantAPI.Models
         //public int table_number { get; set; }
 
 
-        [Required]
-        public AvailableState AvailableState { get; set; } = AvailableState.Available;
+        //[Required]
+        //public AvailableState AvailableState { get; set; } = AvailableState.Available;
 
         [Required]
         public TableType TableType { get; set; }

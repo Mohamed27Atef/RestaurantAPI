@@ -19,16 +19,13 @@ namespace RestaurantAPI.Repository
 
         public int isAvailable(TableType tableType)
         {
-            Table table = context.Tables.Where(t => t.TableType == tableType && t.AvailableState == AvailableState.Available).FirstOrDefault();
-            if (table == null)
-                return -1;
+            Table table = context.Tables.Where(t => t.TableType == tableType).FirstOrDefault();
             return table.Id;
         }
 
         public void createReservationTable(int table_id)
         {
             Table table = context.Tables.Find(table_id);
-            table.AvailableState = AvailableState.Reserved;
             context.Tables.Update(table);
             SaveChanges();
         }
@@ -53,14 +50,6 @@ namespace RestaurantAPI.Repository
             return context.SaveChanges();
         }
 
-        public bool tableIsAvailable(int table_id)
-        {
-            Table table = context.Tables.Find(table_id);
-            if (table.AvailableState == AvailableState.Available)
-                return true;
-            return false;
-        }
-
         public void Update(Table entity)
         {
             throw new NotImplementedException();
@@ -70,6 +59,11 @@ namespace RestaurantAPI.Repository
         {
             return context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
 
+        }
+
+        public int getIdByTableType(TableType tableType)
+        {
+            return context.Tables.Where(t => t.TableType == tableType).Select(r => r.Id).FirstOrDefault();
         }
     }
 }
