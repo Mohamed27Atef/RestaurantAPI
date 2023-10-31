@@ -61,9 +61,23 @@ namespace RestaurantAPI.Repository
 
         }
 
-        public int getIdByTableType(TableType tableType)
+        public int getIdByTableType(TableType tableType, int restaurantId)
         {
-            return context.Tables.Where(t => t.TableType == tableType).Select(r => r.Id).FirstOrDefault();
+            return context.Tables.Where(t => t.ResturantId == restaurantId && t.TableType == tableType).Select(r => r.Id).FirstOrDefault();
+        }
+
+        public int getIntValueOfTableType(string type)
+        {
+
+
+            switch (type) {
+                case "Family": return 0;
+                case "Solo": return 1;
+                case "Mini": return 2;
+                case "Medium": return 3;
+                default : return -1;
+
+            }
         }
     }
 }

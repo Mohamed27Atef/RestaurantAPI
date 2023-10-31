@@ -28,7 +28,8 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult createResrevatoinTable(TableDto table)
         {
-            int table_id = tableRepository.getIdByTableType((TableType)table.TableType);
+
+            int table_id = tableRepository.getIdByTableType((TableType)tableRepository.getIntValueOfTableType(table.TableType), table.RestaurantId);
             
 
             // create table user

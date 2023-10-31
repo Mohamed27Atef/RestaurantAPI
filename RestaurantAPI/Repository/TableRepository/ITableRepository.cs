@@ -8,7 +8,8 @@ namespace RestaurantAPI.Repository
 
         void createReservationTable(int table_id);
         int isAvailable(TableType tableType);
-        int getIdByTableType(TableType tableType);
+        int getIdByTableType(TableType tableType, int restaurantId);
         IEnumerable<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId);
+        int getIntValueOfTableType(string type);
     }
 }
