@@ -1,4 +1,6 @@
-﻿using RestaurantAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Models;
+
 
 namespace RestaurantAPI.Repository
 {
@@ -34,6 +36,11 @@ namespace RestaurantAPI.Repository
         public Cart getCartByUserId(int userId)
         {
             return context.CartUsers.Where(u => u.user_id == userId).Select(t => t.cart).FirstOrDefault();
+        }
+
+        public Cart GetNonOrderedCartByUserId(int userId)
+        {
+            return context.CartUsers.Include(u=>u.cart).Where(u =>(u.user_id == userId && u.cart.OrderId== null)).Select(t => t.cart).FirstOrDefault();
         }
 
         public int SaveChanges()
