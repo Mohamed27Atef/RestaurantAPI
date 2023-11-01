@@ -8,8 +8,7 @@ using RestaurantAPI.Repository.ResturantFeedBackRepository;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+
     public class ResturantFeedbackController : BaseApiClass
     {
         private readonly IResturantFeedBackRepository iResturantFeedBackRepository;

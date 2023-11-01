@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231031134246_tt")]
-    partial class tt
+    [Migration("20231101142456_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,6 +275,9 @@ namespace RestaurantAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("totalPrice")
                         .HasColumnType("money");
 
@@ -489,25 +492,7 @@ namespace RestaurantAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeliveryId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int>("DeliveryMethod")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeliveryTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PaymentMethod")
+                    b.Property<int?>("DeliveryManId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -515,9 +500,6 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -531,7 +513,7 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("CartId")
                         .IsUnique();
 
-                    b.HasIndex("DeliveryId");
+                    b.HasIndex("DeliveryManId");
 
                     b.HasIndex("UserId");
 
@@ -565,6 +547,9 @@ namespace RestaurantAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("rate")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -754,9 +739,6 @@ namespace RestaurantAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AvailableState")
-                        .HasColumnType("int");
 
                     b.Property<int>("ResturantId")
                         .HasColumnType("int");
@@ -994,11 +976,9 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("RestaurantAPI.Models.DeliveryMan", "Deliveryman")
+                    b.HasOne("RestaurantAPI.Models.DeliveryMan", null)
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryManId");
 
                     b.HasOne("RestaurantAPI.Models.User", "User")
                         .WithMany("Orders")
@@ -1009,8 +989,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Cart");
-
-                    b.Navigation("Deliveryman");
 
                     b.Navigation("User");
                 });

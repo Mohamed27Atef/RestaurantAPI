@@ -75,7 +75,8 @@ namespace RestaurantAPI.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    totalPrice = table.Column<decimal>(type: "money", nullable: false)
+                    totalPrice = table.Column<decimal>(type: "money", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -391,7 +392,6 @@ namespace RestaurantAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AvailableState = table.Column<int>(type: "int", nullable: false),
                     TableType = table.Column<int>(type: "int", nullable: false),
                     ResturantId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -467,17 +467,11 @@ namespace RestaurantAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "money", nullable: false),
-                    DeliveryMethod = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    DeliveryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    DeliveryId = table.Column<int>(type: "int", nullable: false),
                     CartId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    DeliveryManId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -493,11 +487,10 @@ namespace RestaurantAPI.Migrations
                         principalTable: "Carts",
                         principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Orders_DeliveryMen_DeliveryId",
-                        column: x => x.DeliveryId,
+                        name: "FK_Orders_DeliveryMen_DeliveryManId",
+                        column: x => x.DeliveryManId,
                         principalTable: "DeliveryMen",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
@@ -516,6 +509,7 @@ namespace RestaurantAPI.Migrations
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Price = table.Column<decimal>(type: "money", nullable: false),
                     imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    rate = table.Column<int>(type: "int", nullable: false),
                     menuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -538,6 +532,7 @@ namespace RestaurantAPI.Migrations
                     user_id = table.Column<int>(type: "int", nullable: false),
                     table_id = table.Column<int>(type: "int", nullable: false),
                     restaurnatId = table.Column<int>(type: "int", nullable: false),
+                    duration = table.Column<int>(type: "int", nullable: false),
                     dateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -764,9 +759,9 @@ namespace RestaurantAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DeliveryId",
+                name: "IX_Orders_DeliveryManId",
                 table: "Orders",
-                column: "DeliveryId");
+                column: "DeliveryManId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
