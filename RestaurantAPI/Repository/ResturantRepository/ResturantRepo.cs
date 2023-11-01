@@ -140,5 +140,10 @@ namespace RestaurantAPI.Repository.ResturantRepository
         {
             return Context.Tables.Where(t => t.ResturantId == restaruantId).ToList();
         }
+
+        public OpenCloseHours getOpenCloseHours(int restaurantId)
+        {
+            return Context.Resturants.Where(r => r.id == restaurantId).Select(r => new OpenCloseHours() { closeHours = r.ClosingHours, openHours = r.OpenHours }).FirstOrDefault();
+        }
     }
 }

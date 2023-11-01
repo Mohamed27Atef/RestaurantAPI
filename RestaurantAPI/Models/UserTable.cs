@@ -14,6 +14,8 @@ namespace RestaurantAPI.Models
         public int restaurnatId { get; set; } = 1;
         public virtual Resturant? resturant { get; set; }
 
+        public int duration { get; set; }
+
         public DateTime dateTime { get; set; } = DateTime.Now;
         public string name { get; set; }
         public string  phone { get; set; }

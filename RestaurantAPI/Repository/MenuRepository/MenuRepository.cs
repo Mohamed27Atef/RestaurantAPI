@@ -37,6 +37,17 @@ namespace RestaurantAPI.Repository
             return context.Menus.Where(t => t.restaurantId == restuarantId).Include(r => r.Recipes).ToList();
         }
 
+        public List<Recipe> getMostRatedRecipe(int restaurantId)
+        {
+            var menus = context.Menus.Where(r => r.restaurantId == restaurantId).Include(r => r.Recipes);
+            List<Recipe> mostRated = new List<Recipe>();
+            foreach (var item in menus)
+                mostRated.Add(item.Recipes.OrderByDescending(r => r.rate).FirstOrDefault());
+
+            return mostRated;
+
+        }
+
         public int SaveChanges()
         {
             throw new NotImplementedException();

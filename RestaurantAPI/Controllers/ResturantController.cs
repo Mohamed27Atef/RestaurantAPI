@@ -175,6 +175,12 @@ namespace RestaurantAPI.Controllers
             return Ok(tablerestaurantDto);
         }
 
+        [HttpGet("getOpenCloseHours/{restaurantId}")]
+        public ActionResult getOpenClosingHours(int restaurantId)
+        {
+            return Ok(resturantRepository.getOpenCloseHours(restaurantId)); 
+        }
+
 
         //post 
 

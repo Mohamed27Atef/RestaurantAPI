@@ -9,8 +9,9 @@ namespace RestaurantAPI.Dto
 
         public int RestaurantId { get; set; }
 
-        public int TableType { get; set; }
+        public string TableType { get; set; }
         public string name { get; set; }
         public string phone { get; set; }
+        public int duration { get; set; }
     }
 }
