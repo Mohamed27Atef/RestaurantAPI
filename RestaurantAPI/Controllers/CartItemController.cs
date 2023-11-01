@@ -139,33 +139,23 @@ namespace RestaurantAPI.Controllers
         {
             int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
             Cart cart = cartUserRrepository.GetNonOrderedCartByUserId(userId);
-            int cartId;
             if (cart == null)
             {
-                //create new cart
-                Cart newCart = new Cart();
-                IcartRepo.Add(newCart);
-                IcartRepo.SaveChanges();
-                cartId = newCart.id;
                 CartUser cartUser = new CartUser()
                 {
                     user_id = userId,
-                    cart_id = cartId
+                    cart = new Cart() 
                 };
                 cartUserRrepository.Add(cartUser);
                 cartUserRrepository.SaveChanges();
-            }
-            else
-            {
-                //adding cart item to this cart 
-                cartId = cart.id;
+                cart = cartUserRrepository.GetNonOrderedCartByUserId(userId);
             }
 
             CartItem cartItem = new CartItem()
             {
                 Quantity= postCartItemDto.Quantity,
                 TotalPrice= postCartItemDto.TotalPrice,
-                CartId= cartId,
+                CartId= cart.id,
                 RecipeId= postCartItemDto.RecipeId,
                 ResturantId= postCartItemDto.RestaurantId
             };
