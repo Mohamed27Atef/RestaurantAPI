@@ -8,7 +8,6 @@ using RestaurantAPI.Repository.ResturantFeedBackRepository;
 
 namespace RestaurantAPI.Controllers
 {
-
     public class ResturantFeedbackController : BaseApiClass
     {
         private readonly IResturantFeedBackRepository iResturantFeedBackRepository;
@@ -81,7 +80,7 @@ namespace RestaurantAPI.Controllers
             int Raws = iResturantFeedBackRepository.SaveChanges();
             if (Raws > 0)
             {
-                return CreatedAtAction("getById", new { id = resturantFeedBack.id }, resturantFeedBack);
+                return NoContent();
             }
 
 
