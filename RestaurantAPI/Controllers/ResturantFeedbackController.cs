@@ -72,7 +72,7 @@ namespace RestaurantAPI.Controllers
                 text = resturantFeedbackDto.Text,
                 Rate = resturantFeedbackDto.Rate,
                 PostDate = resturantFeedbackDto.PostDate,
-                UserId = resturantFeedbackDto.UserId,
+                UserId = 1,
                 ResturantId = resturantFeedbackDto.ResturantId
             };
 
