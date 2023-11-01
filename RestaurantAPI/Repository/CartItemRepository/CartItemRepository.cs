@@ -14,12 +14,13 @@ namespace RestaurantAPI.Repository
 
         public void Add(CartItem entity)
         {
-            throw new NotImplementedException();
+            context.CartItems.Add(entity);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            CartItem cartItem = GetById(id);
+            context.CartItems.Remove(cartItem);
         }
 
         public List<CartItem> GetAll(string include = "")
@@ -29,22 +30,22 @@ namespace RestaurantAPI.Repository
 
         public List<CartItem> GetAllByCartId(int cartId)
         {
-            return context.CartItems.Where(r => r.CartId == cartId).Include(r => r.Resturant).Include(r => r.Recipe).ToList();
+            return context.CartItems.Where(r => r.CartId == cartId).Include(r=>r.Cart).Include(r => r.Resturant).Include(r => r.Recipe).ToList();
         }
 
         public CartItem GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.CartItems.FirstOrDefault(c => c.Id == id);
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return context.SaveChanges();
         }
 
         public void Update(CartItem entity)
         {
-            throw new NotImplementedException();
+            context.CartItems.Update(entity);
         }
     }
 }

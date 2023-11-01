@@ -13,7 +13,7 @@ namespace RestaurantAPI.Repository
 
         public void Add(CartUser entity)
         {
-            throw new NotImplementedException();
+            context.CartUsers.Add(entity);
         }
 
         public void Delete(int id)
@@ -38,7 +38,7 @@ namespace RestaurantAPI.Repository
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return context.SaveChanges();
         }
 
         public void Update(CartUser entity)

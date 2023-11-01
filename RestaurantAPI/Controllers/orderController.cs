@@ -3,20 +3,33 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.OrderRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
+using System.Text.Json.Serialization;
 
 namespace RestaurantAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class orderController : BaseApiClass
+    public class OrderController : BaseApiClass
     {
         private readonly IOrderRepository IorderRepo;
-        public orderController(IOrderRepository _IorderRepo)
+        private readonly ICartRepository ICartRepositoryo;
+        private readonly ICartUserRrepository ICartUserRepository;
+        private readonly IUserRepository IUserRepository;
+
+
+        public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
+            ICartUserRrepository _ICartUserRrepository, IUserRepository _IUserRepository)
         {
             this.IorderRepo = _IorderRepo;
+            this.ICartRepositoryo = _ICartRepository;
+            this.ICartUserRepository = _ICartUserRrepository;
+            this.IUserRepository = _IUserRepository;
+
         }
         //get
 
@@ -101,13 +114,10 @@ namespace RestaurantAPI.Controllers
 
             Order order = new Order()
             {
-            
-
                CreatedAt = orderDto.CreatedAt,
                OrderDate = orderDto.OrderDate,
                UpdatedAt = orderDto.UpdatedAt,
                TotalPrice = orderDto.TotalPrice,
-           
                Location  = orderDto.Location,
                DeliveryTime  = orderDto.DeliveryTime,
                UserId  = orderDto.UserId,
@@ -121,13 +131,27 @@ namespace RestaurantAPI.Controllers
             int Raws = IorderRepo.SaveChanges();
             if (Raws > 0)
             {
+                MakeCartOrderd(order);
                 return CreatedAtAction("getById", new { id = order.Id }, order);
             }
 
-
+            
             return NotFound("Order creation failed.");
         }
+     
+        private void MakeCartOrderd(Order order)
+        {
+            Cart newOrderCart = ICartUserRepository.getCartByUserId(IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
+            newOrderCart.OrderId  = order.Id;
+            ICartRepositoryo.Update(newOrderCart);
+            int r = ICartRepositoryo.SaveChanges();
 
+            //User user = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims());
+            //CartUser cartUserOrderd = new CartUser { cart_id = newOrderCart.id, user_id = user.id };
+            //ICartUserRepository.Add(cartUserOrderd);
+            //ICartUserRepository.SaveChanges();
+
+        }
         [HttpPut]
         public ActionResult UpdateOrder(int id,[FromBody] OrderDTO orderDto)
         {
