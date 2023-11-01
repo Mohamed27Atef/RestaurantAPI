@@ -1,4 +1,5 @@
-﻿using RestaurantAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Repository
 {
@@ -18,16 +19,13 @@ namespace RestaurantAPI.Repository
 
         public int isAvailable(TableType tableType)
         {
-            Table table = context.Tables.Where(t => t.TableType == tableType && t.AvailableState == AvailableState.Available).FirstOrDefault();
-            if (table == null)
-                return -1;
+            Table table = context.Tables.Where(t => t.TableType == tableType).FirstOrDefault();
             return table.Id;
         }
 
         public void createReservationTable(int table_id)
         {
             Table table = context.Tables.Find(table_id);
-            table.AvailableState = AvailableState.Reserved;
             context.Tables.Update(table);
             SaveChanges();
         }
@@ -52,17 +50,34 @@ namespace RestaurantAPI.Repository
             return context.SaveChanges();
         }
 
-        public bool tableIsAvailable(int table_id)
-        {
-            Table table = context.Tables.Find(table_id);
-            if (table.AvailableState == AvailableState.Available)
-                return true;
-            return false;
-        }
-
         public void Update(Table entity)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId)
+        {
+            return context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
+
+        }
+
+        public int getIdByTableType(TableType tableType, int restaurantId)
+        {
+            return context.Tables.Where(t => t.ResturantId == restaurantId && t.TableType == tableType).Select(r => r.Id).FirstOrDefault();
+        }
+
+        public int getIntValueOfTableType(string type)
+        {
+
+
+            switch (type) {
+                case "Family": return 0;
+                case "Solo": return 1;
+                case "Mini": return 2;
+                case "Medium": return 3;
+                default : return -1;
+
+            }
         }
     }
 }

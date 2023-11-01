@@ -6,5 +6,6 @@ namespace RestaurantAPI.Repository
     public interface IMenuRepository : IGenericRepository<Menu>
     {
         List<Menu> GetByRestaurantId(int restuarantId);
+        List<Recipe> getMostRatedRecipe(int restaurantId);
     }
 }

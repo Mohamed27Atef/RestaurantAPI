@@ -37,6 +37,11 @@ namespace RestaurantAPI.Repository
             return context.Users.Where(u => u.application_user_id == applicationUserId).FirstOrDefault();
         }
 
+        public string getUserImage(int userId)
+        {
+            return context.Users.Where(r => r.id == userId).Select(u => u.Image).FirstOrDefault();
+        }
+
         public int SaveChanges()
         {
             return context.SaveChanges();

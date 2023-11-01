@@ -4,5 +4,6 @@
     {
         public string token { get; set; }
         public DateTime expiration { get; set; }
+        public string imageUrl {  get; set; }
     }
 }

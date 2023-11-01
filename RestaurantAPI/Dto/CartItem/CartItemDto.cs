@@ -13,6 +13,7 @@ namespace RestaurantAPI.Dto.CartItem
         public  string recipeName { get; set; }
         public string recipeDescription { get; set; }
         public decimal recipePrice { get; set; }
+        public int recipeId { get; set; }
         public string imageUrl { get; set; }
 
     }

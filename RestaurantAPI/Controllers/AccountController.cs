@@ -85,6 +85,7 @@ namespace RestaurantAPI.Controllers
             return Ok(new UserDTOResult()
             {
                 token = new JwtSecurityTokenHandler().WriteToken(Mytoken),
+                imageUrl = userRepository.getUserImage(userRepository.getUserByApplicationUserId(user.Id).id),
                 expiration = Mytoken.ValidTo
             });				      
 		}

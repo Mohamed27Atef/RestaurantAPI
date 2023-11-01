@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 
@@ -26,29 +28,46 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult createResrevatoinTable(TableDto table)
         {
-            int table_id = tableRepository.isAvailable((TableType)table.TableType);
+
+            int table_id = tableRepository.getIdByTableType((TableType)tableRepository.getIntValueOfTableType(table.TableType), table.RestaurantId);
             
-            if(table_id == -1) 
-                return BadRequest();
 
             // create table user
             UserTable userTable = new UserTable()
             {
-                table_id = table_id,
                 user_id = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id, // get the current user who logged
                 dateTime = table.dateTime,
                 name = table.name,
-                phone = table.phone
-
+                phone = table.phone,
+                duration = table.duration,
+                restaurnatId = table.RestaurantId,
+                table_id = table_id,
+                
             };
-
-            tableRepository.createReservationTable(table_id);
-            tableRepository.SaveChanges();
             tableUserRepository.Add(userTable);
             tableUserRepository.SaveChanges();
             return NoContent();
 
 
+        }
+
+        [HttpGet("getAvailableTalbe")]
+        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId)
+        {
+            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId).DistinctBy(r => r.TableType.ToString());
+
+            List<TablerestaurantDto> tableDtos = new List<TablerestaurantDto>();
+
+            foreach (var item in table)
+            {
+                tableDtos.Add(new TablerestaurantDto()
+                {
+                    id = item.Id,
+                    tableType = item.TableType.ToString()
+                }) ;
+            }
+
+            return Ok(tableDtos);
         }
 
 
