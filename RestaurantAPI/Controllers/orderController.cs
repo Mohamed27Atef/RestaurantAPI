@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.Address;
 using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.AddressRepository;
 using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.OrderRepository;
 using RestaurantAPI.Repository.ResturantRepository;
@@ -20,15 +22,15 @@ namespace RestaurantAPI.Controllers
         private readonly ICartRepository ICartRepositoryo;
         private readonly ICartUserRrepository ICartUserRepository;
         private readonly IUserRepository IUserRepository;
-
-
+        private readonly IAddressRepository IAddressRepository;
         public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
-            ICartUserRrepository _ICartUserRrepository, IUserRepository _IUserRepository)
+            ICartUserRrepository _ICartUserRrepository, IUserRepository _IUserRepository, IAddressRepository IAddressRepository)
         {
             this.IorderRepo = _IorderRepo;
             this.ICartRepositoryo = _ICartRepository;
             this.ICartUserRepository = _ICartUserRrepository;
             this.IUserRepository = _IUserRepository;
+            this.IAddressRepository = IAddressRepository;
 
         }
         //get
@@ -47,14 +49,13 @@ namespace RestaurantAPI.Controllers
                   
 
                         CreatedAt = item.CreatedAt,
-                        OrderDate = item.OrderDate,
-                        UpdatedAt = item.UpdatedAt,
+                      
                         TotalPrice = item.TotalPrice,
     
-                        Location = item.Location,
-                        DeliveryTime = item.DeliveryTime,
+                        
+                  
                         UserId = item.UserId,
-                        DeliveryId = item.DeliveryId,
+                      
                         CartId = item.CartId,
                         AddressId = item.AddressId
                     });
@@ -75,14 +76,7 @@ namespace RestaurantAPI.Controllers
             return NotFound();
         }
         [HttpGet("byLocation")]
-        public ActionResult GetByLocation([FromQuery] string location)
-        {
-            var orders = IorderRepo.GetByLocation(location);
-            if (orders != null)
-                return Ok(orders);
-
-            return NotFound();
-        }
+        
         [HttpGet("OrderTotalPrice/{id}")]
         public ActionResult GetOrderTotalPrice( int id)
         {
@@ -105,25 +99,23 @@ namespace RestaurantAPI.Controllers
         //post 
 
         [HttpPost]
-        public ActionResult PostOrder([FromBody] OrderDTO orderDto)
+        public ActionResult PostOrder([FromBody] OrderAddressDTO orderAddressDTO)
         {
-            if (orderDto == null)
+            if (orderAddressDTO == null)
             {
                 return BadRequest("Invalid Order data.");
             }
-
+            Cart newOrderCart = ICartUserRepository.getCartByUserId(IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
+            AddressDTO addressDto = new AddressDTO { Street = orderAddressDTO.Street, City = orderAddressDTO.City, Country = orderAddressDTO.Country };
+           int addressid = MakeAddressOrderd(addressDto); 
             Order order = new Order()
             {
-               CreatedAt = orderDto.CreatedAt,
-               OrderDate = orderDto.OrderDate,
-               UpdatedAt = orderDto.UpdatedAt,
-               TotalPrice = orderDto.TotalPrice,
-               Location  = orderDto.Location,
-               DeliveryTime  = orderDto.DeliveryTime,
-               UserId  = orderDto.UserId,
-               DeliveryId = orderDto.DeliveryId,
-               CartId  = orderDto.CartId,
-               AddressId = orderDto.AddressId
+               CreatedAt = DateTime.Now,
+               Status = OrderStatus.Pending,
+               TotalPrice = orderAddressDTO.TotalPrice,
+               UserId  = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
+               CartId  = newOrderCart.id,
+               AddressId = addressid
 
             };
 
@@ -132,14 +124,28 @@ namespace RestaurantAPI.Controllers
             if (Raws > 0)
             {
                 MakeCartOrderd(order);
+              
                 return CreatedAtAction("getById", new { id = order.Id }, order);
             }
 
             
             return NotFound("Order creation failed.");
         }
-     
-        private void MakeCartOrderd(Order order)
+        private int MakeAddressOrderd(AddressDTO addressDto)
+        {
+            Address address = new Address
+            {
+                Street = addressDto.Street,
+                City = addressDto.City,
+                Country = addressDto.Country
+
+            };
+            IAddressRepository.Add(address);
+            IAddressRepository.SaveChanges();
+
+            return address.Id;
+        }
+            private void MakeCartOrderd(Order order)
         {
             Cart newOrderCart = ICartUserRepository.getCartByUserId(IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
             newOrderCart.OrderId  = order.Id;
@@ -166,14 +172,8 @@ namespace RestaurantAPI.Controllers
 
 
             order.CreatedAt = orderDto.CreatedAt;
-            order.OrderDate = orderDto.OrderDate;
-            order.UpdatedAt = orderDto.UpdatedAt;
             order.TotalPrice = orderDto.TotalPrice;
-     
-            order.Location = orderDto.Location;
-            order.DeliveryTime = orderDto.DeliveryTime;
             order.UserId = orderDto.UserId;
-            order.DeliveryId = orderDto.DeliveryId;
             order.CartId = orderDto.CartId;
             order.AddressId = orderDto.AddressId;
 

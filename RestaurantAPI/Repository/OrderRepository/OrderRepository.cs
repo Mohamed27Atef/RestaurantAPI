@@ -43,10 +43,7 @@ namespace RestaurantAPI.Repository.OrderRepository
             return Context.Orders.FirstOrDefault(r => r.Id == id);
         }
 
-        public List<Order> GetByLocation(string location)
-        {
-            return Context.Orders.Where(r => r.Location == location).ToList();
-        }
+     
         public decimal GetOrderByIdTotalPrice(int id)
         {
             return Context.Orders.FirstOrDefault(r => r.Id == id).TotalPrice;

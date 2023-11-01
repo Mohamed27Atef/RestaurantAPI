@@ -37,25 +37,18 @@ namespace RestaurantAPI.Models
         [Required]
         public DateTime CreatedAt { get; set; }
 
-        public DateTime OrderDate { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
-
+  
         [Required]
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; set; }
 
-        [Required]
-        public DeliveryMethod DeliveryMethod { get; set; }
+        //[Required]
+        //public DeliveryMethod DeliveryMethod { get; set; }
 
-        [Required]
-        public PaymentMethod PaymentMethod { get; set; }
+        //[Required]
+        //public PaymentMethod PaymentMethod { get; set; }
 
-        [MaxLength(255)]
-        public string Location { get; set; }
-      
-
-        public DateTime? DeliveryTime { get; set; }
+        //public DateTime? DeliveryTime { get; set; }
 
         
 
@@ -65,10 +58,10 @@ namespace RestaurantAPI.Models
         public int UserId { get; set; }
         public virtual User? User { get; set; }
 
-        [Required]
-        [ForeignKey("Deliveryman")]
-        public int? DeliveryId { get; set; }
-        public virtual DeliveryMan? Deliveryman { get; set; }
+        //[Required]
+        //[ForeignKey("Deliveryman")]
+        //public int? DeliveryId { get; set; }
+        //public virtual DeliveryMan? Deliveryman { get; set; }
 
         //[Required]
         //[ForeignKey("Cart")]

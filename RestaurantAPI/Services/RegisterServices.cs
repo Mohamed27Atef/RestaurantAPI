@@ -11,6 +11,7 @@ using RestaurantAPI.Models;
 using RestaurantAPI.Repository.OrderRepository;
 using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.LocationRepository;
+using RestaurantAPI.Repository.AddressRepository;
 
 namespace RestaurantAPI.Services
 {
@@ -23,6 +24,7 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<IResturanrRepo, ResturantRepo>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IAddressRepository, AddressRepository>();
             builder.Services.AddScoped<ImageService, ImageService>();
             builder.Services.AddScoped<IToken, TokenService>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();

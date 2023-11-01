@@ -41,7 +41,8 @@ namespace RestaurantAPI.Controllers
                         restaurantName = item.Resturant.Name,
                         TotalPrice = item.TotalPrice,
                         recipePrice  =item.Recipe.Price,
-                        imageUrl = item.Recipe.imageUrl
+                        imageUrl = item.Recipe.imageUrl,
+                        recipeDescription = item.Recipe.Description
                     });
                 }
             }
@@ -70,7 +71,8 @@ namespace RestaurantAPI.Controllers
                         restaurantName = item.Resturant.Name,
                         TotalPrice = item.TotalPrice,
                         recipePrice = item.Recipe.Price,
-                        imageUrl = item.Recipe.imageUrl
+                        imageUrl = item.Recipe.imageUrl,
+                        recipeDescription = item.Recipe.Description
                     });
                 }
             }
@@ -86,7 +88,7 @@ namespace RestaurantAPI.Controllers
             CartItem cartItem = cartItemRepository.GetById(cartItemDto.Id);
            
             if (cartItem == null)
-                return NotFound("cartItem Not Found!");
+                return NotFound("CartItem Not Found!");
 
             cartItem.TotalPrice = cartItemDto.TotalPrice;
             cartItem.Quantity = cartItemDto.Quantity;
@@ -100,7 +102,30 @@ namespace RestaurantAPI.Controllers
             }
 
 
-            return NotFound("cartItem updated failed.");
+            return NotFound("CartItem updated failed.");
         }
+        [HttpDelete]
+        [Authorize]
+        public ActionResult deleteCartItem(int id)
+        {
+            if (id < 0)
+            {
+                return BadRequest("Invalid CartItem id.");
+            }
+
+            var res = cartItemRepository.GetById(id);
+            if (res == null)
+                return NotFound("CartItem Not Found!");
+
+            cartItemRepository.Delete(id);
+            int Raws = cartItemRepository.SaveChanges();
+            if (Raws > 0)
+            {
+                return NoContent();
+            }
+
+            return NotFound("CartItem updated failed.");
+        }
+
     }
 }
