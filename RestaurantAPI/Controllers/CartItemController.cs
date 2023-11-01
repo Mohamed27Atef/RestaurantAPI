@@ -46,7 +46,8 @@ namespace RestaurantAPI.Controllers
                         TotalPrice = item.TotalPrice,
                         recipePrice  =item.Recipe.Price,
                         imageUrl = item.Recipe.imageUrl,
-                        recipeDescription = item.Recipe.Description
+                        recipeDescription = item.Recipe.Description,
+                        recipeId = item.RecipeId,
                     });
                 }
             }
