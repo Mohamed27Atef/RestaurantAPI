@@ -12,6 +12,7 @@ using RestaurantAPI.Repository.OrderRepository;
 using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.LocationRepository;
 using RestaurantAPI.Repository.AddressRepository;
+using RestaurantAPI.Repository.CuponRepository;
 
 namespace RestaurantAPI.Services
 {
@@ -34,7 +35,7 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<IMenuRepository, MenuRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-
+            builder.Services.AddScoped<ICuponRepository, CuponRepository>();
             return builder;
         }
 

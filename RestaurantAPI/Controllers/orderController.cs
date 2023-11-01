@@ -101,7 +101,7 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public ActionResult PostOrder([FromBody] OrderAddressDTO orderAddressDTO)
         {
-            if (orderAddressDTO == null)
+            if (orderAddressDTO is null || orderAddressDTO.Street == "" || orderAddressDTO.City == ""|| orderAddressDTO.Country == "")
             {
                 return BadRequest("Invalid Order data.");
             }

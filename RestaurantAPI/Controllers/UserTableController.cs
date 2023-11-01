@@ -53,6 +53,7 @@ namespace RestaurantAPI.Controllers
             {
                 userTableDto.Add(new UserReservationDto()
                 {
+                    
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
                     dateTime = item.dateTime,
@@ -63,6 +64,29 @@ namespace RestaurantAPI.Controllers
 
             return Ok(userTableDto);
         }
+
+        [HttpDelete]
+        public ActionResult deleteUserTable(int id)
+        {
+            if (id < 0)
+            {
+                return BadRequest("Invalid UserTable id.");
+            }
+
+            var res = tableUserRepository.GetById(id);
+            if (res is  null)
+                return NotFound("UserTable Not Found!");
+
+            tableUserRepository.Delete(id);
+            int Raws = tableUserRepository.SaveChanges();
+            if (Raws > 0)
+            {
+                return NoContent();
+            }
+
+            return NotFound("UserTable updated failed.");
+        }
+
 
     }
 }
