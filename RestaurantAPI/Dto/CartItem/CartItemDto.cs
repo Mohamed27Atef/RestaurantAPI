@@ -11,5 +11,9 @@ namespace RestaurantAPI.Dto.CartItem
         public decimal TotalPrice { get; set; }
         public  string restaurantName { get; set; }
         public  string recipeName { get; set; }
+        public string recipeDescription { get; set; }
+        public decimal recipePrice { get; set; }
+        public string imageUrl { get; set; }
+
     }
 }

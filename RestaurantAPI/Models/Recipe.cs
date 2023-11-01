@@ -28,7 +28,6 @@ namespace RestaurantAPI.Models
         public int rate { get; set; }
 
 
-
         [ForeignKey("Menu")]
         public int menuId { get; set; }
 
