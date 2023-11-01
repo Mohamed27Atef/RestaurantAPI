@@ -6,5 +6,6 @@ namespace RestaurantAPI.Repository
     public interface ICartUserRrepository : IGenericRepository<CartUser>
     {
         Cart getCartByUserId(int userId);
+        public Cart GetNonOrderedCartByUserId(int userId);
     }
 }

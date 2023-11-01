@@ -4,6 +4,7 @@ using RestaurantAPI.Dto.Cart;
 using RestaurantAPI.Dto.CartItem;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.CartRepository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -12,14 +13,17 @@ namespace RestaurantAPI.Controllers
         private readonly ICartUserRrepository cartUserRrepository;
         private readonly IUserRepository userRepository;
         private readonly ICartItemRepository cartItemRepository;
+        private readonly ICartRepository IcartRepo;
 
         public CartItemController(ICartUserRrepository cartUserRrepository, 
             IUserRepository userRepository,
-            ICartItemRepository cartItemRepository)
+            ICartItemRepository cartItemRepository,
+            ICartRepository IcartRepo)
         {
             this.cartUserRrepository = cartUserRrepository;
             this.userRepository = userRepository;
             this.cartItemRepository = cartItemRepository;
+            this.IcartRepo = IcartRepo;
         }
         [HttpGet]
         [Authorize]
@@ -125,6 +129,48 @@ namespace RestaurantAPI.Controllers
             }
 
             return NotFound("CartItem updated failed.");
+        }
+
+       
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddCartItemToCart(PostCartItemDto postCartItemDto)
+        {
+            int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+            Cart cart = cartUserRrepository.GetNonOrderedCartByUserId(userId);
+            int cartId;
+            if (cart == null)
+            {
+                //create new cart
+                Cart newCart = new Cart();
+                IcartRepo.Add(newCart);
+                IcartRepo.SaveChanges();
+                cartId = newCart.id;
+                CartUser cartUser = new CartUser()
+                {
+                    user_id = userId,
+                    cart_id = cartId
+                };
+                cartUserRrepository.Add(cartUser);
+                cartUserRrepository.SaveChanges();
+            }
+            else
+            {
+                //adding cart item to this cart 
+                cartId = cart.id;
+            }
+
+            CartItem cartItem = new CartItem()
+            {
+                Quantity= postCartItemDto.Quantity,
+                TotalPrice= postCartItemDto.TotalPrice,
+                CartId= cartId,
+                RecipeId= postCartItemDto.RecipeId,
+                ResturantId= postCartItemDto.RestaurantId
+            };
+            cartItemRepository.Add(cartItem);
+            cartItemRepository.SaveChanges();
+            return Ok("cart item added succesfully to cart");
         }
 
     }
