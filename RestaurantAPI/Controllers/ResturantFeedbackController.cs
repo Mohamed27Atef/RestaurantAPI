@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto.RecipeFeedBack;
 using RestaurantAPI.Dto.ResturantFeedback;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
 using RestaurantAPI.Repository.ResturantFeedBackRepository;
 
@@ -11,11 +12,12 @@ namespace RestaurantAPI.Controllers
     public class ResturantFeedbackController : BaseApiClass
     {
         private readonly IResturantFeedBackRepository iResturantFeedBackRepository;
+        private readonly IUserRepository iUserRepository;
 
-        public ResturantFeedbackController(IResturantFeedBackRepository iResturantFeedBackRepository)
+        public ResturantFeedbackController(IResturantFeedBackRepository iResturantFeedBackRepository, IUserRepository _IUserRepository)
         {
             this.iResturantFeedBackRepository = iResturantFeedBackRepository;
-
+            iUserRepository = _IUserRepository;
         }
 
 
@@ -36,8 +38,7 @@ namespace RestaurantAPI.Controllers
                         Text = item.Text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
-                        ResturantId = item.ResturantId,
-                        UserId = item.UserId,
+                        ResturantId = item.ResturantId
                     });
                 }
                 return Ok(resturantFeedbackDtos);
@@ -72,7 +73,7 @@ namespace RestaurantAPI.Controllers
                 text = resturantFeedbackDto.Text,
                 Rate = resturantFeedbackDto.Rate,
                 PostDate = resturantFeedbackDto.PostDate,
-                UserId = resturantFeedbackDto.UserId,
+                UserId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
                 ResturantId = resturantFeedbackDto.ResturantId
             };
 
@@ -104,7 +105,6 @@ namespace RestaurantAPI.Controllers
             resturantFeedback.text = resturantFeedbackDto.Text;
             resturantFeedback.Rate = resturantFeedbackDto.Rate;
             resturantFeedback.PostDate = resturantFeedbackDto.PostDate;
-            resturantFeedback.UserId = resturantFeedbackDto.UserId;
             resturantFeedback.ResturantId = resturantFeedbackDto.ResturantId;
             ;
 
