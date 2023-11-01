@@ -25,6 +25,8 @@ namespace RestaurantAPI.Models
 
         public string imageUrl { get; set; }
 
+        public int rate { get; set; }
+
 
 
         [ForeignKey("Menu")]

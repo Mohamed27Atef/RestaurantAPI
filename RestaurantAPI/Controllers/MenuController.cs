@@ -36,7 +36,7 @@ namespace RestaurantAPI.Controllers
                     recipeDtos.AddRange(
                         item.Recipes
                         .Select(r => new RecipeDto()
-                        { Description = r.Description, imageUrl = r.imageUrl, Name = r.name, Price=r.Price}).ToList());
+                        { Description = r.Description, imageUrl = r.imageUrl, Name = r.name, Price=r.Price, menuName= item.title}).ToList());
                     menuDto.Add(new MenuDto() { 
                         id = item.id, 
                         title = item.title,
@@ -45,6 +45,26 @@ namespace RestaurantAPI.Controllers
                 return Ok(new {menuDto,recipeDtos});
             }
             return BadRequest();
+        }
+
+        [HttpGet("getmostRatedRecipe/{restaurantId}")]
+        public ActionResult getMostRatedRecipe(int restaurantId) {
+
+            List<MostRated> recipeDtos = new();
+            var recipes = MenuRepository.getMostRatedRecipe(restaurantId);
+            foreach (var item in recipes)
+            {
+                recipeDtos.Add(new MostRated()
+                {
+                    id= item.id,
+                    Description = item.Description,
+                    imageUrl = item.imageUrl,
+                    Name = item.name,
+                    Price = item.Price
+                });
+            }
+
+            return Ok(recipeDtos);
         }
     }
 }

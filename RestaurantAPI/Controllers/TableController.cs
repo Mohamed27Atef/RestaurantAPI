@@ -35,16 +35,15 @@ namespace RestaurantAPI.Controllers
             // create table user
             UserTable userTable = new UserTable()
             {
-                table_id = table_id,
                 user_id = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id, // get the current user who logged
                 dateTime = table.dateTime,
                 name = table.name,
                 phone = table.phone,
                 duration = table.duration,
+                restaurnatId = table.RestaurantId,
+                table_id = table_id,
+                
             };
-
-            //tableRepository.createReservationTable(table_id);
-            //tableRepository.SaveChanges();
             tableUserRepository.Add(userTable);
             tableUserRepository.SaveChanges();
             return NoContent();
