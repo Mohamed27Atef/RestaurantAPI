@@ -22,14 +22,14 @@ namespace RestaurantAPI.Controllers
 
 
         //get
-        [HttpGet]
-        public ActionResult<IEnumerable<ResturantFeedbackDto>> GetAll()
+        [HttpGet("restaurant/{restaurantId}")]
+        public ActionResult<IEnumerable<ResturantFeedbackDto>> GetReviewsForRestaurant(int restaurantId)
         {
-            var alliResturantFeedBacks = iResturantFeedBackRepository.GetAll();
+            var restaurantReviews = iResturantFeedBackRepository.GetReviewsForRestaurant(restaurantId);
 
-            if (alliResturantFeedBacks != null)
+            if (restaurantReviews != null && restaurantReviews.Any())
             {
-                List<ResturantFeedbackDto> resturantFeedbackDtos = alliResturantFeedBacks
+                List<ResturantFeedbackDto> resturantFeedbackDtos = restaurantReviews
                     .Select(item => new ResturantFeedbackDto
                     {
                         Id = item.id,
@@ -37,17 +37,24 @@ namespace RestaurantAPI.Controllers
                         Rate = item.Rate,
                         PostDate = item.PostDate,
                         ResturantId = item.ResturantId,
-                        UserId = item.UserId,
+                        //UserId = item.UserId,
                     })
                     .ToList();
-
                 return Ok(resturantFeedbackDtos);
             }
 
             return NotFound();
         }
 
+        [HttpGet("{id}")]
+        public ActionResult getById(int id)
+        {
+            var resturantFeedback = iResturantFeedBackRepository.GetById(id);
+            if (resturantFeedback != null)
+                return Ok(resturantFeedback);
 
+            return NotFound();
+        }
         //post 
 
         [HttpPost]
