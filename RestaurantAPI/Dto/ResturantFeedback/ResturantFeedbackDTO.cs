@@ -17,7 +17,6 @@ namespace RestaurantAPI.Dto.ResturantFeedback
         public DateTime PostDate { get; set; }
 
         public int ResturantId { get; set; }
-        public int UserId { get; set; }
     }
 
 }

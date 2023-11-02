@@ -13,6 +13,9 @@ namespace RestaurantAPI.Dto
         public string imageUrl { get; set; }
         public string menuName { get; set; }
         public List<string> images { get; set; } = new List<string>();
+        public string restaurantName { get; set; }
+        public int restaurantId { get; set; }
+        public decimal rate { get; set; }
 
 
     }
