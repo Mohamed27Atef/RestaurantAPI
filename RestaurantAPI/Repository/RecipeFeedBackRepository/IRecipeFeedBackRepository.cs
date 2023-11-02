@@ -5,5 +5,7 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
 {
     public interface IRecipeFeedBackRepository:IGenericRepository<RecipeFeedback>
     {
+        int getNumberOfRecipeReview(int id);
+
     }
 }

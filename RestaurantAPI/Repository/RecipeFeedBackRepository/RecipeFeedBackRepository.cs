@@ -15,7 +15,10 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
         {
             Context.RecipeFeedbacks.Add(entity);
         }
-
+        public int getNumberOfRecipeReview(int id)
+        {
+            return Context.RecipeFeedbacks.Where(r => r.RecipeId == id).Count();
+        }
         public void Delete(int id)
         {
             RecipeFeedback recipeFeedback = Context.RecipeFeedbacks.FirstOrDefault(r => r.id == id);

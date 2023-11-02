@@ -7,6 +7,7 @@ namespace RestaurantAPI.Repository
     {
         //Recipe getByRestaurantId(int restaurantId);
         List<Recipe> getByMenuId(int menuId);
+        List<string> getRecipeImages(int id);
 
     }
 }
