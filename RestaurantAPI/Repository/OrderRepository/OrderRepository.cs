@@ -67,5 +67,10 @@ namespace RestaurantAPI.Repository.OrderRepository
         {
             Context.Orders.Update(entity);
         }
+
+        public List<Order> getAllByUserId(int userId)
+        {
+            return Context.Orders.Where(r => r.UserId == userId).Include(or => or.Address).ToList();
+        }
     }
 }

@@ -42,24 +42,11 @@ namespace RestaurantAPI.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; set; }
 
-        //[Required]
-        //public DeliveryMethod DeliveryMethod { get; set; }
-
-        //[Required]
-        //public PaymentMethod PaymentMethod { get; set; }
-
-        //public DateTime? DeliveryTime { get; set; }
-
 
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User? User { get; set; }
-
-        [Required]
-        [ForeignKey("Deliveryman")]
-        public int? DeliveryId { get; set; }
-        public virtual DeliveryMan? Deliveryman { get; set; }
 
         //[Required]
         //[ForeignKey("Cart")]

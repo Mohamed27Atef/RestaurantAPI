@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Address;
@@ -46,16 +47,9 @@ namespace RestaurantAPI.Controllers
                 {
                     orderDtos.Add(new OrderDTO()
                     {
-                  
-
                         CreatedAt = item.CreatedAt,
-                      
                         TotalPrice = item.TotalPrice,
-    
-                        
-                  
                         UserId = item.UserId,
-                      
                         CartId = item.CartId,
                         AddressId = item.AddressId
                     });
@@ -64,6 +58,27 @@ namespace RestaurantAPI.Controllers
             }
 
             return NotFound();
+        }
+        [HttpGet("getAllOrderOfUser")]
+        [Authorize]
+        public ActionResult getAllOrderOfUser()
+        {
+            int userId = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+            List<UserOrders> userOrders = new List<UserOrders>();
+            foreach (var item in IorderRepo.getAllByUserId(userId))
+            {
+                userOrders.Add(new UserOrders()
+                {
+                    city = item.Address.City,
+                    country = item.Address.Country,
+                    CreatedAt = item.CreatedAt,
+                    Id = item.Id,
+                    status = item.Status.ToString(),
+                    street = item.Address.Street,
+                    TotalPrice = item.TotalPrice
+                });
+            }
+            return Ok(userOrders);
         }
 
         [HttpGet("{id}")]
