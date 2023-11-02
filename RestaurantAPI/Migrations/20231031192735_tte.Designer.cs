@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Models;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20231031192735_tte")]
+    partial class tte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,9 +275,6 @@ namespace RestaurantAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("totalPrice")
                         .HasColumnType("money");
 
@@ -489,7 +489,25 @@ namespace RestaurantAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeliveryManId")
+                    b.Property<int?>("DeliveryId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeliveryMethod")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeliveryTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -497,6 +515,9 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -510,7 +531,7 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("CartId")
                         .IsUnique();
 
-                    b.HasIndex("DeliveryManId");
+                    b.HasIndex("DeliveryId");
 
                     b.HasIndex("UserId");
 
@@ -544,9 +565,6 @@ namespace RestaurantAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("rate")
-                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -973,9 +991,11 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("RestaurantAPI.Models.DeliveryMan", null)
+                    b.HasOne("RestaurantAPI.Models.DeliveryMan", "Deliveryman")
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryManId");
+                        .HasForeignKey("DeliveryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RestaurantAPI.Models.User", "User")
                         .WithMany("Orders")
@@ -986,6 +1006,8 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Cart");
+
+                    b.Navigation("Deliveryman");
 
                     b.Navigation("User");
                 });
