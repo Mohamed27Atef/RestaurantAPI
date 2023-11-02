@@ -33,7 +33,8 @@ namespace RestaurantAPI.Controllers
                     Description = item.Description,
                     Name = item.name,
                     Price = item.Price,
-                    imageUrl = item.imageUrl
+                    imageUrl = item.imageUrl,
+                    
                 });
             return Ok(recipeDtos);
         }
@@ -73,8 +74,13 @@ namespace RestaurantAPI.Controllers
                 imageUrl = recipe.imageUrl,
                 Name = recipe.name,
                 Price = recipe.Price,
-                menuName = recipe.Menu.title
+                menuName = recipe.Menu.title,
+                restaurantId = recipe.Menu.restaurantId,
+                restaurantName = recipe.Menu.restaurant.Name,
+                images = _recipeRepository.getRecipeImages(id),
+                rate = recipe.rate
             };
+
 
             foreach (var item in recipe.recipteImages)
                 recipeDto.images.Add(item.Image);

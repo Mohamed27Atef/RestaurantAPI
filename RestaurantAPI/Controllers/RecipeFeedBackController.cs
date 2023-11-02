@@ -24,6 +24,13 @@ namespace RestaurantAPI.Controllers
        
         }
 
+        [HttpGet("getNumberOfReview/{recipeId}")]
+        public ActionResult getNumberOfReview(int recipeId)
+        {
+            var r = iRecipeFeedBackRepository.getNumberOfRecipeReview(recipeId);
+            return Ok(r);
+        }
+
         //get
 
         [HttpGet()]
