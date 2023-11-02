@@ -12,7 +12,7 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231030200725_init")]
+    [Migration("20231101192317_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -275,6 +275,9 @@ namespace RestaurantAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("totalPrice")
                         .HasColumnType("money");
 
@@ -380,17 +383,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<int>("NumberOfUser")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Copons");
                 });
@@ -489,25 +486,7 @@ namespace RestaurantAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeliveryId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int>("DeliveryMethod")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeliveryTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PaymentMethod")
+                    b.Property<int?>("DeliveryManId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -516,10 +495,10 @@ namespace RestaurantAPI.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("coponid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -531,9 +510,11 @@ namespace RestaurantAPI.Migrations
                     b.HasIndex("CartId")
                         .IsUnique();
 
-                    b.HasIndex("DeliveryId");
+                    b.HasIndex("DeliveryManId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("coponid");
 
                     b.ToTable("Orders");
                 });
@@ -565,6 +546,9 @@ namespace RestaurantAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("rate")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -755,9 +739,6 @@ namespace RestaurantAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AvailableState")
-                        .HasColumnType("int");
-
                     b.Property<int>("ResturantId")
                         .HasColumnType("int");
 
@@ -808,6 +789,9 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("duration")
+                        .HasColumnType("int");
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -946,17 +930,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Resturant");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.Copon", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Order", "Order")
-                        .WithOne("copon")
-                        .HasForeignKey("RestaurantAPI.Models.Copon", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Resturant", "Resturant")
@@ -991,11 +964,9 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("RestaurantAPI.Models.DeliveryMan", "Deliveryman")
+                    b.HasOne("RestaurantAPI.Models.DeliveryMan", null)
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryManId");
 
                     b.HasOne("RestaurantAPI.Models.User", "User")
                         .WithMany("Orders")
@@ -1003,13 +974,17 @@ namespace RestaurantAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RestaurantAPI.Models.Copon", "copon")
+                        .WithMany()
+                        .HasForeignKey("coponid");
+
                     b.Navigation("Address");
 
                     b.Navigation("Cart");
 
-                    b.Navigation("Deliveryman");
-
                     b.Navigation("User");
+
+                    b.Navigation("copon");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>
@@ -1201,11 +1176,6 @@ namespace RestaurantAPI.Migrations
             modelBuilder.Entity("RestaurantAPI.Models.Menu", b =>
                 {
                     b.Navigation("Recipes");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.Order", b =>
-                {
-                    b.Navigation("copon");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>

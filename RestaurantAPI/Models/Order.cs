@@ -56,10 +56,10 @@ namespace RestaurantAPI.Models
         public int UserId { get; set; }
         public virtual User? User { get; set; }
 
-        [Required]
-        [ForeignKey("Deliveryman")]
-        public int? DeliveryId { get; set; }
-        public virtual DeliveryMan? Deliveryman { get; set; }
+        //[Required]
+        //[ForeignKey("Deliveryman")]
+        //public int? DeliveryId { get; set; }
+        //public virtual DeliveryMan? Deliveryman { get; set; }
 
         //[Required]
         //[ForeignKey("Cart")]
@@ -71,7 +71,7 @@ namespace RestaurantAPI.Models
         public int? AddressId { get; set; }
         public virtual Address? Address { get; set; }
 
-        public virtual Copon? copon { get; set; }
+        //public virtual Copon? copon { get; set; }
 
 
     }
