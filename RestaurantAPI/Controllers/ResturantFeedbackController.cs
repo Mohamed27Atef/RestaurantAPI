@@ -22,40 +22,31 @@ namespace RestaurantAPI.Controllers
 
 
         //get
-
-        [HttpGet()]
-        public ActionResult getAll()
+        [HttpGet]
+        public ActionResult<IEnumerable<ResturantFeedbackDto>> GetAll()
         {
             var alliResturantFeedBacks = iResturantFeedBackRepository.GetAll();
-            List<ResturantFeedbackDto> resturantFeedbackDtos = new List<ResturantFeedbackDto>();
+
             if (alliResturantFeedBacks != null)
             {
-                foreach (var item in resturantFeedbackDtos)
-                {
-                    resturantFeedbackDtos.Add(new ResturantFeedbackDto()
+                List<ResturantFeedbackDto> resturantFeedbackDtos = alliResturantFeedBacks
+                    .Select(item => new ResturantFeedbackDto
                     {
-                        Id = item.Id,
-                        Text = item.Text,
+                        Id = item.id,
+                        Text = item.text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
-                        ResturantId = item.ResturantId
-                    });
-                }
+                        ResturantId = item.ResturantId,
+                        UserId = item.UserId,
+                    })
+                    .ToList();
+
                 return Ok(resturantFeedbackDtos);
             }
 
             return NotFound();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult getById(int id)
-        {
-            var resturantFeedback = iResturantFeedBackRepository.GetById(id);
-            if (resturantFeedback != null)
-                return Ok(resturantFeedback);
-
-            return NotFound();
-        }
 
         //post 
 
@@ -73,7 +64,9 @@ namespace RestaurantAPI.Controllers
                 text = resturantFeedbackDto.Text,
                 Rate = resturantFeedbackDto.Rate,
                 PostDate = resturantFeedbackDto.PostDate,
+
                 UserId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
+
                 ResturantId = resturantFeedbackDto.ResturantId
             };
 
