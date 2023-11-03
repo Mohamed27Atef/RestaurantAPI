@@ -5,11 +5,11 @@ namespace RestaurantAPI.Models
 {
     public enum OrderStatus
     {
-        processed,
-        shipped,
-        enRoute,
-        arrived,
-        Canceled
+        processed = 0,
+        shipped = 1,
+        enRoute = 2,
+        arrived = 3,
+        Canceled = 4
     }
 
     public enum DeliveryMethod

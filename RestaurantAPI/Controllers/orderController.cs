@@ -98,6 +98,18 @@ namespace RestaurantAPI.Controllers
             return Ok(orders);
         }
 
+        [HttpPut("updateStatus/{orderId}")]
+        public ActionResult updateStatus(int orderId, [FromBody] string status)
+        {
+            Order order = IorderRepo.GetById(orderId);
+            if (order == null)
+                return BadRequest();
+            order.Status = (OrderStatus)IorderRepo.getStatusId(status);
+            IorderRepo.Update(order);
+            IorderRepo.SaveChanges();
+            return Ok("done");
+        }
+
 
 
 

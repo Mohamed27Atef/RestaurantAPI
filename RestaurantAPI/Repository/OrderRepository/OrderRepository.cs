@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
+using System.Diagnostics;
 
 namespace RestaurantAPI.Repository.OrderRepository
 {
@@ -77,6 +79,20 @@ namespace RestaurantAPI.Repository.OrderRepository
         {
             return Context.CartItems.Where(c => c.ResturantId == restaurantId).Include(r => r.Cart)
                 .Include(r => r.Cart.order.Address).Include(r => r.Cart.order.User).ThenInclude(r => r.ApplicationUser).Select(r => r.Cart.order);
+        }
+
+        public int getStatusId(string status)
+        {
+        
+            switch (status)
+            {
+                case "processed": return 0;
+                case "shipped": return 1;
+                case "enRoute": return 2;
+                case "arrived": return 3;
+                case "Canceled": return 4;
+                default: return -1;
+            }
         }
     }
 }
