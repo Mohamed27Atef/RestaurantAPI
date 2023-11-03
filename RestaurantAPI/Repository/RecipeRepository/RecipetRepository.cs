@@ -11,7 +11,10 @@ namespace RestaurantAPI.Repository.ProductRepository
             Context = context;
         }
 
-
+        public List<Recipe> GetByName(string name)
+        {
+            return Context.Recipes.Where(recipe => recipe.name.Contains(name)).ToList();
+        }
 
         public List<Recipe> GetAll(string include = "")
         {

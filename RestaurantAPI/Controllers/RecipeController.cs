@@ -5,6 +5,8 @@ using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.results;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.ProductRepository;
+
 namespace RestaurantAPI.Controllers
 {
 
@@ -15,6 +17,19 @@ namespace RestaurantAPI.Controllers
         public RecipeController(IRecipeRepository recipeRepository)
         {
             this._recipeRepository = recipeRepository;
+        }
+        
+        [HttpGet("search/{name}")]
+        public IActionResult SearchRecipesByName(string name)
+        {
+            var recipes = _recipeRepository.GetByName(name);
+
+            if (recipes.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(recipes);
         }
 
 
