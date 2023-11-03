@@ -6,5 +6,6 @@ namespace RestaurantAPI.Repository
     public interface ICartItemRepository : IGenericRepository<CartItem>
     {
         List<CartItem> GetAllByCartId(int cartId);
+        List<CartItem> GetAllByCartIdAndRestaurantId(int cartId, int restaurantId);
     }
 }

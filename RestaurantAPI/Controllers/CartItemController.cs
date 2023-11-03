@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto.Cart;
 using RestaurantAPI.Dto.CartItem;
+using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.CartRepository;
@@ -10,17 +11,16 @@ namespace RestaurantAPI.Controllers
 {
     public class CartItemController : BaseApiClass
     {
-        private readonly ICartUserRrepository cartUserRrepository;
         private readonly IUserRepository userRepository;
         private readonly ICartItemRepository cartItemRepository;
         private readonly ICartRepository IcartRepo;
 
-        public CartItemController(ICartUserRrepository cartUserRrepository, 
+        public CartItemController( 
             IUserRepository userRepository,
             ICartItemRepository cartItemRepository,
-            ICartRepository IcartRepo)
+            ICartRepository IcartRepo
+           )
         {
-            this.cartUserRrepository = cartUserRrepository;
             this.userRepository = userRepository;
             this.cartItemRepository = cartItemRepository;
             this.IcartRepo = IcartRepo;
@@ -29,7 +29,7 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult getCartItems()
         {
-            Cart cart = cartUserRrepository.getCartByUserId(userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
+            Cart cart = IcartRepo.getCartByUserId(userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
             List<CartItem> items = cartItemRepository.GetAllByCartId(cart.id);
             List<CartItemDto> cartItemDto = new List<CartItemDto>();
 
@@ -60,7 +60,7 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult getCartItemsOrderd()
         {
-            Cart cart = cartUserRrepository.getCartByUserId(userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
+            Cart cart = IcartRepo.getCartByUserId(userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
             List<CartItem> items = cartItemRepository.GetAllByCartId(cart.id);
             List<CartItemDto> cartItemDto = new List<CartItemDto>();
 
@@ -86,6 +86,68 @@ namespace RestaurantAPI.Controllers
         }
 
 
+        [HttpGet("getCartItemsOrderd/{orderId}")]
+        [Authorize]
+        public ActionResult getCartItemsByOrderId(int orderId)
+        {
+            Cart cart = IcartRepo.getCatByOrderId(orderId);
+            List<CartItem> items = cartItemRepository.GetAllByCartId(cart.id);
+            List<CartItemDto> cartItemDto = new List<CartItemDto>();
+
+            foreach (var item in items)
+            {
+                if (item.Cart.OrderId != null)
+                {
+                    cartItemDto.Add(new CartItemDto()
+                    {
+                        Id = item.Id,
+                        Quantity = item.Quantity,
+                        recipeName = item.Recipe.name,
+                        restaurantName = item.Resturant.Name,
+                        TotalPrice = item.TotalPrice,
+                        recipePrice = item.Recipe.Price,
+                        imageUrl = item.Recipe.imageUrl,
+                        recipeDescription = item.Recipe.Description
+                    });
+                }
+            }
+
+            return Ok(cartItemDto);
+        }
+
+
+        [HttpGet("getOrderItemsByOrderId")]
+        [Authorize]
+        public ActionResult getOrderItemsByOrderId(int orderId, int restaurantId)
+        {
+           Cart cart = IcartRepo.getCatByOrderId(orderId);
+            List<CartItem> items = cartItemRepository.GetAllByCartIdAndRestaurantId(cart.id, restaurantId);
+            List<CartItemDto> cartItemDto = new List<CartItemDto>();
+
+            foreach (var item in items)
+            {
+                if (item.Cart.OrderId != null)
+                {
+                    cartItemDto.Add(new CartItemDto()
+                    {
+                        Id = item.Id,
+                        Quantity = item.Quantity,
+                        recipeName = item.Recipe.name,
+                        restaurantName = item.Resturant.Name,
+                        TotalPrice = item.TotalPrice,
+                        recipePrice = item.Recipe.Price,
+                        imageUrl = item.Recipe.imageUrl,
+                        recipeDescription = item.Recipe.Description
+                    });
+                }
+            }
+
+            return Ok(cartItemDto);
+        }
+
+
+
+
         [HttpPut]
         [Authorize]
         public ActionResult updateCartItem( [FromBody] CartItemDto cartItemDto)
@@ -109,7 +171,7 @@ namespace RestaurantAPI.Controllers
 
             return NotFound("CartItem updated failed.");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize]
         public ActionResult deleteCartItem(int id)
         {
@@ -132,23 +194,42 @@ namespace RestaurantAPI.Controllers
             return NotFound("CartItem updated failed.");
         }
 
-       
+        [HttpDelete("clearCart")]
+        [Authorize]
+        public ActionResult clearCart()
+        {
+            int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+
+            Cart cart = IcartRepo.getCartByUserId(userId);
+            if (cart == null)
+                return BadRequest();
+            List<CartItem> cartItems = cartItemRepository.GetAllByCartId(cart.id);
+            foreach (var item in cartItems)
+            {
+                cartItemRepository.Delete(item.Id);
+            }
+            cartItemRepository.SaveChanges();
+
+            return Ok("deleted");
+
+        }
+
+
         [Authorize]
         [HttpPost]
         public ActionResult AddCartItemToCart(PostCartItemDto postCartItemDto)
         {
             int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
-            Cart cart = cartUserRrepository.GetNonOrderedCartByUserId(userId);
+            Cart cart = IcartRepo.GetNonOrderedCartByUserId(userId);
             if (cart == null)
             {
-                CartUser cartUser = new CartUser()
+                Cart cartUser = new Cart()
                 {
-                    user_id = userId,
-                    cart = new Cart() 
+                    userId = userId
                 };
-                cartUserRrepository.Add(cartUser);
-                cartUserRrepository.SaveChanges();
-                cart = cartUserRrepository.GetNonOrderedCartByUserId(userId);
+                IcartRepo.Add(cartUser);
+                IcartRepo.SaveChanges();
+                cart = IcartRepo.GetNonOrderedCartByUserId(userId);
             }
 
             CartItem cartItem = new CartItem()

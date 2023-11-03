@@ -10,8 +10,6 @@ namespace RestaurantAPI.Dto.Order
        
         public DateTime? DeliveryTime { get; set; }
         public int UserId { get; set; }
-        public int? DeliveryId { get; set; }
-        public int CartId { get; set; }
         public int? AddressId { get; set; }
     }
 

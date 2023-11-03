@@ -5,10 +5,10 @@ namespace RestaurantAPI.Models
 {
     public enum OrderStatus
     {
-        Pending,
-        Confirmed,
-        Shipped,
-        Delivered,
+        processed,
+        shipped,
+        enRoute,
+        arrived,
         Canceled
     }
 
@@ -47,11 +47,6 @@ namespace RestaurantAPI.Models
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User? User { get; set; }
-
-        //[Required]
-        //[ForeignKey("Cart")]
-        public int CartId { get; set; }
-        public virtual Cart? Cart { get; set; }
 
 
         [ForeignKey("Address")]

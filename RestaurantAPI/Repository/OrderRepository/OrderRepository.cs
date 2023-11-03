@@ -72,5 +72,11 @@ namespace RestaurantAPI.Repository.OrderRepository
         {
             return Context.Orders.Where(r => r.UserId == userId).Include(or => or.Address).ToList();
         }
+
+        public IEnumerable<Order> getOrderByReataurantId(int restaurantId)
+        {
+            return Context.CartItems.Where(c => c.ResturantId == restaurantId).Include(r => r.Cart)
+                .Include(r => r.Cart.order.Address).Include(r => r.Cart.order.User).ThenInclude(r => r.ApplicationUser).Select(r => r.Cart.order);
+        }
     }
 }

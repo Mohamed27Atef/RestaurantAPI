@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Table;
+using RestaurantAPI.Dto.UserTable;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 
@@ -68,6 +69,28 @@ namespace RestaurantAPI.Controllers
             }
 
             return Ok(tableDtos);
+        }
+
+        [HttpGet("getReservationByrestaurantId/{restaurantId}")]
+        public ActionResult getReservationByrestaurantId(int restaurantId)
+        {
+            List<UserTable> userTables = tableUserRepository.GetAllByRestaurantId(restaurantId);
+            List<RestauarantAdminReservationDto> restauarantAdminReservationDtos = new();
+            foreach (var item in userTables)
+            {
+                restauarantAdminReservationDtos.Add(new RestauarantAdminReservationDto()
+                {
+                    customerName = item.name,
+                    customerPhone = item.phone,
+                    dateTime = item.dateTime,
+                    duration = item.duration,
+                    reservationNumber = item.id,
+                    tableNumber = item.table_id,
+                    tableType = item.Table.TableType.ToString()
+                });
+            }
+
+            return Ok(restauarantAdminReservationDtos);
         }
 
 

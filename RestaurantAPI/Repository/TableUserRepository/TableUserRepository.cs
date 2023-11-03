@@ -27,9 +27,14 @@ namespace RestaurantAPI.Repository
             throw new NotImplementedException();
         }
 
-        public List<UserTable> GetAllByRestaurantId(int restaurantId)
+        public List<UserTable> GetAllBy(int restaurantId)
         {
             return context.UserTables.Where(r => r.restaurnatId == restaurantId).ToList();
+        }
+
+        public List<UserTable> GetAllByRestaurantId(int restaurantId)
+        {
+            return context.UserTables.Where(r => r.restaurnatId == restaurantId).Include(t => t.Table).ToList();
         }
 
         public List<UserTable> GetAllByUserId(int userId)
