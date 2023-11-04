@@ -1,4 +1,5 @@
-﻿using RestaurantAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 
 namespace RestaurantAPI.Repository
@@ -14,32 +15,42 @@ namespace RestaurantAPI.Repository
 
         public void Add(Cateigory entity)
         {
-            throw new NotImplementedException();
+            context.Cateigorys.Add(entity);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var category = GetById(id);
+            context.Cateigorys.Remove(category);
         }
 
         public List<Cateigory> GetAll(string include = "")
         {
-            return context.Cateigorys.ToList();
+            var query = context.Cateigorys.AsQueryable();
+            if (!String.IsNullOrEmpty(include))
+            {
+                var includes = include.Split(",");
+                foreach (var inc in includes)
+                {
+                    query = query.Include(inc.Trim());
+                }
+            }
+            return query.ToList();
         }
 
         public Cateigory GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.Cateigorys.Find(id);
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return context.SaveChanges();
         }
 
         public void Update(Cateigory entity)
         {
-            throw new NotImplementedException();
+            context.Cateigorys.Update(entity);
         }
     }
 }

@@ -18,10 +18,16 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public List<Recipe> GetAll(string include = "")
         {
-            var recipes = Context.Recipes.Include(include).ToList();
-            if (recipes != null)
-                return recipes;
-            return null;
+            var query = Context.Recipes.AsQueryable();
+            if (!String.IsNullOrEmpty(include))
+            {
+                var includes = include.Split(",");
+                foreach (var inc in includes)
+                {
+                    query = query.Include(inc.Trim());
+                }
+            }
+            return query.ToList();
         }
 
         //public Recipe getByCategoryId(int categoryId)
@@ -50,22 +56,23 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return Context.SaveChanges();
         }
 
         public void Update(Recipe entity)
         {
-            throw new NotImplementedException();
+            Context.Recipes.Update(entity);
         }
 
         public void Add(Recipe entity)
         {
-            throw new NotImplementedException();
+            Context.Recipes.Add(entity);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Recipe rec = GetById(id);
+            Context.Recipes.Remove(rec);
         }
 
         public List<Recipe> getByMenuId(int menuId)

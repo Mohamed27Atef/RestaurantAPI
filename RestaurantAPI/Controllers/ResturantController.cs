@@ -5,6 +5,8 @@ using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository.LocationRepository;
 using RestaurantAPI.Repository.ProductRepository;
+using RestaurantAPI.Repository.RestaurantCateigoryRespository;
+using RestaurantAPI.Repository.RestaurantImageRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -17,11 +19,18 @@ namespace RestaurantAPI.Controllers
 
         private readonly IResturanrRepo resturantRepository;
         private readonly ImageService imageService;
+        private readonly IRestaurantImageRepository iRestaurantImageRepository;
+        private readonly IRestaurantCateigoryRepository iRestaurantCateigoryRepository;
 
-        public ResturantController(IResturanrRepo resturantRepository, ImageService imageService)
+        public ResturantController(IResturanrRepo resturantRepository,
+            ImageService imageService, IRestaurantCateigoryRepository iRestaurantCateigoryRepository,
+            IRestaurantImageRepository iRestaurantImageRepository)
         {
             this.resturantRepository = resturantRepository;
             this.imageService = imageService;
+            this.iRestaurantCateigoryRepository = iRestaurantCateigoryRepository;
+            this.iRestaurantImageRepository = iRestaurantImageRepository;
+
         }
         //get
 
@@ -182,39 +191,70 @@ namespace RestaurantAPI.Controllers
 
 
         //post 
-
-        [HttpPost]
+        //[HttpPost()]
+        //public ActionResult PostResturant()
+        //{
+        //    return Ok();
+        //}
+        [HttpPost()]
         public ActionResult PostResturant([FromBody] ResturantDto resturantDto)
         {
-            if (resturantDto == null)
+            if (resturantDto is null)
             {
                 return BadRequest("Invalid resturant data.");
             }
 
+
+
             Resturant resturant = new Resturant()
             {
-                id = resturantDto.id,
+                email = resturantDto.email,
+                Password = resturantDto.Password,
                 Name = resturantDto.Name,
                 Address = resturantDto.Address,
                 Cusinetype = resturantDto.Cusinetype,
                 Longitude = resturantDto.Longitude,
                 Latitude = resturantDto.Latitude,
-                Rate = resturantDto.Rate,
                 OpenHours = resturantDto.OpenHours,
                 ClosingHours = resturantDto.ClosingHours,
+
+                Image = resturantDto.Image,
+                Description = resturantDto.Description,
+                phone = resturantDto.phone,
+
                 phone = resturantDto.phone,
                 Image = resturantDto.Image,
                 email = resturantDto.email
 
+
             };
-            
+
             resturantRepository.Add(resturant);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
             {
+
+                foreach (var categoryId in resturantDto.RestaurantCategories)
+                {
+                    var resCategory = iRestaurantCateigoryRepository.GetByIdAndResutrantId(categoryId, resturant.id);
+                    if (resCategory is null)
+                    {
+                        RestaurantCateigory resCat = new RestaurantCateigory { RestaurantId = resturant.id, CategoryId = categoryId };
+                        this.iRestaurantCateigoryRepository.Add(resCat);
+                        this.iRestaurantCateigoryRepository.SaveChanges();
+                    }
+                }
+
+                foreach (var imagUrl in resturantDto.images)
+                {
+                    RestaurantImage resImg = new RestaurantImage { restaurantId = resturant.id, imageUrl = imagUrl };
+                    this.iRestaurantImageRepository.Add(resImg);
+                    this.iRestaurantImageRepository.SaveChanges();
+                }
+
                 return CreatedAtAction("getById", new { id = resturant.id }, resturant);
             }
-                
+
 
             return NotFound("Restaurant creation failed.");
         }

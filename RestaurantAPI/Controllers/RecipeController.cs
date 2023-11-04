@@ -5,7 +5,7 @@ using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.results;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
-using RestaurantAPI.Repository.ProductRepository;
+using RestaurantAPI.Repository.RecipeImageRespository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -13,10 +13,14 @@ namespace RestaurantAPI.Controllers
     public class RecipeController : BaseApiClass
     {
         private readonly IRecipeRepository _recipeRepository;
+        private readonly IRecipeImageRespository iRecipeImageRespository;
 
-        public RecipeController(IRecipeRepository recipeRepository)
+
+        public RecipeController(IRecipeRepository recipeRepository, IRecipeImageRespository iRecipeImageRespository)
         {
             this._recipeRepository = recipeRepository;
+            this.iRecipeImageRespository = iRecipeImageRespository;
+
         }
         
         [HttpGet("search/{name}")]
@@ -106,26 +110,40 @@ namespace RestaurantAPI.Controllers
         }
 
 
-        //[HttpPost()]
-        //public ActionResult CreateRecipe([FromBody] RecipeDto recipeDto)
-        //{
-        //    if (recipeDto == null)
-        //        return BadRequest("Invalid data");
+        [HttpPost()]
+        public ActionResult CreateRecipe([FromBody] RecipeDto recipeDto)
+        {
+            if (recipeDto == null)
+                return BadRequest("Invalid data");
 
-        //    Recipe recipe = new Recipe()
-        //    {
-        //        //recipteImages = recipeDto.RecipeImages,
-        //        menuId = recipeDto.menuId,
-        //        Description = recipeDto.Description,
-        //        name = recipeDto.Name,
-        //        Price = recipeDto.Price,
-        //    };
+            Recipe recipe = new Recipe()
+            {
+                //recipteImages = recipeDto.RecipeImages,
+                Description = recipeDto.Description,
+                name = recipeDto.Name,
+                Price = recipeDto.Price,
+                imageUrl = recipeDto.imageUrl,
+                menuId = recipeDto.menuId
+            };
 
-        //    _recipeRepository.Add(recipe);
-        //    _recipeRepository.SaveChanges();
+            _recipeRepository.Add(recipe);
+           int Raws= _recipeRepository.SaveChanges();
 
-        //    return Created("",recipe); // get the url.....
-        //}
+            if (Raws > 0)
+            {
+
+                foreach (var imagUrl in recipeDto.images)
+                {
+                    RecipeImage resImg = new RecipeImage { RecipeId = recipe.id, Image = imagUrl };
+                    this.iRecipeImageRespository.Add(resImg);
+                    this.iRecipeImageRespository.SaveChanges();
+                }
+
+                return Created("", recipe); // get the url.....
+            }
+            return NotFound("Recipe creation failed.");
+
+        }
 
 
         //[HttpPut("{id}")]
