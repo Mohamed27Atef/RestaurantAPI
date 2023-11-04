@@ -88,10 +88,10 @@ namespace RestaurantAPI.Controllers
 
         [HttpGet("getCartItemsOrderd/{orderId}")]
         [Authorize]
-        public ActionResult getCartItemsByOrderId(int orderId)
+        public ActionResult getCartItemsByOrderId(int orderId, int resraurantId)
         {
             Cart cart = IcartRepo.getCatByOrderId(orderId);
-            List<CartItem> items = cartItemRepository.GetAllByCartId(cart.id);
+            List<CartItem> items = cartItemRepository.GetAllByCartIdAndRestaurantId(cart.id, resraurantId);
             List<CartItemDto> cartItemDto = new List<CartItemDto>();
 
             foreach (var item in items)
