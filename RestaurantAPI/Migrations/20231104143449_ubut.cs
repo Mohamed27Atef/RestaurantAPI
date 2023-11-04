@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestaurantAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class ubut : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,20 +70,6 @@ namespace RestaurantAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    totalPrice = table.Column<decimal>(type: "money", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carts", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cateigorys",
                 columns: table => new
                 {
@@ -139,7 +125,6 @@ namespace RestaurantAPI.Migrations
                     Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     OpenHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ClosingHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -299,20 +284,16 @@ namespace RestaurantAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    ResturantId = table.Column<int>(type: "int", nullable: false)
+                    Resturantid = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeliveryMen", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeliveryMen_Resturants_ResturantId",
-                        column: x => x.ResturantId,
+                        name: "FK_DeliveryMen_Resturants_Resturantid",
+                        column: x => x.Resturantid,
                         principalTable: "Resturants",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -422,24 +403,28 @@ namespace RestaurantAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartUsers",
+                name: "Orders",
                 columns: table => new
                 {
-                    user_id = table.Column<int>(type: "int", nullable: false),
-                    cart_id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "money", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartUsers", x => new { x.user_id, x.cart_id });
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartUsers_Carts_cart_id",
-                        column: x => x.cart_id,
-                        principalTable: "Carts",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Orders_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CartUsers_Users_user_id",
-                        column: x => x.user_id,
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
@@ -468,52 +453,6 @@ namespace RestaurantAPI.Migrations
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ResturantFeedbacks_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "money", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CartId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true),
-                    coponid = table.Column<int>(type: "int", nullable: true),
-                    DeliveryManId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Copons_coponid",
-                        column: x => x.coponid,
-                        principalTable: "Copons",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Orders_DeliveryMen_DeliveryManId",
-                        column: x => x.DeliveryManId,
-                        principalTable: "DeliveryMen",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "id",
@@ -582,36 +521,27 @@ namespace RestaurantAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartItems",
+                name: "Carts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "money", nullable: false),
-                    CartId = table.Column<int>(type: "int", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    ResturantId = table.Column<int>(type: "int", nullable: false)
+                    totalPrice = table.Column<decimal>(type: "money", nullable: false),
+                    userId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.PrimaryKey("PK_Carts", x => x.id);
                     table.ForeignKey(
-                        name: "FK_CartItems_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        name: "FK_Carts_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_CartItems_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipes",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_CartItems_Resturants_ResturantId",
-                        column: x => x.ResturantId,
-                        principalTable: "Resturants",
+                        name: "FK_Carts_Users_userId",
+                        column: x => x.userId,
+                        principalTable: "Users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -658,6 +588,41 @@ namespace RestaurantAPI.Migrations
                         name: "FK_RecipeImages_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "money", nullable: false),
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: false),
+                    ResturantId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Resturants_ResturantId",
+                        column: x => x.ResturantId,
+                        principalTable: "Resturants",
                         principalColumn: "id",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -717,21 +682,19 @@ namespace RestaurantAPI.Migrations
                 column: "ResturantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartUsers_cart_id",
-                table: "CartUsers",
-                column: "cart_id",
-                unique: true);
+                name: "IX_Carts_OrderId",
+                table: "Carts",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartUsers_user_id",
-                table: "CartUsers",
-                column: "user_id",
-                unique: true);
+                name: "IX_Carts_userId",
+                table: "Carts",
+                column: "userId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeliveryMen_ResturantId",
+                name: "IX_DeliveryMen_Resturantid",
                 table: "DeliveryMen",
-                column: "ResturantId");
+                column: "Resturantid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Menus_restaurantId",
@@ -744,22 +707,6 @@ namespace RestaurantAPI.Migrations
                 column: "AddressId",
                 unique: true,
                 filter: "[AddressId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_CartId",
-                table: "Orders",
-                column: "CartId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_coponid",
-                table: "Orders",
-                column: "coponid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_DeliveryManId",
-                table: "Orders",
-                column: "DeliveryManId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -851,13 +798,13 @@ namespace RestaurantAPI.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "CartUsers");
-
-            migrationBuilder.DropTable(
                 name: "ClosingDays");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Copons");
+
+            migrationBuilder.DropTable(
+                name: "DeliveryMen");
 
             migrationBuilder.DropTable(
                 name: "RecipeFeedbacks");
@@ -884,16 +831,7 @@ namespace RestaurantAPI.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
-
-            migrationBuilder.DropTable(
                 name: "Carts");
-
-            migrationBuilder.DropTable(
-                name: "Copons");
-
-            migrationBuilder.DropTable(
-                name: "DeliveryMen");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
@@ -908,16 +846,22 @@ namespace RestaurantAPI.Migrations
                 name: "Tables");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Menus");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Resturants");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

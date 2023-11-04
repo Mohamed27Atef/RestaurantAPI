@@ -73,7 +73,6 @@ namespace RestaurantAPI.Controllers
                     Name = resturant.Name,
                     OpenHours = resturant.OpenHours,
                     Rate = resturant.Rate,
-                    email = resturant.email,
                     phone = resturant.phone
                 };
 
@@ -202,7 +201,10 @@ namespace RestaurantAPI.Controllers
                 Latitude = resturantDto.Latitude,
                 Rate = resturantDto.Rate,
                 OpenHours = resturantDto.OpenHours,
+                ClosingHours = resturantDto.ClosingHours,
+                phone = resturantDto.phone,
                 Image = resturantDto.Image,
+                email = resturantDto.email
 
             };
             

@@ -79,7 +79,7 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("getOrderByReataurantId/{restaurantId}")]
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public ActionResult getOrderByReataurantId(int restaurantId)
         {
             List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(restaurantId).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
@@ -99,6 +99,7 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPut("updateStatus/{orderId}")]
+        [Authorize(Roles = "admin")]
         public ActionResult updateStatus(int orderId, [FromBody] string status)
         {
             Order order = IorderRepo.GetById(orderId);
@@ -205,6 +206,7 @@ namespace RestaurantAPI.Controllers
 
         }
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public ActionResult UpdateOrder(int id,[FromBody] OrderDTO orderDto)
         {
             if (orderDto == null)

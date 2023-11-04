@@ -28,9 +28,7 @@ namespace RestaurantAPI.Models
 
         [Range(0, 24, ErrorMessage = "Closing hours must be between 0 and 24.")]
         public decimal ClosingHours { get; set; }
-
-        [Required]
-        public string email { get; set; } // check if it is a valid email
+        public string email { get; set; }
 
         public string Image { get; set; }
         public string phone { get; set; }

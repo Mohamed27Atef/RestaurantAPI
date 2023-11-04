@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231103131656_tits")]
-    partial class tits
+    [Migration("20231104143845_w")]
+    partial class w
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -371,17 +371,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<int>("NumberOfUser")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Copons");
                 });
@@ -892,17 +886,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Resturant");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.Copon", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Order", "Order")
-                        .WithOne("copon")
-                        .HasForeignKey("RestaurantAPI.Models.Copon", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Resturant", null)
@@ -1115,11 +1098,6 @@ namespace RestaurantAPI.Migrations
             modelBuilder.Entity("RestaurantAPI.Models.Menu", b =>
                 {
                     b.Navigation("Recipes");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.Order", b =>
-                {
-                    b.Navigation("copon");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>
