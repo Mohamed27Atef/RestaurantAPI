@@ -53,5 +53,13 @@ namespace RestaurantAPI.Repository.ResturantFeedBackRepository
             Context.ResturantFeedbacks.Update(entity);
         }
 
+
+        public List<ResturantFeedback> GetReviewsForRestaurant(int restaurantId)
+        {
+            return Context.ResturantFeedbacks
+                .Where(feedback => feedback.ResturantId == restaurantId)
+                .ToList();
+        }
+
     }
 }

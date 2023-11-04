@@ -17,10 +17,10 @@ namespace RestaurantAPI.Models
         public string? Location { get; set; }
 
 
-        public virtual CartUser? cartUser { get; set; }
         public virtual ICollection<UserTable>? userTable { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
+        public virtual ICollection<Cart>? carts { get; set; } = new List<Cart>();
         public virtual ICollection<RecipeFeedback>? RecipeFeedbacks { get; set; } = new List<RecipeFeedback>();
         public virtual ICollection<ResturantFeedback>? ResturantFeedbacks { get; set; } = new List<ResturantFeedback>();
     }

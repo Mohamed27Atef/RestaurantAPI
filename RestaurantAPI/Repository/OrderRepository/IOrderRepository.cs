@@ -8,5 +8,8 @@ namespace RestaurantAPI.Repository.OrderRepository
         
         public decimal GetOrderByIdTotalPrice(int id);
         public decimal GetAllOrderTotalPrice();
+        public List<Order> getAllByUserId(int userId);
+        IEnumerable<Order> getOrderByReataurantId(int reataurantId);
+        int getStatusId(string status);
     }
 }

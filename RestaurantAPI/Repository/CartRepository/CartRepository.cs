@@ -11,6 +11,14 @@ namespace RestaurantAPI.Repository.CartRepository
         {
             Context = context;
         }
+        public Cart getCartByUserId(int userId)
+        {
+            return Context.Carts.Where(u => u.userId == userId && u.OrderId == null).FirstOrDefault();
+        }
+        public Cart GetNonOrderedCartByUserId(int userId)
+        {
+            return Context.Carts.Where(u => (u.userId == userId && u.OrderId == null)).FirstOrDefault();
+        }
 
         public void Add(Cart entity)
         {
@@ -42,6 +50,10 @@ namespace RestaurantAPI.Repository.CartRepository
             return Context.Carts.FirstOrDefault(r => r.id == id);
         }
 
+        public Cart getCatByOrderId(int orderId)
+        {
+            return Context.Carts.FirstOrDefault(r => r.OrderId == orderId);
+        }
 
         public int SaveChanges()
         {

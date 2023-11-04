@@ -33,6 +33,12 @@ namespace RestaurantAPI.Repository
             return context.CartItems.Where(r => r.CartId == cartId).Include(r=>r.Cart).Include(r => r.Resturant).Include(r => r.Recipe).ToList();
         }
 
+        public List<CartItem> GetAllByCartIdAndRestaurantId(int cartId, int restaurantId)
+        {
+            return context.CartItems.Where(r => r.CartId == cartId && r.ResturantId == restaurantId).Include(r => r.Cart).Include(r => r.Resturant).Include(r => r.Recipe).ToList();
+
+        }
+
         public CartItem GetById(int id)
         {
             return context.CartItems.FirstOrDefault(c => c.Id == id);

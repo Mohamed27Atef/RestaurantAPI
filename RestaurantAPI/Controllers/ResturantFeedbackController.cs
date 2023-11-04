@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto.RecipeFeedBack;
 using RestaurantAPI.Dto.ResturantFeedback;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
 using RestaurantAPI.Repository.ResturantFeedBackRepository;
 
@@ -11,35 +12,34 @@ namespace RestaurantAPI.Controllers
     public class ResturantFeedbackController : BaseApiClass
     {
         private readonly IResturantFeedBackRepository iResturantFeedBackRepository;
+        private readonly IUserRepository iUserRepository;
 
-        public ResturantFeedbackController(IResturantFeedBackRepository iResturantFeedBackRepository)
+        public ResturantFeedbackController(IResturantFeedBackRepository iResturantFeedBackRepository, IUserRepository _IUserRepository)
         {
             this.iResturantFeedBackRepository = iResturantFeedBackRepository;
-
+            iUserRepository = _IUserRepository;
         }
 
 
         //get
-
-        [HttpGet()]
-        public ActionResult getAll()
+        [HttpGet("restaurant/{restaurantId}")]
+        public ActionResult<IEnumerable<ResturantFeedbackDto>> GetReviewsForRestaurant(int restaurantId)
         {
-            var alliResturantFeedBacks = iResturantFeedBackRepository.GetAll();
-            List<ResturantFeedbackDto> resturantFeedbackDtos = new List<ResturantFeedbackDto>();
-            if (alliResturantFeedBacks != null)
+            var restaurantReviews = iResturantFeedBackRepository.GetReviewsForRestaurant(restaurantId);
+
+            if (restaurantReviews != null && restaurantReviews.Any())
             {
-                foreach (var item in resturantFeedbackDtos)
-                {
-                    resturantFeedbackDtos.Add(new ResturantFeedbackDto()
+                List<ResturantFeedbackDto> resturantFeedbackDtos = restaurantReviews
+                    .Select(item => new ResturantFeedbackDto
                     {
-                        Id = item.Id,
-                        Text = item.Text,
+                        Id = item.id,
+                        Text = item.text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
                         ResturantId = item.ResturantId,
-                        UserId = item.UserId,
-                    });
-                }
+                        //UserId = item.UserId,
+                    })
+                    .ToList();
                 return Ok(resturantFeedbackDtos);
             }
 
@@ -55,7 +55,6 @@ namespace RestaurantAPI.Controllers
 
             return NotFound();
         }
-
         //post 
 
         [HttpPost]
@@ -72,7 +71,9 @@ namespace RestaurantAPI.Controllers
                 text = resturantFeedbackDto.Text,
                 Rate = resturantFeedbackDto.Rate,
                 PostDate = resturantFeedbackDto.PostDate,
-                UserId = resturantFeedbackDto.UserId,
+
+                UserId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
+
                 ResturantId = resturantFeedbackDto.ResturantId
             };
 
@@ -104,7 +105,6 @@ namespace RestaurantAPI.Controllers
             resturantFeedback.text = resturantFeedbackDto.Text;
             resturantFeedback.Rate = resturantFeedbackDto.Rate;
             resturantFeedback.PostDate = resturantFeedbackDto.PostDate;
-            resturantFeedback.UserId = resturantFeedbackDto.UserId;
             resturantFeedback.ResturantId = resturantFeedbackDto.ResturantId;
             ;
 
