@@ -53,7 +53,7 @@ namespace RestaurantAPI.Models
         public int? AddressId { get; set; }
         public virtual Address? Address { get; set; }
 
-        public virtual Copon? copon { get; set; }
+        //public virtual Copon? copon { get; set; }
 
 
     }

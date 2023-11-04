@@ -15,9 +15,10 @@ namespace RestaurantAPI.Models
 
         [Range(0, 100, ErrorMessage = "Discount percentage must be between 0 and 100.")]
         public decimal DiscountPercentage { get; set; }
-        [ForeignKey("Order")]
-        public int OrderId { get; set; }
 
-        public virtual Order? Order { get; set; }
+        //[ForeignKey("Order")]
+        //public int OrderId { get; set; }
+
+        //public virtual Order? Order { get; set; }
     }
 }

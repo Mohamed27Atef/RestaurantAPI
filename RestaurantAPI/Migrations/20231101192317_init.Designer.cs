@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Models;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20231101192317_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,12 +400,26 @@ namespace RestaurantAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Resturantid")
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResturantId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Resturantid");
+                    b.HasIndex("ResturantId");
 
                     b.ToTable("DeliveryMen");
                 });
@@ -468,6 +485,10 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeliveryManId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -484,7 +505,14 @@ namespace RestaurantAPI.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique()
-          
+                        .HasFilter("[AddressId] IS NOT NULL");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
+                    b.HasIndex("DeliveryManId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("coponid");
 
@@ -904,9 +932,13 @@ namespace RestaurantAPI.Migrations
 
             modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
                 {
-                    b.HasOne("RestaurantAPI.Models.Resturant", null)
+                    b.HasOne("RestaurantAPI.Models.Resturant", "Resturant")
                         .WithMany("DeliveryMen")
-                        .HasForeignKey("Resturantid");
+                        .HasForeignKey("ResturantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Resturant");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Menu", b =>
@@ -931,6 +963,10 @@ namespace RestaurantAPI.Migrations
                         .HasForeignKey("RestaurantAPI.Models.Order", "CartId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("RestaurantAPI.Models.DeliveryMan", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("DeliveryManId");
 
                     b.HasOne("RestaurantAPI.Models.User", "User")
                         .WithMany("Orders")
@@ -1125,6 +1161,11 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("CartUser");
 
                     b.Navigation("order");
+                });
+
+            modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Feature", b =>
