@@ -7,5 +7,7 @@ namespace RestaurantAPI.Repository
     {
         List<UserTable> GetAllByRestaurantId(int restaurantId);
         List<UserTable> GetAllByUserId(int userId);
+        List<UserTable> GetAllBy(int restaurantId);
+
     }
 }

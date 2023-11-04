@@ -11,7 +11,10 @@ namespace RestaurantAPI.Repository.ProductRepository
             Context = context;
         }
 
-
+        public List<Recipe> GetByName(string name)
+        {
+            return Context.Recipes.Where(recipe => recipe.name.Contains(name)).ToList();
+        }
 
         public List<Recipe> GetAll(string include = "")
         {
@@ -37,7 +40,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public Recipe GetById(int id)
         {
-            var recipe = Context.Recipes.Where(r=>r.id == id).Include(r => r.recipteImages).Include(r => r.Menu).FirstOrDefault();
+            var recipe = Context.Recipes.Where(r=>r.id == id).Include(r => r.recipteImages).Include(r => r.Menu).ThenInclude(r => r.restaurant).FirstOrDefault();
             if (recipe != null)
                 return recipe;
             return null;
@@ -76,5 +79,12 @@ namespace RestaurantAPI.Repository.ProductRepository
         {
             return Context.Recipes.Where(r => r.menuId == menuId).ToList();
         }
+
+        public List<string> getRecipeImages(int id)
+        {
+            return Context.RecipeImages.Where(r => r.RecipeId == id).Select(r => r.Image).ToList();
+        }
+
+
     }
 }

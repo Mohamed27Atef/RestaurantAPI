@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\NewFolder\**" />
     <Compile Remove="Images\**" />
     <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="Controllers\NewFolder\**" />
     <Content Remove="Images\**" />
     <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
     <EmbeddedResource Remove="Images\**" />
     <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
     <None Remove="Images\**" />
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>

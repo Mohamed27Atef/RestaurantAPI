@@ -14,7 +14,9 @@ namespace RestaurantAPI.Dto
         public string menuName { get; set; }
         public int menuId { get; set; }
         public List<string> images { get; set; } = new List<string>();
-        //public List<int> menus { get; set; } = new List<int>();
+        public string restaurantName { get; set; }
+        public int restaurantId { get; set; }
+        public decimal rate { get; set; }
 
 
     }

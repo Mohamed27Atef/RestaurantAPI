@@ -5,11 +5,11 @@ namespace RestaurantAPI.Models
 {
     public enum OrderStatus
     {
-        Pending,
-        Confirmed,
-        Shipped,
-        Delivered,
-        Canceled
+        processed = 0,
+        shipped = 1,
+        enRoute = 2,
+        arrived = 3,
+        Canceled = 4
     }
 
     public enum DeliveryMethod
@@ -42,29 +42,11 @@ namespace RestaurantAPI.Models
         [Column(TypeName = "money")]
         public decimal TotalPrice { get; set; }
 
-        //[Required]
-        //public DeliveryMethod DeliveryMethod { get; set; }
-
-        //[Required]
-        //public PaymentMethod PaymentMethod { get; set; }
-
-        //public DateTime? DeliveryTime { get; set; }
-
 
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User? User { get; set; }
-
-        //[Required]
-        //[ForeignKey("Deliveryman")]
-        //public int? DeliveryId { get; set; }
-        //public virtual DeliveryMan? Deliveryman { get; set; }
-
-        //[Required]
-        //[ForeignKey("Cart")]
-        public int CartId { get; set; }
-        public virtual Cart? Cart { get; set; }
 
 
         [ForeignKey("Address")]
