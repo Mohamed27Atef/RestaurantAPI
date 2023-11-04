@@ -217,7 +217,6 @@ namespace RestaurantAPI.Controllers
                 Latitude = resturantDto.Latitude,
                 OpenHours = resturantDto.OpenHours,
                 ClosingHours = resturantDto.ClosingHours,
-
                 Image = resturantDto.Image,
                 Description = resturantDto.Description,
                 phone = resturantDto.phone,

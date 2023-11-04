@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231104143845_w")]
-    partial class w
+    [Migration("20231104163536_wd")]
+    partial class wd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -598,7 +598,6 @@ namespace RestaurantAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ClosingHours")
@@ -607,6 +606,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<string>("Cusinetype")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -624,6 +628,10 @@ namespace RestaurantAPI.Migrations
 
                     b.Property<decimal>("OpenHours")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18,2)");

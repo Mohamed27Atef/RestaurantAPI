@@ -469,10 +469,7 @@ namespace RestaurantAPI.Migrations
                         .IsUnique()
                         .HasFilter("[AddressId] IS NOT NULL");
 
-
-
                     b.HasIndex("UserId");
-
 
                     b.ToTable("Orders");
                 });
@@ -598,7 +595,6 @@ namespace RestaurantAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ClosingHours")

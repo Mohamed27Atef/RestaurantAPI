@@ -94,5 +94,10 @@ namespace RestaurantAPI.Repository.OrderRepository
                 default: return -1;
             }
         }
+
+        public List<Order> getOrderOfUsresByRestaurant( int userId)
+        {
+            Context.CartItems.Include(r => r.Cart).Where(r => r.Cart.userId == userId && r.Cart.OrderId != null)
+        }
     }
 }

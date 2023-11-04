@@ -11,5 +11,6 @@ namespace RestaurantAPI.Repository.OrderRepository
         public List<Order> getAllByUserId(int userId);
         IEnumerable<Order> getOrderByReataurantId(int reataurantId);
         int getStatusId(string status);
+        List<Order> getOrderOfUsresByRestaurant(int userId);
     }
 }
