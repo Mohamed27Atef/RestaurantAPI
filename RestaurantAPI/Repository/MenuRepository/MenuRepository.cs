@@ -24,7 +24,16 @@ namespace RestaurantAPI.Repository
 
         public List<Menu> GetAll(string include = "")
         {
-            throw new NotImplementedException();
+            var query = context.Menus.AsQueryable();
+            if (!String.IsNullOrEmpty(include))
+            {
+                var includes = include.Split(",");
+                foreach (var inc in includes)
+                {
+                    query = query.Include(inc.Trim());
+                }
+            }
+            return query.ToList();
         }
 
         public Menu GetById(int id)

@@ -20,7 +20,31 @@ namespace RestaurantAPI.Controllers
             MenuRepository = menuRepository;
             this.resturanrRepo = resturanrRepo;
         }
+        [HttpGet()]
+        public ActionResult getMenu()
+        {
+            
+            var menus = MenuRepository.GetAll();
+            if(menus is null)
+            {
+                return BadRequest();
+            }
+                List<RecipeDto> recipeDtos = new List<RecipeDto>();
+                List<MenuDto> menuDto = new();
+                foreach (var item in menus)
+                {
+                MenuDto oneMenuDTO = new MenuDto
+                {
+                    id = item.id,
+                    title = item.title
+                };
 
+                menuDto.Add(oneMenuDTO);
+            }
+
+                return Ok(menuDto);
+          
+        }
 
         [HttpGet("{restaurantId}")]
         public ActionResult getMenuByRestaurantId(int restaurantId)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace RestaurantAPI.Models
 {
@@ -12,6 +13,7 @@ namespace RestaurantAPI.Models
 
         [ForeignKey("Resturant")]
         public int RestaurantId { get; set; }
+        [JsonIgnore]
 
         public virtual Resturant? Resturant { get; set; }
 

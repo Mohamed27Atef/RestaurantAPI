@@ -9,10 +9,13 @@ namespace RestaurantAPI.Models
         [Required(ErrorMessage = "Restaurant name is required.")]
         public string Name { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         [Required(ErrorMessage = "Cuisine type is required.")]
         public string? Cusinetype { get; set; }
+
+        [MaxLength(1000)]
+        public string Description { get; set; }
 
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180.")]
         public decimal? Longitude { get; set; }
@@ -31,7 +34,7 @@ namespace RestaurantAPI.Models
 
         [Required]
         public string email { get; set; } // check if it is a valid email
-
+        public string  Password { get; set; }
         public string Image { get; set; }
         public string phone { get; set; }
 
