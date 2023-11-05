@@ -38,9 +38,16 @@ namespace RestaurantAPI.Repository.RestaurantImageRepository
 
         public RestaurantImage GetById(int id)
         {
-            return Context.RestaurantImages.Find(id);
+            return Context.RestaurantImages.FirstOrDefault(r=> r.restaurantId == id);
         }
-
+        public RestaurantImage GetByIdAndImg(int id,string img)
+        {
+            return Context.RestaurantImages.FirstOrDefault(r => r.restaurantId == id && r.imageUrl == img);
+        }
+        public List<RestaurantImage> GetAllById(int id)
+        {
+            return Context.RestaurantImages.Where(r => r.restaurantId == id).ToList();
+        }
         public int SaveChanges()
         {
             return Context.SaveChanges();

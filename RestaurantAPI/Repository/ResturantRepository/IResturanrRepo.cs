@@ -6,6 +6,7 @@ namespace RestaurantAPI.Repository.ResturantRepository
 {
     public interface IResturanrRepo:IGenericRepository<Resturant>
     {
+        public Resturant getByAppId(string appId);
         public List<ResturantDto> getByAddress(string address);
         public IEnumerable<ResturantDto> getByCategoryId(int category_id);
         public List<ResturantDto> getByNameAndCategoryId(string name, int categoryId);

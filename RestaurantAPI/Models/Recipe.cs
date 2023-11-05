@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace RestaurantAPI.Models
 {
@@ -30,11 +31,12 @@ namespace RestaurantAPI.Models
 
         [ForeignKey("Menu")]
         public int menuId { get; set; }
-
+      
         public virtual Menu? Menu { get; set; }
-
+       
         public virtual List<RecipeFeedback>? RecipeFeedbacks { get; set; }
 
+       
         public virtual List<RecipeImage>? recipteImages{ get; set; } = new List<RecipeImage>();
 
 
