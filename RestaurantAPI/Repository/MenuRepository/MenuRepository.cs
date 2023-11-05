@@ -12,9 +12,16 @@ namespace RestaurantAPI.Repository
             this.context = context;
         }
 
+
         public void Add(Menu entity)
         {
-            throw new NotImplementedException();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            context.Menus.Add(entity);
+            context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -59,8 +66,9 @@ namespace RestaurantAPI.Repository
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return context.SaveChanges(); 
         }
+
 
         public void Update(Menu entity)
         {

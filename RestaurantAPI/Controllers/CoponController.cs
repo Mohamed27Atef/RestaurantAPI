@@ -33,5 +33,20 @@ namespace RestaurantAPI.Controllers
             return Ok(copon);
         }
 
+        [HttpPost]
+        public IActionResult Create([FromBody] Copon copon)
+        {
+            if (copon is null)
+            {
+                return BadRequest("Invalid coupon data.");
+            }
+
+
+            iCuponRepository.Add(copon);
+            iCuponRepository.SaveChanges();
+
+            return CreatedAtAction("getByName", new { name = copon.Text }, copon);
+        }
+
     }
 }
