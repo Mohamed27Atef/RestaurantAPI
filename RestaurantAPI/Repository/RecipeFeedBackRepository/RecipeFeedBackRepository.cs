@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RestaurantAPI.Repository.RecipeFeedBackRepository
 {
-    public class RecipeFeedBackRepository: IRecipeFeedBackRepository
+    public class RecipeFeedBackRepository : IRecipeFeedBackRepository
     {
         private readonly RestaurantContext Context;
+
         public RecipeFeedBackRepository(RestaurantContext context)
         {
             Context = context;
@@ -15,20 +19,25 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
         {
             Context.RecipeFeedbacks.Add(entity);
         }
-        public int getNumberOfRecipeReview(int id)
+
+        public int GetNumberOfRecipeReview(int id)
         {
             return Context.RecipeFeedbacks.Where(r => r.RecipeId == id).Count();
         }
+
         public void Delete(int id)
         {
             RecipeFeedback recipeFeedback = Context.RecipeFeedbacks.FirstOrDefault(r => r.id == id);
-            Context.RecipeFeedbacks.Remove(recipeFeedback);
+            if (recipeFeedback != null)
+            {
+                Context.RecipeFeedbacks.Remove(recipeFeedback);
+            }
         }
 
         public List<RecipeFeedback> GetAll(string include = "")
         {
             var query = Context.RecipeFeedbacks.AsQueryable();
-            if (!String.IsNullOrEmpty(include))
+            if (!string.IsNullOrEmpty(include))
             {
                 var includes = include.Split(",");
                 foreach (var inc in includes)
@@ -54,5 +63,11 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
             Context.RecipeFeedbacks.Update(entity);
         }
 
+        public List<RecipeFeedback> GetReviewsForRecipe(int recipeId)
+        {
+            return Context.RecipeFeedbacks
+                .Where(r => r.RecipeId == recipeId)
+                .ToList();
+        }
     }
 }
