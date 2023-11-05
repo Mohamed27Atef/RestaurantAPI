@@ -1,158 +1,137 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.RecipeFeedBack;
+using System.Security.Claims;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
-using RestaurantAPI.Repository.ResturantRepository;
-using RestaurantAPI.Services;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RestaurantAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeFeedBackController : BaseApiClass
+    public class RecipeFeedbackController : BaseApiClass
     {
- 
-        private readonly IRecipeFeedBackRepository iRecipeFeedBackRepository;
+        private readonly IRecipeFeedBackRepository _recipeFeedbackRepository;
+        private readonly IUserRepository iUserRepository;
 
-        public RecipeFeedBackController(IRecipeFeedBackRepository iRecipeFeedBackRepository)
+
+        public RecipeFeedbackController(IRecipeFeedBackRepository recipeFeedbackRepository, IUserRepository iUserRepository)
         {
-            this.iRecipeFeedBackRepository = iRecipeFeedBackRepository;
-       
+            _recipeFeedbackRepository = recipeFeedbackRepository;
+            this.iUserRepository = iUserRepository;
         }
 
-        [HttpGet("getNumberOfReview/{recipeId}")]
-        public ActionResult getNumberOfReview(int recipeId)
+        [HttpGet("recipe/{recipeId}")]
+        public ActionResult<IEnumerable<RecipeFeedbackDto>> GetReviewsForRecipe(int recipeId)
         {
-            var r = iRecipeFeedBackRepository.getNumberOfRecipeReview(recipeId);
-            return Ok(r);
-        }
+            var recipeReviews = _recipeFeedbackRepository.GetReviewsForRecipe(recipeId);
 
-        //get
-
-        [HttpGet()]
-        public ActionResult getAll()
-        {
-            var allRecipeFeedBacks = iRecipeFeedBackRepository.GetAll();
-            List<RecipeFeedbackDto> recipeFeedbackDtoDtos = new List<RecipeFeedbackDto>();
-            if (allRecipeFeedBacks != null)
+            if (recipeReviews != null && recipeReviews.Any())
             {
-                foreach (var item in allRecipeFeedBacks)
-                {
-                    recipeFeedbackDtoDtos.Add(new RecipeFeedbackDto()
+                List<RecipeFeedbackDto> recipeFeedbackDtos = recipeReviews
+                    .Select(item => new RecipeFeedbackDto
                     {
                         Id = item.id,
                         Text = item.text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
-                        UserId = item.userId,
-                        RecipeId =item.userId
-                    });
-                }
-                return Ok(recipeFeedbackDtoDtos);
+                        RecipeId = item.RecipeId
+                    })
+                    .ToList();
+                return Ok(recipeFeedbackDtos);
             }
 
             return NotFound();
         }
 
         [HttpGet("{id}")]
-        public ActionResult getById(int id)
+        public ActionResult GetById(int id)
         {
-            var recipeFeedBack = iRecipeFeedBackRepository.GetById(id);
-            if (recipeFeedBack != null)
-                return Ok(recipeFeedBack);
+            var recipeFeedback = _recipeFeedbackRepository.GetById(id);
+            if (recipeFeedback != null)
+                return Ok(recipeFeedback);
 
             return NotFound();
         }
 
-        //post 
-
         [HttpPost]
-        public ActionResult PostResturant([FromBody] RecipeFeedbackDto recipeFeedbackDto)
-        {
-            if (recipeFeedbackDto == null)
-            {
-                return BadRequest("Invalid RecipeFeedBack data.");
-            }
-
-            RecipeFeedback recipeFeedback = new RecipeFeedback()
-            {
-
-                text = recipeFeedbackDto.Text,
-                Rate = recipeFeedbackDto.Rate,
-                PostDate = recipeFeedbackDto.PostDate,
-                userId = recipeFeedbackDto.UserId,
-                RecipeId = recipeFeedbackDto.UserId
-            };
-
-            iRecipeFeedBackRepository.Add(recipeFeedback);
-            int Raws = iRecipeFeedBackRepository.SaveChanges();
-            if (Raws > 0)
-            {
-                return CreatedAtAction("getById", new { id = recipeFeedback.id }, recipeFeedback);
-            }
-
-
-            return NotFound("RecipeFeedBack creation failed.");
-        }
-
-
-        [HttpPut]
-        public ActionResult updateResturant([FromBody] RecipeFeedbackDto recipeFeedbackDto)
+        public ActionResult PostRecipeFeedback([FromBody] RecipeFeedbackDto recipeFeedbackDto)
         {
             if (recipeFeedbackDto == null)
             {
                 return BadRequest("Invalid RecipeFeedback data.");
             }
-            RecipeFeedback recipeFeedback = iRecipeFeedBackRepository.GetById(recipeFeedbackDto.Id);
+            string userId = GetUserIdFromClaims(); // Get the user's ID from claims
+
+
+            RecipeFeedback recipeFeedback = new RecipeFeedback
+            {
+                text = recipeFeedbackDto.Text,
+                Rate = recipeFeedbackDto.Rate,
+                PostDate = recipeFeedbackDto.PostDate,
+                userId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
+                RecipeId = recipeFeedbackDto.RecipeId
+
+            };
+
+            _recipeFeedbackRepository.Add(recipeFeedback);
+            int rowsAffected = _recipeFeedbackRepository.SaveChanges();
+            if (rowsAffected > 0)
+            {
+                return CreatedAtAction("GetById", new { id = recipeFeedback.id }, recipeFeedback);
+            }
+
+            return NotFound("RecipeFeedback creation failed.");
+        }
+
+        [HttpPut]
+        public ActionResult UpdateRecipeFeedback([FromBody] RecipeFeedbackDto recipeFeedbackDto)
+        {
+            if (recipeFeedbackDto == null)
+            {
+                return BadRequest("Invalid RecipeFeedback data.");
+            }
+            RecipeFeedback recipeFeedback = _recipeFeedbackRepository.GetById(recipeFeedbackDto.Id);
 
             if (recipeFeedback == null)
                 return NotFound("RecipeFeedback Not Found!");
 
-
             recipeFeedback.text = recipeFeedbackDto.Text;
             recipeFeedback.Rate = recipeFeedbackDto.Rate;
             recipeFeedback.PostDate = recipeFeedbackDto.PostDate;
-            recipeFeedback.userId = recipeFeedbackDto.UserId;
             recipeFeedback.RecipeId = recipeFeedbackDto.RecipeId;
-       ;
 
-            iRecipeFeedBackRepository.Update(recipeFeedback);
-            int Raws = iRecipeFeedBackRepository.SaveChanges();
-            if (Raws > 0)
+            _recipeFeedbackRepository.Update(recipeFeedback);
+            int rowsAffected = _recipeFeedbackRepository.SaveChanges();
+            if (rowsAffected > 0)
             {
                 return NoContent();
             }
 
-        
-            return NotFound("RecipeFeedback updated failed.");
+            return NotFound("RecipeFeedback update failed.");
         }
 
-        [HttpDelete]
-        public ActionResult deleteResturant(int id)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteRecipeFeedback(int id)
         {
             if (id < 0)
             {
                 return BadRequest("Invalid RecipeFeedback id.");
             }
 
-            var res = iRecipeFeedBackRepository.GetById(id);
+            var res = _recipeFeedbackRepository.GetById(id);
             if (res == null)
                 return NotFound("RecipeFeedback Not Found!");
 
-            iRecipeFeedBackRepository.Delete(id);
-            int Raws = iRecipeFeedBackRepository.SaveChanges();
-            if (Raws > 0)
+            _recipeFeedbackRepository.Delete(id);
+            int rowsAffected = _recipeFeedbackRepository.SaveChanges();
+            if (rowsAffected > 0)
             {
                 return NoContent();
             }
 
-
-            return NotFound("RecipeFeedback updated failed.");
+            return NotFound("RecipeFeedback delete failed.");
         }
-
     }
 }

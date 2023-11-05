@@ -6,5 +6,7 @@ namespace RestaurantAPI.Dto.Table
     {
         public int id { get; set; }
         public string tableType { get; set; }
+        public int ResturantId { get; set; }
+
     }
 }

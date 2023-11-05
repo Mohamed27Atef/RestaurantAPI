@@ -11,10 +11,9 @@ namespace RestaurantAPI.Repository
         {
             this.context = context;
         }
-
         public void Add(Table entity)
         {
-            throw new NotImplementedException();
+            context.Tables.Add(entity);
         }
 
         public int isAvailable(TableType tableType)

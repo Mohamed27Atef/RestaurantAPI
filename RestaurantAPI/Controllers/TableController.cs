@@ -93,6 +93,22 @@ namespace RestaurantAPI.Controllers
             return Ok(restauarantAdminReservationDtos);
         }
 
+        [HttpPost("createTable")]
+        //[Authorize]
+        public ActionResult CreateTable(TablerestaurantDto tableDto)
+        {
+            Table newTable = new Table
+            {
+                TableType = (TableType)Enum.Parse(typeof(TableType), tableDto.tableType),
+                ResturantId = tableDto.ResturantId,
+            };
+
+            tableRepository.Add(newTable);
+            tableRepository.SaveChanges();
+                
+            return Ok(tableDto);
+        }
+
 
     }
 }

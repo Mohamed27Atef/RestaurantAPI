@@ -7,5 +7,7 @@ namespace RestaurantAPI.Dto
     {
         public int id { get; set; }
         public string title { get; set; }
+        public int restaurantId { get; set; }
+
     }
 }

@@ -18,6 +18,7 @@ using RestaurantAPI.Repository.ResturantFeedBackRepository;
 using RestaurantAPI.Repository.RestaurantCateigoryRespository;
 using RestaurantAPI.Repository.RestaurantImageRepository;
 using RestaurantAPI.Repository.RecipeImageRespository;
+using RestaurantAPI.Repository.RecipeFeedBackRepository;
 
 namespace RestaurantAPI.Services
 {
@@ -25,6 +26,7 @@ namespace RestaurantAPI.Services
     {
         public static WebApplicationBuilder registerAllService(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<IRecipeFeedBackRepository, RecipeFeedBackRepository>();
             builder.Services.AddScoped<IRecipeRepository, RecipetRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IResturanrRepo, ResturantRepo>();

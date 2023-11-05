@@ -90,5 +90,28 @@ namespace RestaurantAPI.Controllers
 
             return Ok(recipeDtos);
         }
+
+
+        [HttpPost]
+        public ActionResult Create([FromBody] MenuDto menuDto)
+        {
+            if (menuDto is null)
+            {
+                return BadRequest("Invalid menu data.");
+            }
+
+            var menu = new Menu
+            {
+                title = menuDto.title,
+                restaurantId = menuDto.restaurantId
+
+            };
+
+
+            MenuRepository.Add(menu);
+            MenuRepository.SaveChanges();
+
+            return CreatedAtAction("getMenu", new { id = menu.id }, menu);
+        }
     }
 }
