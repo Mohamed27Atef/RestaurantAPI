@@ -30,6 +30,7 @@ namespace RestaurantAPI.Dto
         [Range(0, 24, ErrorMessage = "Open hours must be between 0 and 24.")]
         public decimal OpenHours { get; set; }
 
+
         public decimal ClosingHours { get; set; }
         public string phone { get; set; }
 
@@ -37,5 +38,11 @@ namespace RestaurantAPI.Dto
 
         public List<string>? images { get; set; } = new List<string>();
         public List<int>? RestaurantCategories { get; set; } = new List<int>();
+
+        public decimal ClosingHours { get; set; }
+        public string phone { get; set; }
+        public string Image { get; set; }
+        public string email { get; set; }
+
     }
 }
