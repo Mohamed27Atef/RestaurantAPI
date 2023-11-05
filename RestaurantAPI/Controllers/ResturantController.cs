@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Table;
@@ -9,6 +10,7 @@ using RestaurantAPI.Repository.RestaurantCateigoryRespository;
 using RestaurantAPI.Repository.RestaurantImageRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
+using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RestaurantAPI.Controllers
@@ -72,10 +74,10 @@ namespace RestaurantAPI.Controllers
             {
                 GetOneRestaurantDto restaurantDto = new GetOneRestaurantDto()
                 {
+                    id = resturant.id,
                     Address = resturant.Address,
                     closingHours = resturant.ClosingHours,
                     Cusinetype = resturant.Cusinetype,
-                    id = resturant.id,
                     Image = resturant.Image,
                     Latitude = resturant.Latitude,
                     Longitude = resturant.Longitude,
@@ -204,7 +206,13 @@ namespace RestaurantAPI.Controllers
             {
                 return BadRequest("Invalid resturant data.");
             }
+            Resturant res = resturantRepository.GetById(resturantDto.id);
 
+            if (res != null)
+            {
+                ActionResult res1 =updateResturant(resturantDto);
+                return res1;
+            }
 
 
             Resturant resturant = new Resturant()
@@ -235,15 +243,22 @@ namespace RestaurantAPI.Controllers
                     {
                         RestaurantCateigory resCat = new RestaurantCateigory { RestaurantId = resturant.id, CategoryId = categoryId };
                         this.iRestaurantCateigoryRepository.Add(resCat);
-                        this.iRestaurantCateigoryRepository.SaveChanges();
                     }
                 }
+                this.iRestaurantCateigoryRepository.SaveChanges();
 
                 foreach (var imagUrl in resturantDto.images)
                 {
-                    RestaurantImage resImg = new RestaurantImage { restaurantId = resturant.id, imageUrl = imagUrl };
-                    this.iRestaurantImageRepository.Add(resImg);
-                    this.iRestaurantImageRepository.SaveChanges();
+
+                    var imgResturantFound =this.iRestaurantImageRepository.GetByIdAndImg(resturant.id, imagUrl);
+                    if(imgResturantFound is null)
+                    {
+                        RestaurantImage resImg = new RestaurantImage { restaurantId = resturant.id, imageUrl = imagUrl };
+                        this.iRestaurantImageRepository.Add(resImg);
+                        this.iRestaurantImageRepository.SaveChanges();
+
+                    }
+
                 }
 
                 return CreatedAtAction("getById", new { id = resturant.id }, resturant);
@@ -251,6 +266,21 @@ namespace RestaurantAPI.Controllers
 
 
             return NotFound("Restaurant creation failed.");
+        }
+
+        [HttpGet("getByAppID")]
+        [Authorize]
+        public ActionResult getByApplicationId()
+        {
+            string AppId = GetUserIdFromClaims();
+            Resturant resturant = resturantRepository.getByAppId(AppId);
+
+            if(resturant is null)
+            {
+                return NotFound("Resturant Not Found");
+            }
+
+            return Ok(resturant);
         }
 
         [HttpPut]
@@ -280,6 +310,22 @@ namespace RestaurantAPI.Controllers
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
             {
+                var allRestaurantImage = iRestaurantImageRepository.GetAllById(resturant.id);
+              
+                foreach (var item in allRestaurantImage)
+                    this.iRestaurantImageRepository.Delete(resturant.id);
+                this.iRestaurantImageRepository.SaveChanges();
+
+                foreach (var imagUrl in resturantDto.images)
+                {
+                    var imgResturantFound = this.iRestaurantImageRepository.GetByIdAndImg(resturant.id, imagUrl);
+                    if (imgResturantFound is null)
+                    {
+                        RestaurantImage resImg = new RestaurantImage { restaurantId = resturant.id, imageUrl = imagUrl };
+                        this.iRestaurantImageRepository.Add(resImg);
+                        this.iRestaurantImageRepository.SaveChanges();
+                    }
+                }
                 return NoContent();
             }
 

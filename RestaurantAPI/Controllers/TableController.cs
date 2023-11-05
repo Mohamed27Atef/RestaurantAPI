@@ -6,6 +6,7 @@ using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Dto.UserTable;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using System.Drawing.Printing;
 
 namespace RestaurantAPI.Controllers
 {
@@ -53,9 +54,14 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("getAvailableTalbe")]
-        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId)
+        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId, [FromQuery] int p = 1)
         {
-            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId).DistinctBy(r => r.TableType.ToString());
+            const int pageSize = 10;
+            int skip = (p - 1) * pageSize;
+            var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId)
+                .DistinctBy(r => r.TableType.ToString())
+                .Skip(skip)
+                .Take(pageSize).ToList(); 
 
             List<TablerestaurantDto> tableDtos = new List<TablerestaurantDto>();
 
@@ -72,9 +78,15 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("getReservationByrestaurantId/{restaurantId}")]
-        public ActionResult getReservationByrestaurantId(int restaurantId)
+        public ActionResult getReservationByrestaurantId(int restaurantId, [FromQuery] int p = 1)
         {
-            List<UserTable> userTables = tableUserRepository.GetAllByRestaurantId(restaurantId);
+            const int pageSize = 10;
+            int skip = (p - 1) * pageSize;
+            List<UserTable> userTables = tableUserRepository
+                .GetAllByRestaurantId(restaurantId)
+                  .Skip(skip)
+                .Take(pageSize).ToList();
+
             List<RestauarantAdminReservationDto> restauarantAdminReservationDtos = new();
             foreach (var item in userTables)
             {

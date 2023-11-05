@@ -38,6 +38,10 @@ namespace RestaurantAPI.Repository.ResturantRepository
             }
             return query.ToList();
         }
+        public Resturant getByAppId(string appId)
+        {
+            return this.Context.Resturants.Include(r=> r.Cateigories).FirstOrDefault(r => r.ApplicationIdentityUserID == appId);
+        }
 
         public List<ResturantDto> getByAddress(string address)
         {
