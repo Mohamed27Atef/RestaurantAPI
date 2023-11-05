@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Repository;
+using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Repository.OrderRepository
@@ -11,6 +12,7 @@ namespace RestaurantAPI.Repository.OrderRepository
         public List<Order> getAllByUserId(int userId);
         IEnumerable<Order> getOrderByReataurantId(int reataurantId);
         int getStatusId(string status);
-        List<Order> getOrderOfUsresByRestaurant(int userId);
+        List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant(int userId);
+        Address getAddressByOrderId(int id);
     }
 }

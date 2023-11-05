@@ -61,28 +61,17 @@ namespace RestaurantAPI.Controllers
         public ActionResult getAllOrderOfUser()
         {
             int userId = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
-            List<UserOrders> userOrders = new List<UserOrders>();
-            foreach (var item in IorderRepo.getAllByUserId(userId))
-            {
-                userOrders.Add(new UserOrders()
-                {
-                    city = item.Address.City,
-                    country = item.Address.Country,
-                    CreatedAt = item.CreatedAt,
-                    Id = item.Id,
-                    status = item.Status.ToString(),
-                    street = item.Address.Street,
-                    TotalPrice = item.TotalPrice
-                });
-            }
-            return Ok(userOrders);
+            var userOrdersRestaurant = IorderRepo.getOrderOfUsresByRestaurant(userId);
+
+            
+            return Ok(userOrdersRestaurant);
         }
 
         [HttpGet("getOrderByReataurantId/{restaurantId}")]
-        [Authorize(Roles ="admin")]
+        [Authorize]
         public ActionResult getOrderByReataurantId(int restaurantId)
         {
-            List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(restaurantId).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
+            List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(restaurantId).Where(r => r != null).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
             {
                 customerName = r.User.ApplicationUser.UserName,
                 customerPhone = r.User.ApplicationUser.PhoneNumber,
@@ -98,9 +87,9 @@ namespace RestaurantAPI.Controllers
             return Ok(orders);
         }
 
-        [HttpPut("updateStatus/{orderId}")]
-        [Authorize(Roles = "admin")]
-        public ActionResult updateStatus(int orderId, [FromBody] string status)
+        [HttpPut("updateStatus/{orderId}/{status}")]
+        [Authorize]
+        public ActionResult updateStatus(int orderId,  string status)
         {
             Order order = IorderRepo.GetById(orderId);
             if (order == null)

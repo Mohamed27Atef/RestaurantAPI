@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Dto;
+using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 using System.Diagnostics;
 
 namespace RestaurantAPI.Repository.OrderRepository
 {
-    public class OrderRepository: IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private readonly RestaurantContext Context;
         public OrderRepository(RestaurantContext context)
@@ -77,8 +78,9 @@ namespace RestaurantAPI.Repository.OrderRepository
 
         public IEnumerable<Order> getOrderByReataurantId(int restaurantId)
         {
-            return Context.CartItems.Where(c => c.ResturantId == restaurantId).Include(r => r.Cart)
-                .Include(r => r.Cart.order.Address).Include(r => r.Cart.order.User).ThenInclude(r => r.ApplicationUser).Select(r => r.Cart.order);
+            var orders = Context.CartItems.Where(c => c.ResturantId == restaurantId).Include(r => r.Cart)
+               .Include(r => r.Cart.order.Address).Include(r => r.Cart.order.User).ThenInclude(r => r.ApplicationUser).Select(r => r.Cart.order);
+            return orders;
         }
 
         public int getStatusId(string status)
@@ -95,9 +97,48 @@ namespace RestaurantAPI.Repository.OrderRepository
             }
         }
 
-        public List<Order> getOrderOfUsresByRestaurant( int userId)
+        public List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant( int userId)
         {
-            Context.CartItems.Include(r => r.Cart).Where(r => r.Cart.userId == userId && r.Cart.OrderId != null)
+            IEnumerable<CartItem> restaurants = Context.CartItems
+                .Where(r => r.Cart.userId == userId && r.Cart.OrderId != null).Include(r => r.Cart).ThenInclude(r => r.order).ThenInclude(r => r.Address).Include(r => r.Resturant);
+
+
+            List<UserOrderByRestaurantIdDto> userOrdersRestaurant = new();
+            var res = getAllCartOfUserdistincitByOrderId(restaurants).ToList();
+            //var finalRes = getAllCartOfUserdistincitByRestaurantId(res).ToList();
+            foreach (var item in res)
+            {
+                userOrdersRestaurant.Add(new UserOrderByRestaurantIdDto()
+                {
+                    restaurantName = item.Resturant.Name,
+                    CreatedAt = item.Cart.order.CreatedAt,
+                    city = item.Cart.order.Address.City,
+                    country = item.Cart.order.Address.Country,
+                    street = item.Cart.order.Address.Street,
+                    Id = item.Cart.OrderId.Value,
+                    restaurantId= item.ResturantId,
+                    status = item.Cart.order.Status.ToString(),
+                    TotalPrice = item.Cart.order.TotalPrice
+                });
+
+            }
+            return userOrdersRestaurant;
+
+        }
+
+        public IEnumerable<CartItem> getAllCartOfUserdistincitByOrderId(IEnumerable<CartItem> s)
+        {
+            return s.DistinctBy(r => new { r.CartId, r.ResturantId });
+        }
+
+        public IEnumerable<CartItem> getAllCartOfUserdistincitByRestaurantId(IEnumerable<CartItem> s)
+        {
+            return s.DistinctBy(r => r.ResturantId);
+        }
+
+        public Address getAddressByOrderId(int id)
+        {
+            return Context.Orders.Where(r => r.Id == id).Select(r => r.Address).FirstOrDefault();
         }
     }
 }
