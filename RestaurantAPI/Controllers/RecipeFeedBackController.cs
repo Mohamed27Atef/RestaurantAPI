@@ -1,20 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto.RecipeFeedBack;
+using System.Security.Claims;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
 
 namespace RestaurantAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeFeedbackController : ControllerBase
+    public class RecipeFeedbackController : BaseApiClass
     {
         private readonly IRecipeFeedBackRepository _recipeFeedbackRepository;
+        private readonly IUserRepository iUserRepository;
 
-        public RecipeFeedbackController(IRecipeFeedBackRepository recipeFeedbackRepository)
+
+        public RecipeFeedbackController(IRecipeFeedBackRepository recipeFeedbackRepository, IUserRepository iUserRepository)
         {
             _recipeFeedbackRepository = recipeFeedbackRepository;
+            this.iUserRepository = iUserRepository;
         }
 
         [HttpGet("recipe/{recipeId}")]
@@ -31,7 +36,6 @@ namespace RestaurantAPI.Controllers
                         Text = item.text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
-                        UserId = item.userId,
                         RecipeId = item.RecipeId
                     })
                     .ToList();
@@ -58,13 +62,17 @@ namespace RestaurantAPI.Controllers
             {
                 return BadRequest("Invalid RecipeFeedback data.");
             }
+            string userId = GetUserIdFromClaims(); // Get the user's ID from claims
+
 
             RecipeFeedback recipeFeedback = new RecipeFeedback
             {
                 text = recipeFeedbackDto.Text,
                 Rate = recipeFeedbackDto.Rate,
                 PostDate = recipeFeedbackDto.PostDate,
+                userId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id,
                 RecipeId = recipeFeedbackDto.RecipeId
+
             };
 
             _recipeFeedbackRepository.Add(recipeFeedback);
