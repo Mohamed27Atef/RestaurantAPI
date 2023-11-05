@@ -262,7 +262,7 @@ namespace RestaurantAPI.Controllers
 
                 }
 
-                return CreatedAtAction("getById", new { id = resturant.id }, resturant);
+                return NoContent();
             }
 
 
