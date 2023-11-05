@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
@@ -93,8 +94,11 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create([FromBody] MenuDto menuDto)
         {
+            string userId = GetUserIdFromClaims();
+            int ResutantId = resturanrRepo.getByUserId(userId).id;
             if (menuDto is null)
             {
                 return BadRequest("Invalid menu data.");
@@ -103,7 +107,7 @@ namespace RestaurantAPI.Controllers
             var menu = new Menu
             {
                 title = menuDto.title,
-                restaurantId = menuDto.restaurantId
+                restaurantId = ResutantId
 
             };
 
@@ -111,7 +115,7 @@ namespace RestaurantAPI.Controllers
             MenuRepository.Add(menu);
             MenuRepository.SaveChanges();
 
-            return CreatedAtAction("getMenu", new { id = menu.id }, menu);
+            return CreatedAtAction("getMenu", new { id = menu.id }, menuDto);
         }
     }
 }

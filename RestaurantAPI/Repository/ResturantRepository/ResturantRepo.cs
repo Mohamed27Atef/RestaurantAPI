@@ -86,6 +86,10 @@ namespace RestaurantAPI.Repository.ResturantRepository
         }
 
 
+        public Resturant getByUserId(string UserId)
+        {
+            return Context.Resturants.FirstOrDefault(r=> r.ApplicationIdentityUserID == UserId);
+        }
 
         public List<ResturantDto> getByName(string name)
         {
