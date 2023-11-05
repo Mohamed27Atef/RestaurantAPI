@@ -104,7 +104,7 @@ namespace RestaurantAPI.Controllers
                         Quantity = item.Quantity,
                         recipeName = item.Recipe.name,
                         restaurantName = item.Resturant.Name,
-                        TotalPrice = item.TotalPrice,
+                        TotalPrice = item.Recipe.Price * item.Quantity, 
                         recipePrice = item.Recipe.Price,
                         imageUrl = item.Recipe.imageUrl,
                         recipeDescription = item.Recipe.Description
@@ -243,6 +243,14 @@ namespace RestaurantAPI.Controllers
             cartItemRepository.Add(cartItem);
             cartItemRepository.SaveChanges();
             return Ok("cart item added succesfully to cart");
+        }
+
+
+        internal decimal getTotalPriceOrderByRestaurantIdAndOrderId(int orderId, int restaurantId)
+        {
+            Cart cart = IcartRepo.getCatByOrderId(orderId);
+            return cartItemRepository.getTotalPriceOrderByRestaurantIdAndOrderId(cart.id, restaurantId);
+
         }
 
     }

@@ -8,5 +8,6 @@ namespace RestaurantAPI.Repository
         List<CartItem> GetAllByCartId(int cartId);
         List<CartItem> GetByCartIdAndRestaurantId(int cartId, int restaurantId);
         List<CartItem> GetAllByCartIdAndRestaurantId(int cartId, int restaurantId);
+        decimal getTotalPriceOrderByRestaurantIdAndOrderId(int cartId, int restaurantId);
     }
 }

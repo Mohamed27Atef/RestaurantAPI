@@ -23,14 +23,16 @@ namespace RestaurantAPI.Controllers
         private readonly ICartRepository ICartRepositoryo;
         private readonly IUserRepository IUserRepository;
         private readonly IAddressRepository IAddressRepository;
+        private readonly ICartItemRepository cartItemRepository;
+
         public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
-             IUserRepository _IUserRepository, IAddressRepository IAddressRepository)
+             IUserRepository _IUserRepository, IAddressRepository IAddressRepository, ICartItemRepository cartItemRepository)
         {
             this.IorderRepo = _IorderRepo;
             this.ICartRepositoryo = _ICartRepository;
             this.IUserRepository = _IUserRepository;
             this.IAddressRepository = IAddressRepository;
-
+            this.cartItemRepository = cartItemRepository;
         }
         //get
 
@@ -61,7 +63,7 @@ namespace RestaurantAPI.Controllers
         public ActionResult getAllOrderOfUser()
         {
             int userId = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
-            var userOrdersRestaurant = IorderRepo.getOrderOfUsresByRestaurant(userId);
+            var userOrdersRestaurant = IorderRepo.getOrderOfUsresByRestaurant(userId, cartItemRepository);
 
             
             return Ok(userOrdersRestaurant);
@@ -99,7 +101,6 @@ namespace RestaurantAPI.Controllers
             IorderRepo.SaveChanges();
             return Ok("done");
         }
-
 
 
 

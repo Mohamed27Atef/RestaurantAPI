@@ -97,7 +97,7 @@ namespace RestaurantAPI.Repository.OrderRepository
             }
         }
 
-        public List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant( int userId)
+        public List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant( int userId, ICartItemRepository cartItemRepository)
         {
             IEnumerable<CartItem> restaurants = Context.CartItems
                 .Where(r => r.Cart.userId == userId && r.Cart.OrderId != null).Include(r => r.Cart).ThenInclude(r => r.order).ThenInclude(r => r.Address).Include(r => r.Resturant);
@@ -118,7 +118,7 @@ namespace RestaurantAPI.Repository.OrderRepository
                     Id = item.Cart.OrderId.Value,
                     restaurantId= item.ResturantId,
                     status = item.Cart.order.Status.ToString(),
-                    TotalPrice = item.Cart.order.TotalPrice
+                    TotalPrice = cartItemRepository.getTotalPriceOrderByRestaurantIdAndOrderId(item.CartId, item.ResturantId)
                 });
 
             }

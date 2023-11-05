@@ -49,6 +49,17 @@ namespace RestaurantAPI.Repository
             return context.CartItems.FirstOrDefault(c => c.Id == id);
         }
 
+        public decimal getTotalPriceOrderByRestaurantIdAndOrderId(int cartId, int restaurantId)
+        {
+            var prices =  context.CartItems.Where(r => r.CartId == cartId && r.ResturantId == restaurantId).Select(r => r.TotalPrice);
+            decimal totalPrice = 0;
+            foreach (var item in prices)
+                totalPrice += item;
+
+            return totalPrice;
+
+        }
+
         public int SaveChanges()
         {
             return context.SaveChanges();

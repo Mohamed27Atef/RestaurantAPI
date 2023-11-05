@@ -12,7 +12,7 @@ namespace RestaurantAPI.Repository.OrderRepository
         public List<Order> getAllByUserId(int userId);
         IEnumerable<Order> getOrderByReataurantId(int reataurantId);
         int getStatusId(string status);
-        List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant(int userId);
+        List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant(int userId, ICartItemRepository cartItemRepository);
         Address getAddressByOrderId(int id);
     }
 }
