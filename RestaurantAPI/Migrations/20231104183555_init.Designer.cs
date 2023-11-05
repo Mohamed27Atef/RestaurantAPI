@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231103131656_tits")]
-    partial class tits
+    [Migration("20231104183555_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -371,17 +371,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<int>("NumberOfUser")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Copons");
                 });
@@ -604,8 +598,11 @@ namespace RestaurantAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationIdentityUserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("ClosingHours")
                         .HasColumnType("decimal(18,2)");
@@ -613,6 +610,11 @@ namespace RestaurantAPI.Migrations
                     b.Property<string>("Cusinetype")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -631,6 +633,10 @@ namespace RestaurantAPI.Migrations
                     b.Property<decimal>("OpenHours")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("Rate")
                         .HasColumnType("decimal(18,2)");
 
@@ -643,6 +649,8 @@ namespace RestaurantAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ApplicationIdentityUserID");
 
                     b.ToTable("Resturants");
                 });
@@ -892,17 +900,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Resturant");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.Copon", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Order", "Order")
-                        .WithOne("copon")
-                        .HasForeignKey("RestaurantAPI.Models.Copon", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.DeliveryMan", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Resturant", null)
@@ -1007,6 +1004,17 @@ namespace RestaurantAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Resturant");
+                });
+
+            modelBuilder.Entity("RestaurantAPI.Models.Resturant", b =>
+                {
+                    b.HasOne("RestaurantAPI.Models.ApplicationIdentityUser", "ApplicationIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationIdentityUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationIdentityUser");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.ResturantFeature", b =>
@@ -1115,11 +1123,6 @@ namespace RestaurantAPI.Migrations
             modelBuilder.Entity("RestaurantAPI.Models.Menu", b =>
                 {
                     b.Navigation("Recipes");
-                });
-
-            modelBuilder.Entity("RestaurantAPI.Models.Order", b =>
-                {
-                    b.Navigation("copon");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.Recipe", b =>
