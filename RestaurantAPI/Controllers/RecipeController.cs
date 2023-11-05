@@ -165,7 +165,7 @@ namespace RestaurantAPI.Controllers
                     }
                 }
 
-                return Created("", recipe); // get the url.....
+                return NoContent();// get the url.....
             }
             return NotFound("Recipe creation failed.");
 

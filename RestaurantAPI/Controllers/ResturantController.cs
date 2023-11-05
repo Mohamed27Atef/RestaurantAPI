@@ -230,11 +230,6 @@ namespace RestaurantAPI.Controllers
                 Description = resturantDto.Description,
                 phone = resturantDto.phone,
 
-                phone = resturantDto.phone,
-                Image = resturantDto.Image,
-                email = resturantDto.email
-
-
             };
 
             resturantRepository.Add(resturant);

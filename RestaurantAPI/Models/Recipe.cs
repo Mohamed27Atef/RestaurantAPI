@@ -31,12 +31,12 @@ namespace RestaurantAPI.Models
 
         [ForeignKey("Menu")]
         public int menuId { get; set; }
-        [JsonIgnore]
+      
         public virtual Menu? Menu { get; set; }
-        [JsonIgnore]
+       
         public virtual List<RecipeFeedback>? RecipeFeedbacks { get; set; }
 
-        [JsonIgnore]
+       
         public virtual List<RecipeImage>? recipteImages{ get; set; } = new List<RecipeImage>();
 
 

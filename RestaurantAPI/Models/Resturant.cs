@@ -38,8 +38,6 @@ namespace RestaurantAPI.Models
         public string email { get; set; } // check if it is a valid email
         public string  Password { get; set; }
 
-        public string email { get; set; }
-
         public string Image { get; set; }
         public string phone { get; set; }
 
