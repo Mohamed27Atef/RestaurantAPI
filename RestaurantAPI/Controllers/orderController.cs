@@ -73,6 +73,7 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public ActionResult getOrderByReataurantId(int restaurantId)
         {
+
             List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(restaurantId).Where(r => r != null).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
             {
                 customerName = r.User.ApplicationUser.UserName,
@@ -86,6 +87,9 @@ namespace RestaurantAPI.Controllers
                 totalPrice = r.TotalPrice
 
             }).ToList();
+            for (int i = 0; i < orders.Count; i++)
+                orders[i].totalPrice = getTotalPriceOrderByRestaurantIdAndOrderId(orders[i].orderId, restaurantId);
+
             return Ok(orders);
         }
 
@@ -251,6 +255,13 @@ namespace RestaurantAPI.Controllers
             return NotFound("Order updated failed.");
         }
 
-        
+        internal decimal getTotalPriceOrderByRestaurantIdAndOrderId(int orderId, int restaurantId)
+        {
+            Cart cart = ICartRepositoryo.getCatByOrderId(orderId);
+            return cartItemRepository.getTotalPriceOrderByRestaurantIdAndOrderId(cart.id, restaurantId);
+
+        }
+
+
     }
 }
