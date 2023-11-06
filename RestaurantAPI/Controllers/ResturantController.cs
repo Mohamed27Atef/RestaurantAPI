@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Models;
@@ -10,8 +12,13 @@ using RestaurantAPI.Repository.RestaurantCateigoryRespository;
 using RestaurantAPI.Repository.RestaurantImageRepository;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
+using System.Net.Http;
+using System.Text;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Win32;
+using RestaurantAPI.Repository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -23,15 +30,21 @@ namespace RestaurantAPI.Controllers
         private readonly ImageService imageService;
         private readonly IRestaurantImageRepository iRestaurantImageRepository;
         private readonly IRestaurantCateigoryRepository iRestaurantCateigoryRepository;
-
+        private readonly UserManager<ApplicationIdentityUser> userManager;
+        private readonly SignInManager<ApplicationIdentityUser> signInManager;
+        private readonly IUserRepository userRepository;
         public ResturantController(IResturanrRepo resturantRepository,
             ImageService imageService, IRestaurantCateigoryRepository iRestaurantCateigoryRepository,
-            IRestaurantImageRepository iRestaurantImageRepository)
+            IRestaurantImageRepository iRestaurantImageRepository,
+            UserManager<ApplicationIdentityUser> userManager, SignInManager<ApplicationIdentityUser> signInManager,IUserRepository userRepository)
         {
             this.resturantRepository = resturantRepository;
             this.imageService = imageService;
             this.iRestaurantCateigoryRepository = iRestaurantCateigoryRepository;
             this.iRestaurantImageRepository = iRestaurantImageRepository;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.userRepository = userRepository;
 
         }
         //get
@@ -118,8 +131,6 @@ namespace RestaurantAPI.Controllers
             return Ok(resturantRepository.getByAddress(address));
         }
 
-
-
         [HttpGet("search")]
         public ActionResult getByNameAndCategory(string q, int cat)
         {
@@ -199,7 +210,7 @@ namespace RestaurantAPI.Controllers
         //    return Ok();
         //}
         [HttpPost()]
-        public ActionResult PostResturant([FromBody] ResturantDto resturantDto)
+        public async Task<IActionResult> PostResturant([FromBody] ResturantDto resturantDto)
         {
             if (resturantDto is null)
             {
@@ -212,7 +223,47 @@ namespace RestaurantAPI.Controllers
                 ActionResult res1 =updateResturant(resturantDto);
                 return res1;
             }
+            #region createUser
+            RegisterDto userDto = new RegisterDto
+            {
+                FirstName = resturantDto.email.Split('@')[0],
+                LastName = resturantDto.email.Split('@')[0],
+                Email = resturantDto.email,
+                Password = resturantDto.Password,
+                
 
+            };
+            bool emailExists = await CheckIfEmailExists(userDto.Email);
+            if (emailExists)
+                return BadRequest("Email already exists");
+
+            var user = new ApplicationIdentityUser
+            {
+
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                UserName = userDto.Email,
+                Email = userDto.Email,
+                CreatedAt = DateTime.UtcNow,
+                Address = resturantDto.Address
+            };
+
+            var result = await userManager.CreateAsync(user, userDto.Password);
+
+            if (result.Succeeded)
+            {
+                // Optionally sign in the user after registration.
+                await signInManager.SignInAsync(user, isPersistent: false);
+                var resutlRole = await userManager.AddToRoleAsync(user, "Admin");
+                User myUser = new User()
+                {
+                    application_user_id = user.Id,
+                };
+                userRepository.Add(myUser);
+                userRepository.SaveChanges();
+            }
+
+            #endregion
 
             Resturant resturant = new Resturant()
             {
@@ -228,9 +279,10 @@ namespace RestaurantAPI.Controllers
                 Image = resturantDto.Image,
                 Description = resturantDto.Description,
                 phone = resturantDto.phone,
+                ApplicationIdentityUserID = user.Id
 
             };
-
+          
             resturantRepository.Add(resturant);
             int Raws = resturantRepository.SaveChanges();
             if (Raws > 0)
@@ -267,6 +319,13 @@ namespace RestaurantAPI.Controllers
 
             return NotFound("Restaurant creation failed.");
         }
+     
+        private async Task<bool> CheckIfEmailExists(string email)
+        {
+            var existingUser = await userManager.FindByEmailAsync(email);
+            return (existingUser != null);
+        }
+
 
         [HttpGet("getByAppID")]
         [Authorize]
