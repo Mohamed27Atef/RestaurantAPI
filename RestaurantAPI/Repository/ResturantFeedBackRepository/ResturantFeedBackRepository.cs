@@ -61,5 +61,10 @@ namespace RestaurantAPI.Repository.ResturantFeedBackRepository
                 .ToList();
         }
 
+        public ResturantFeedback GetRestaurantFeedbackByUserIdAndRestaurantId(int userId, int restaurantId)
+        {
+            return Context.ResturantFeedbacks.FirstOrDefault(r => r.UserId == userId && r.ResturantId == restaurantId);
+        }
+
     }
 }

@@ -60,6 +60,11 @@ namespace RestaurantAPI.Repository
 
         }
 
+        public CartItem GetByCartIdAndRecipeId(int cartId,int recipeId)
+        {
+            return context.CartItems.FirstOrDefault(c => c.CartId == cartId && c.RecipeId==recipeId);
+        }
+
         public int SaveChanges()
         {
             return context.SaveChanges();
