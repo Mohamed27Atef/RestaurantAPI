@@ -6,6 +6,7 @@ using RestaurantAPI.Dto.Table;
 using RestaurantAPI.Dto.UserTable;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.ResturantRepository;
 using System.Drawing.Printing;
 
 namespace RestaurantAPI.Controllers
@@ -15,15 +16,17 @@ namespace RestaurantAPI.Controllers
         private readonly ITableRepository tableRepository;
         private readonly ITableUserRepository tableUserRepository;
         private readonly IUserRepository userRepository;
-
+        private readonly IResturanrRepo iResturanrRepo;
         public TableController(
             ITableRepository tableRepository,
             ITableUserRepository tableUserRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IResturanrRepo iResturanrRepo)
         {
             this.tableRepository = tableRepository;
             this.tableUserRepository = tableUserRepository;
             this.userRepository = userRepository;
+            this.iResturanrRepo = iResturanrRepo;
         }
 
         [HttpPost]
@@ -106,13 +109,15 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPost("createTable")]
-        //[Authorize]
+        [Authorize]
         public ActionResult CreateTable(TablerestaurantDto tableDto)
         {
+            string userId = GetUserIdFromClaims();
+            int ResutantId = iResturanrRepo.getByUserId(userId).id;
             Table newTable = new Table
             {
                 TableType = (TableType)Enum.Parse(typeof(TableType), tableDto.tableType),
-                ResturantId = tableDto.ResturantId,
+                ResturantId = ResutantId,
             };
 
             tableRepository.Add(newTable);

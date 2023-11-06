@@ -11,7 +11,7 @@ namespace RestaurantAPI.Controllers
 
                 var extention = Path.GetExtension(image.FileName);
                 var fileName = Path.GetFileNameWithoutExtension(image.FileName);
-                var imageName = fileName + new Guid() + extention;
+                var imageName = fileName + extention;
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
