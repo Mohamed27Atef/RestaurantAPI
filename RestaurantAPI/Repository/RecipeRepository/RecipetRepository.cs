@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestaurantAPI.Dto;
 using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Repository.ProductRepository
@@ -13,8 +14,13 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public List<Recipe> GetByName(string name)
         {
-            return Context.Recipes.Where(recipe => recipe.name.Contains(name)).ToList();
+            return Context.Recipes
+                .Where(recipe => recipe.name.Contains(name))
+                .Include(recipe => recipe.Menu) // Include the Menu navigation property
+                .ThenInclude(menu => menu.restaurant) // Then include the Restaurant navigation property within Menu
+                .ToList();
         }
+
 
         public List<Recipe> GetAll(string include = "")
         {
