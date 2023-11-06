@@ -22,15 +22,27 @@ namespace RestaurantAPI.Controllers
             this.iRecipeImageRespository = iRecipeImageRespository;
 
         }
-        
+
         [HttpGet("search/{name}")]
         public IActionResult SearchRecipesByName(string name, [FromQuery] int p = 1)
         {
             const int pageSize = 10;
             int skip = (p - 1) * pageSize;
             var recipes = _recipeRepository.GetByName(name)
-                 .Skip(skip)
-                .Take(pageSize).ToList(); 
+                .Skip(skip)
+                .Take(pageSize)
+        .Select(recipe => new RecipeDto
+        {   Id=recipe.id,
+            Name = recipe.name,
+            Description = recipe.Description,
+            Price = recipe.Price,
+            imageUrl = recipe.imageUrl,
+            rate = recipe.rate,
+            restaurantId = recipe.Menu.restaurantId,
+            restaurantName = recipe.Menu.restaurant.Name,
+            menuName = recipe.Menu.title 
+        })
+        .ToList();
 
             if (recipes.Count == 0)
             {
@@ -39,6 +51,7 @@ namespace RestaurantAPI.Controllers
 
             return Ok(recipes);
         }
+
 
 
         [HttpGet("getRecipeByMenuId/{menuId}")]
