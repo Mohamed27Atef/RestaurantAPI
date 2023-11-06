@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantAPI.Models
 {
@@ -15,7 +16,7 @@ namespace RestaurantAPI.Models
         public string? Cusinetype { get; set; }
 
         [MaxLength(1000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180.")]
         public decimal? Longitude { get; set; }
@@ -39,6 +40,10 @@ namespace RestaurantAPI.Models
 
         public string Image { get; set; }
         public string phone { get; set; }
+
+        [ForeignKey("ApplicationIdentityUser")]
+        public string? ApplicationIdentityUserID { get; set; }
+        public ApplicationIdentityUser? ApplicationIdentityUser { get; set; }
 
         public virtual List<RestaurantCateigory>? Cateigories { get; set; } = new List<RestaurantCateigory>();
 

@@ -10,7 +10,6 @@ namespace RestaurantAPI.Models
         [ForeignKey("Resturant")]
         public int restaurantId { get; set; }
 
-        [JsonIgnore]
         public virtual Resturant? Resturant { get; set; }
     }
 }

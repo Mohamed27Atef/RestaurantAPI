@@ -21,9 +21,14 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("searchByrestaurant/{restaurantId}")]
-        public ActionResult searchByRestauarntId(int restaurantId)
+        public ActionResult searchByRestauarntId(int restaurantId, [FromQuery] int p = 1)
         {
-            List<UserTable> restaurantTalbleUser = tableUserRepository.GetAllByRestaurantId(restaurantId);
+            const int pageSize = 10;
+            int skip = (p - 1) * pageSize;
+            List<UserTable> restaurantTalbleUser = tableUserRepository
+                .GetAllByRestaurantId(restaurantId)
+                .Skip(skip)
+                .Take(pageSize).ToList();
 
             // map list of usertable to usertabledto
             List<UserTableDto> userTableDto = new(); 
@@ -44,10 +49,17 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("searchByUserId")]
-        [Authorize]
-        public ActionResult searchByUserId()
+        //[Authorize]
+        public ActionResult searchByUserId([FromQuery]int p = 1 )
         {
-            List<UserTable> userReservation = tableUserRepository.GetAllByUserId(userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
+
+            const int pageSize = 10;
+            int skip = (p - 1) * pageSize;
+
+            List<UserTable> userReservation = tableUserRepository.GetAllByUserId(userRepository
+                .getUserByApplicationUserId(GetUserIdFromClaims()).id)
+                .Skip(skip)
+                .Take(pageSize).ToList();
 
             // map list of usertable to usertabledto
             List<UserReservationDto> userTableDto = new();
@@ -64,6 +76,7 @@ namespace RestaurantAPI.Controllers
                     duration = item.duration
                 });
             }
+
 
             return Ok(userTableDto);
         }

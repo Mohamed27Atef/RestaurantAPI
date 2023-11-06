@@ -38,6 +38,10 @@ namespace RestaurantAPI.Repository.ResturantRepository
             }
             return query.ToList();
         }
+        public Resturant getByAppId(string appId)
+        {
+            return this.Context.Resturants.Include(r=> r.Cateigories).FirstOrDefault(r => r.ApplicationIdentityUserID == appId);
+        }
 
         public List<ResturantDto> getByAddress(string address)
         {
@@ -82,6 +86,10 @@ namespace RestaurantAPI.Repository.ResturantRepository
         }
 
 
+        public Resturant getByUserId(string UserId)
+        {
+            return Context.Resturants.FirstOrDefault(r=> r.ApplicationIdentityUserID == UserId);
+        }
 
         public List<ResturantDto> getByName(string name)
         {

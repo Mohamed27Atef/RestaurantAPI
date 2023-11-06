@@ -85,7 +85,7 @@ namespace RestaurantAPI.Controllers
             int rowsAffected = _recipeFeedbackRepository.SaveChanges();
             if (rowsAffected > 0)
             {
-                return CreatedAtAction("GetById", new { id = recipeFeedback.id }, recipeFeedback);
+                return Created("GetById", new { id = recipeFeedback.id });
             }
 
             return NotFound("RecipeFeedback creation failed.");
