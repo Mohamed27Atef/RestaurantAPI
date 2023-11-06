@@ -1,10 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.results;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
+using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.RecipeImageRespository;
 
 namespace RestaurantAPI.Controllers
@@ -12,14 +14,24 @@ namespace RestaurantAPI.Controllers
 
     public class RecipeController : BaseApiClass
     {
+        private readonly IUserRepository userRepository;
+        private readonly ICartItemRepository cartItemRepository;
+        private readonly ICartRepository cartRepository;
         private readonly IRecipeRepository _recipeRepository;
         private readonly IRecipeImageRespository iRecipeImageRespository;
 
 
-        public RecipeController(IRecipeRepository recipeRepository, IRecipeImageRespository iRecipeImageRespository)
+        public RecipeController(IRecipeRepository recipeRepository,
+            IRecipeImageRespository iRecipeImageRespository,
+            IUserRepository userRepository,
+            ICartItemRepository cartItemRepository,
+            ICartRepository cartRepository)
         {
             this._recipeRepository = recipeRepository;
             this.iRecipeImageRespository = iRecipeImageRespository;
+            this.userRepository = userRepository;
+            this.cartItemRepository = cartItemRepository;
+            this.cartRepository = cartRepository;
 
         }
 
@@ -182,6 +194,34 @@ namespace RestaurantAPI.Controllers
             }
             return NotFound("Recipe creation failed.");
 
+        }
+
+        [Authorize]
+        [HttpGet("IsRecipeAddedToCart/{recipeId}")]
+        public ActionResult<bool> IsRecipeAddedToCart(int recipeId)
+        {
+            int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+            Cart cart = cartRepository.GetNonOrderedCartByUserId(userId);
+            bool isAddedToCart;
+            if (cart == null)
+            {
+                isAddedToCart = false;
+                return isAddedToCart;
+            }
+            else
+            {
+                CartItem cartItem = cartItemRepository.GetByCartIdAndRecipeId(cart.id, recipeId);
+                if(cartItem==null)
+                {
+                    isAddedToCart = false;
+                    return isAddedToCart;
+                }
+                else
+                {
+                    isAddedToCart = true;
+                    return isAddedToCart;
+                }
+            }
         }
 
         [HttpPut()]

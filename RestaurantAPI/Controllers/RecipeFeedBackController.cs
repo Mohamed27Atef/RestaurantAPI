@@ -5,6 +5,8 @@ using System.Security.Claims;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
+using Microsoft.AspNetCore.Authorization;
+using RestaurantAPI.Repository.CartRepository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -14,12 +16,16 @@ namespace RestaurantAPI.Controllers
     {
         private readonly IRecipeFeedBackRepository _recipeFeedbackRepository;
         private readonly IUserRepository iUserRepository;
+        private readonly IUserRepository userRepository;
 
-
-        public RecipeFeedbackController(IRecipeFeedBackRepository recipeFeedbackRepository, IUserRepository iUserRepository)
+        public RecipeFeedbackController(
+            IRecipeFeedBackRepository recipeFeedbackRepository,
+            IUserRepository iUserRepository,
+            IUserRepository userRepository)
         {
             _recipeFeedbackRepository = recipeFeedbackRepository;
             this.iUserRepository = iUserRepository;
+            this.userRepository = userRepository;
         }
 
         [HttpGet("recipe/{recipeId}")]
@@ -132,6 +138,20 @@ namespace RestaurantAPI.Controllers
             }
 
             return NotFound("RecipeFeedback delete failed.");
+        }
+
+        [Authorize]
+        [HttpGet("IsFeedbackAddedToRecipe/{recipeId}")]
+        public ActionResult<bool> IsFeedbackAddedToRecipet(int recipeId)
+        {
+            int userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+            RecipeFeedback recipeFeedback = _recipeFeedbackRepository.GetRecipeFeedbackByUserIdAndRecipeId(userId,recipeId);
+            bool isFeedbackAddedToRecipe;
+            if (recipeFeedback == null)
+                isFeedbackAddedToRecipe = false;
+            else
+                isFeedbackAddedToRecipe = true;
+            return isFeedbackAddedToRecipe;
         }
     }
 }
