@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestaurantAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class wd : Migration
+    public partial class w : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,31 +109,6 @@ namespace RestaurantAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Features", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Resturants",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cusinetype = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Longitude = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Latitude = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    OpenHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ClosingHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Resturants", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,6 +215,37 @@ namespace RestaurantAPI.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Resturants",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cusinetype = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Longitude = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Latitude = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    OpenHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ClosingHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationIdentityUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resturants", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Resturants_AspNetUsers_ApplicationIdentityUserID",
+                        column: x => x.ApplicationIdentityUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -750,6 +756,11 @@ namespace RestaurantAPI.Migrations
                 name: "IX_ResturantFeedbacks_UserId",
                 table: "ResturantFeedbacks",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resturants_ApplicationIdentityUserID",
+                table: "Resturants",
+                column: "ApplicationIdentityUserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tables_ResturantId",

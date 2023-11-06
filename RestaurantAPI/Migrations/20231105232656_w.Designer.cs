@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231104163536_wd")]
-    partial class wd
+    [Migration("20231105232656_w")]
+    partial class w
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -600,6 +600,9 @@ namespace RestaurantAPI.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ApplicationIdentityUserID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal>("ClosingHours")
                         .HasColumnType("decimal(18,2)");
 
@@ -608,7 +611,6 @@ namespace RestaurantAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -645,6 +647,8 @@ namespace RestaurantAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ApplicationIdentityUserID");
 
                     b.ToTable("Resturants");
                 });
@@ -998,6 +1002,15 @@ namespace RestaurantAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Resturant");
+                });
+
+            modelBuilder.Entity("RestaurantAPI.Models.Resturant", b =>
+                {
+                    b.HasOne("RestaurantAPI.Models.ApplicationIdentityUser", "ApplicationIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationIdentityUserID");
+
+                    b.Navigation("ApplicationIdentityUser");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Models.ResturantFeature", b =>
