@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Dto;
 using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
+using RestaurantAPI.Repository.RestaurantOrderStatus;
 using RestaurantAPI.Services;
 using System.Diagnostics;
 
@@ -11,9 +12,13 @@ namespace RestaurantAPI.Repository.OrderRepository
     public class OrderRepository : IOrderRepository
     {
         private readonly RestaurantContext Context;
-        public OrderRepository(RestaurantContext context)
+
+        public IRestaurantOrderStatus RestaurantOrderStatus { get; }
+
+        public OrderRepository(RestaurantContext context, IRestaurantOrderStatus restaurantOrderStatus)
         {
             Context = context;
+            RestaurantOrderStatus = restaurantOrderStatus;
         }
 
         public void Add(Order entity)
@@ -117,7 +122,7 @@ namespace RestaurantAPI.Repository.OrderRepository
                     street = item.Cart.order.Address.Street,
                     Id = item.Cart.OrderId.Value,
                     restaurantId= item.ResturantId,
-                    status = item.Cart.order.Status.ToString(),
+                    status = RestaurantOrderStatus.getStatusByRestaurntIdCartId(item.ResturantId, item.CartId).ToString(),
                     TotalPrice = cartItemRepository.getTotalPriceOrderByRestaurantIdAndOrderId(item.CartId, item.ResturantId)
                 });
 
@@ -139,6 +144,16 @@ namespace RestaurantAPI.Repository.OrderRepository
         public Address getAddressByOrderId(int id)
         {
             return Context.Orders.Where(r => r.Id == id).Select(r => r.Address).FirstOrDefault();
+        }
+
+        public List<int> createRestaruantOrderStatus(int CartId)
+        {
+            return Context.CartItems.Where(r => r.CartId == CartId).Select(r => r.ResturantId).Distinct().ToList();
+        }
+
+        public int getCartIdByOrderId(int orderId)
+        {
+            return Context.Carts.Where(r => r.OrderId == orderId).Select(r => r.id).FirstOrDefault();
         }
     }
 }

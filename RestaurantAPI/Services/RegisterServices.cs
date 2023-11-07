@@ -19,6 +19,7 @@ using RestaurantAPI.Repository.RestaurantCateigoryRespository;
 using RestaurantAPI.Repository.RestaurantImageRepository;
 using RestaurantAPI.Repository.RecipeImageRespository;
 using RestaurantAPI.Repository.RecipeFeedBackRepository;
+using RestaurantAPI.Repository.RestaurantOrderStatus;
 
 namespace RestaurantAPI.Services
 {
@@ -46,6 +47,7 @@ namespace RestaurantAPI.Services
             builder.Services.AddScoped<IRestaurantImageRepository, RestaurantImageRepository>();
             builder.Services.AddScoped<IResturantFeedBackRepository, ResturantFeedBackRepository>();
             builder.Services.AddScoped<IRecipeImageRespository, RecipeImageRespository>();
+            builder.Services.AddScoped<IRestaurantOrderStatus, RestaurantOrderStatus>();
 
             
             return builder;

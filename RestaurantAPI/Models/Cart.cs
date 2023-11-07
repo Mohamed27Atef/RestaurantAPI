@@ -19,6 +19,8 @@ namespace RestaurantAPI.Models
         [ForeignKey("order")]
         public int? OrderId { get; set; }
         public virtual Order? order { get; set; }
+        public virtual List<RestaruantOrdersStatus>? RestaruantOrdersStatus { get; set; } = new List<RestaruantOrdersStatus>();
+
 
     }
 }

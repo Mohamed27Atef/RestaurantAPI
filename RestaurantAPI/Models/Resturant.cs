@@ -61,6 +61,7 @@ namespace RestaurantAPI.Models
         public virtual List<ClosingDay>? ClosingDays { get; set; } = new List<ClosingDay>();
         public virtual List<RestaurantImage>? RestaurantImages { get; set; } = new List<RestaurantImage>();
 
+        public virtual List<RestaruantOrdersStatus>? RestaruantOrdersStatus { get; set; } = new List<RestaruantOrdersStatus>();
 
 
 

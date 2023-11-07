@@ -9,6 +9,7 @@ using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.AddressRepository;
 using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.OrderRepository;
+using RestaurantAPI.Repository.RestaurantOrderStatus;
 using RestaurantAPI.Repository.ResturantRepository;
 using RestaurantAPI.Services;
 using System.Text.Json.Serialization;
@@ -23,15 +24,19 @@ namespace RestaurantAPI.Controllers
         private readonly ICartRepository ICartRepositoryo;
         private readonly IUserRepository IUserRepository;
         private readonly IAddressRepository IAddressRepository;
+        private readonly IRestaurantOrderStatus restaurantOrderStatus;
         private readonly ICartItemRepository cartItemRepository;
 
         public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
-             IUserRepository _IUserRepository, IAddressRepository IAddressRepository, ICartItemRepository cartItemRepository)
+             IUserRepository _IUserRepository, IAddressRepository IAddressRepository,
+             IRestaurantOrderStatus restaurantOrderStatus,
+             ICartItemRepository cartItemRepository)
         {
             this.IorderRepo = _IorderRepo;
             this.ICartRepositoryo = _ICartRepository;
             this.IUserRepository = _IUserRepository;
             this.IAddressRepository = IAddressRepository;
+            this.restaurantOrderStatus = restaurantOrderStatus;
             this.cartItemRepository = cartItemRepository;
         }
         //get
@@ -83,23 +88,33 @@ namespace RestaurantAPI.Controllers
                 street = r.Address.Street,
                 city = r.Address.City,
                 orderId = r.Id,
-                status = r.Status.ToString(),
                 totalPrice = r.TotalPrice
 
             }).ToList();
             for (int i = 0; i < orders.Count; i++)
+            {
                 orders[i].totalPrice = getTotalPriceOrderByRestaurantIdAndOrderId(orders[i].orderId, restaurantId);
+                orders[i].status = restaurantOrderStatus.getStatusByRestaurntIdCartId(restaurantId, IorderRepo.getCartIdByOrderId(orders[i].orderId)).ToString();
+
+            }
 
             return Ok(orders);
         }
 
         [HttpPut("updateStatus/{orderId}/{status}")]
         [Authorize]
-        public ActionResult updateStatus(int orderId,  string status)
+        public ActionResult updateStatus(int orderId,  string status, int restaurantId)
         {
             Order order = IorderRepo.GetById(orderId);
             if (order == null)
                 return BadRequest();
+
+            var t = IorderRepo.getCartIdByOrderId(orderId);
+
+
+            restaurantOrderStatus.updateStatus(restaurantId, IorderRepo.getCartIdByOrderId(orderId), (OrderStatus)IorderRepo.getStatusId(status));
+            restaurantOrderStatus.SaveChanges();
+            
             order.Status = (OrderStatus)IorderRepo.getStatusId(status);
             IorderRepo.Update(order);
             IorderRepo.SaveChanges();
@@ -149,7 +164,7 @@ namespace RestaurantAPI.Controllers
             }
             Cart newOrderCart = ICartRepositoryo.getCartByUserId(IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id);
             AddressDTO addressDto = new AddressDTO { Street = orderAddressDTO.Street, City = orderAddressDTO.City, Country = orderAddressDTO.Country };
-           int addressid = MakeAddressOrderd(addressDto); 
+           int addressid = MakeAddressOrderd(addressDto);
             Order order = new Order()
             {
                CreatedAt = DateTime.Now,
@@ -162,6 +177,16 @@ namespace RestaurantAPI.Controllers
 
             IorderRepo.Add(order);
             int Raws = IorderRepo.SaveChanges();
+            List<int> restaurantIds = IorderRepo.createRestaruantOrderStatus(newOrderCart.id);
+            foreach (var item in restaurantIds)
+            {
+                restaurantOrderStatus.Add(new RestaruantOrdersStatus()
+                {
+                    cartId = newOrderCart.id,
+                    restaurantId = item,
+                });
+            }
+            restaurantOrderStatus.SaveChanges();
             if (Raws > 0)
             {
                 MakeCartOrderd(order);

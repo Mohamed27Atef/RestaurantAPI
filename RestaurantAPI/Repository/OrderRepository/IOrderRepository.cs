@@ -14,5 +14,7 @@ namespace RestaurantAPI.Repository.OrderRepository
         int getStatusId(string status);
         List<UserOrderByRestaurantIdDto> getOrderOfUsresByRestaurant(int userId, ICartItemRepository cartItemRepository);
         Address getAddressByOrderId(int id);
+        List<int> createRestaruantOrderStatus(int  cartId);
+        int getCartIdByOrderId(int orderId);
     }
 }
