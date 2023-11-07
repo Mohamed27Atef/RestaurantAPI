@@ -44,8 +44,7 @@ namespace RestaurantAPI.Controllers
             const int pageSize = 10;
             int skip = (p - 1) * pageSize;
             var recipes = _recipeRepository.GetByName(name)
-                .Skip(skip)
-                .Take(pageSize)
+                
         .Select(recipe => new RecipeDto
         {   Id=recipe.id,
             Name = recipe.name,
@@ -57,7 +56,8 @@ namespace RestaurantAPI.Controllers
             restaurantName = recipe.Menu.restaurant.Name,
             menuName = recipe.Menu.title 
         })
-        .ToList();
+        .Skip(skip)
+        .Take(pageSize).ToList();
 
             if (recipes.Count == 0)
             {
@@ -67,30 +67,29 @@ namespace RestaurantAPI.Controllers
             return Ok(recipes);
         }
         [HttpGet("searchReceipeInResturant/{name}")]
+        [Authorize]
         public IActionResult searchReceipeInResturant(string name, [FromQuery] int p = 1)
         {
             string userId = IUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).application_user_id;
             const int pageSize = 10;
             int skip = (p - 1) * pageSize;
             var recipes = _recipeRepository.GetByName(name)
-                .Where(r=> r.Menu.restaurant.ApplicationIdentityUserID == userId)
-                .Skip(skip)
-                .Take(pageSize)
-        .Select(recipe => new RecipeDto
-        {
-            Id = recipe.id,
-            Name = recipe.name,
-            Description = recipe.Description,
-            Price = recipe.Price,
-            imageUrl = recipe.imageUrl,
-            rate = recipe.rate,
-            restaurantId = recipe.Menu.restaurantId,
-            restaurantName = recipe.Menu.restaurant.Name,
-            menuName = recipe.Menu.title
-        })
-        .ToList();
+                    .Where(r => r.Menu.restaurant.ApplicationIdentityUserID == userId)
+            .Select(recipe => new RecipeDto
+            {
+                Id = recipe.id,
+                Name = recipe.name,
+                Description = recipe.Description,
+                Price = recipe.Price,
+                imageUrl = recipe.imageUrl,
+                rate = recipe.rate,
+                restaurantId = recipe.Menu.restaurantId,
+                restaurantName = recipe.Menu.restaurant.Name,
+                menuName = recipe.Menu.title
+            }).
+            ToList().Skip(skip).Take(pageSize);
 
-            if (recipes.Count == 0)
+            if (recipes.Count() == 0)
             {
                 return NotFound();
             }
