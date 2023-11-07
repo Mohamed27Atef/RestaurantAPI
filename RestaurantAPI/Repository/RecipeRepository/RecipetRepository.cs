@@ -16,11 +16,12 @@ namespace RestaurantAPI.Repository.ProductRepository
         {
             return Context.Recipes
                 .Where(recipe => recipe.name.Contains(name))
-                .Include(recipe => recipe.Menu) // Include the Menu navigation property
-                .ThenInclude(menu => menu.restaurant) // Then include the Restaurant navigation property within Menu
+                .Include(recipe => recipe.Menu)
+                .ThenInclude(menu => menu.restaurant) 
                 .ToList();
         }
 
+    
 
         public List<Recipe> GetAll(string include = "")
         {
