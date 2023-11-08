@@ -58,8 +58,6 @@ namespace RestaurantAPI.Controllers
             restaurantName = recipe.Menu.restaurant.Name,
             menuName = recipe.Menu.title 
         })
-        .ToList();
-        .Skip(skip)
         .Take(pageSize).ToList();
 
             if (recipes.Count == 0)

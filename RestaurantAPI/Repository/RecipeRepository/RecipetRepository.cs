@@ -18,8 +18,6 @@ namespace RestaurantAPI.Repository.ProductRepository
                 .Where(recipe => recipe.name.Contains(name))
                 .Include(recipe => recipe.Menu) // Include the Menu navigation property
                 .ThenInclude(menu => menu.restaurant) // Then include the Restaurant navigation property within Menu
-                .ToList();
-        }
 
                 .Include(recipe => recipe.Menu)
                 .ThenInclude(menu => menu.restaurant) 
