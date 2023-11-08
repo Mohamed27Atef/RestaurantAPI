@@ -7,5 +7,7 @@ namespace RestaurantAPI.Repository
     {
         User getUserByApplicationUserId(string  applicationUserId);
         string getUserImage(int userId);
+        Task UpdateProfileAsync(string userName, string userId, string firstName, string lastName, string email, string Location, string phoneNumber);
+
     }
 }
