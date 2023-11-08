@@ -44,6 +44,8 @@ namespace RestaurantAPI.Controllers
             const int pageSize = 10;
             int skip = (p - 1) * pageSize;
             var recipes = _recipeRepository.GetByName(name)
+                .Skip(skip)
+                .Take(pageSize)
                 
         .Select(recipe => new RecipeDto
         {   Id=recipe.id,
@@ -56,6 +58,7 @@ namespace RestaurantAPI.Controllers
             restaurantName = recipe.Menu.restaurant.Name,
             menuName = recipe.Menu.title 
         })
+        .ToList();
         .Skip(skip)
         .Take(pageSize).ToList();
 
@@ -115,6 +118,7 @@ namespace RestaurantAPI.Controllers
 
             return Ok(recipes);
         }
+
 
 
         [HttpGet("getRecipeByMenuId/{menuId}")]

@@ -1,4 +1,6 @@
-﻿using RestaurantAPI.Models;
+﻿using Azure.Identity;
+using Microsoft.AspNetCore.Identity;
+using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 
 namespace RestaurantAPI.Repository
@@ -6,10 +8,14 @@ namespace RestaurantAPI.Repository
     public class UserRepository : IUserRepository
     {
         private readonly RestaurantContext context;
+        private readonly UserManager<ApplicationIdentityUser> userManager;
+
 
         public UserRepository(RestaurantContext context)
         {
             this.context = context;
+            this.userManager = userManager;
+
         }
 
         public void Add(User entity)
@@ -49,7 +55,26 @@ namespace RestaurantAPI.Repository
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            context.Users.Update(entity);
+        }
+        public async Task UpdateProfileAsync(string userName, string userId, string firstName, string lastName, string email, string Location, string phoneNumber)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                user.UserName = userName;
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.Email = email;
+                user.User.Location = Location;
+                user.PhoneNumber = phoneNumber;
+
+                var result = await userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                }
+            }
         }
     }
 }
