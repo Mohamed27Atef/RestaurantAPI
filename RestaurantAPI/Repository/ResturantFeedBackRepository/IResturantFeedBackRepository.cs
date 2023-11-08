@@ -6,6 +6,7 @@ namespace RestaurantAPI.Repository.ResturantFeedBackRepository
     public interface IResturantFeedBackRepository:IGenericRepository<ResturantFeedback>
     {
         List<ResturantFeedback> GetReviewsForRestaurant(int restaurantId);
+        public ResturantFeedback GetRestaurantFeedbackByUserIdAndRestaurantId(int userId, int restaurantId);
 
     }
 }

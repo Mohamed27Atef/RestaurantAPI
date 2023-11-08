@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Dto.RecipeFeedBack;
 using RestaurantAPI.Dto.ResturantFeedback;
@@ -139,6 +140,20 @@ namespace RestaurantAPI.Controllers
             }
 
             return NotFound("ResturantFeedBack updated failed.");
+        }
+
+        [Authorize]
+        [HttpGet("IsFeedbackAddedToRestaurant/{RestaurantId}")]
+        public ActionResult<bool> IsFeedbackAddedToRestaurant(int RestaurantId)
+        {
+            int userId = iUserRepository.getUserByApplicationUserId(GetUserIdFromClaims()).id;
+            ResturantFeedback resturantFeedback = iResturantFeedBackRepository.GetRestaurantFeedbackByUserIdAndRestaurantId(userId, RestaurantId);
+            bool isFeedbackAddedToRestaurant;
+            if (resturantFeedback == null)
+                isFeedbackAddedToRestaurant = false;
+            else
+                isFeedbackAddedToRestaurant = true;
+            return isFeedbackAddedToRestaurant;
         }
     }
 }

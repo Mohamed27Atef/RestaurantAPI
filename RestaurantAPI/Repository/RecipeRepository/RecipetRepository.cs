@@ -21,6 +21,12 @@ namespace RestaurantAPI.Repository.ProductRepository
                 .ToList();
         }
 
+                .Include(recipe => recipe.Menu)
+                .ThenInclude(menu => menu.restaurant) 
+                .ToList();
+        }
+
+    
 
         public List<Recipe> GetAll(string include = "")
         {

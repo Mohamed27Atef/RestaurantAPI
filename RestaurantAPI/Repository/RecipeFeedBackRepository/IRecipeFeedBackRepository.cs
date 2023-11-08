@@ -14,5 +14,6 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
         int SaveChanges();
         void Update(RecipeFeedback entity);
         List<RecipeFeedback> GetReviewsForRecipe(int recipeId);
+        public RecipeFeedback GetRecipeFeedbackByUserIdAndRecipeId(int userId, int recipeId);
     }
 }

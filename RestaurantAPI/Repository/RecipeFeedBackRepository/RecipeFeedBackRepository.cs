@@ -52,6 +52,10 @@ namespace RestaurantAPI.Repository.RecipeFeedBackRepository
         {
             return Context.RecipeFeedbacks.FirstOrDefault(r => r.id == id);
         }
+        public RecipeFeedback GetRecipeFeedbackByUserIdAndRecipeId(int userId, int recipeId)
+        {
+            return Context.RecipeFeedbacks.FirstOrDefault(r => r.userId == userId && r.RecipeId==recipeId);
+        }
 
         public int SaveChanges()
         {

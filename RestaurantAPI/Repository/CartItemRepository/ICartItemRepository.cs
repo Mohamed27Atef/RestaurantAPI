@@ -9,5 +9,6 @@ namespace RestaurantAPI.Repository
         List<CartItem> GetByCartIdAndRestaurantId(int cartId, int restaurantId);
         List<CartItem> GetAllByCartIdAndRestaurantId(int cartId, int restaurantId);
         decimal getTotalPriceOrderByRestaurantIdAndOrderId(int cartId, int restaurantId);
+        public CartItem GetByCartIdAndRecipeId(int cartId, int recipeId);
     }
 }

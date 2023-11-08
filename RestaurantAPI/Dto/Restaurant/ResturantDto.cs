@@ -34,7 +34,7 @@ namespace RestaurantAPI.Dto
         public decimal ClosingHours { get; set; }
         public string phone { get; set; }
 
-        public string Image { get; set; }
+        public string? Image { get; set; }
 
         public List<string>? images { get; set; } = new List<string>();
         public List<int>? RestaurantCategories { get; set; } = new List<int>();

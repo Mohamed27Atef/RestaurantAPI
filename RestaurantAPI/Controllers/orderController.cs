@@ -26,7 +26,8 @@ namespace RestaurantAPI.Controllers
         private readonly ICartItemRepository cartItemRepository;
 
         public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
-             IUserRepository _IUserRepository, IAddressRepository IAddressRepository, ICartItemRepository cartItemRepository)
+             IUserRepository _IUserRepository, IAddressRepository IAddressRepository,
+             ICartItemRepository cartItemRepository)
         {
             this.IorderRepo = _IorderRepo;
             this.ICartRepositoryo = _ICartRepository;
