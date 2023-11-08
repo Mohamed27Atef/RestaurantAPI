@@ -80,13 +80,15 @@ namespace RestaurantAPI.Controllers
             return Ok(tableDtos);
         }
 
-        [HttpGet("getReservationByrestaurantId/{restaurantId}")]
-        public ActionResult getReservationByrestaurantId(int restaurantId, [FromQuery] int p = 1)
+        [HttpGet("getReservationByrestaurantId")]
+        public ActionResult getReservationByrestaurantId([FromQuery] int p = 1)
         {
+            string AppId = GetUserIdFromClaims();
+            Resturant resturant = iResturanrRepo.getByAppId(AppId);
             const int pageSize = 10;
             int skip = (p - 1) * pageSize;
             List<UserTable> userTables = tableUserRepository
-                .GetAllByRestaurantId(restaurantId)
+                .GetAllByRestaurantId(resturant.id)
                   .Skip(skip)
                 .Take(pageSize).ToList();
 

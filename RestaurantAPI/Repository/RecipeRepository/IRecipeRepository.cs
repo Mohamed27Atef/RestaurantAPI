@@ -9,6 +9,7 @@ namespace RestaurantAPI.Repository
         List<Recipe> getByMenuId(int menuId);
         List<string> getRecipeImages(int id);
         List<Recipe> GetByName(string name);
+        List<Recipe> getMostRated();
 
 
     }

@@ -66,6 +66,25 @@ namespace RestaurantAPI.Controllers
 
             return Ok(recipes);
         }
+
+        [HttpGet("getMostRated")]
+        public ActionResult getMostRated() {
+            List<MostRated> mostrated = new List<MostRated>();
+            foreach (var item in _recipeRepository.getMostRated())
+            {
+                mostrated.Add(new MostRated()
+                {
+                    Description = item.Description,
+                    Price = item.Price,
+                    id = item.id,
+                    imageUrl = item.imageUrl,
+                    Name = item.name
+                });
+            }
+            return Ok(mostrated);
+        }
+
+
         [HttpGet("searchReceipeInResturant/{name}")]
         [Authorize]
         public IActionResult searchReceipeInResturant(string name, [FromQuery] int p = 1)

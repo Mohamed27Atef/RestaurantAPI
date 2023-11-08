@@ -6,6 +6,7 @@ using RestaurantAPI.Dto.Order;
 using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.CartRepository;
+using RestaurantAPI.Repository.ResturantRepository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -14,16 +15,19 @@ namespace RestaurantAPI.Controllers
         private readonly IUserRepository userRepository;
         private readonly ICartItemRepository cartItemRepository;
         private readonly ICartRepository IcartRepo;
+        private readonly IResturanrRepo resturantRepository;
 
         public CartItemController( 
             IUserRepository userRepository,
             ICartItemRepository cartItemRepository,
-            ICartRepository IcartRepo
+            ICartRepository IcartRepo,
+            IResturanrRepo resturantRepository
            )
         {
             this.userRepository = userRepository;
             this.cartItemRepository = cartItemRepository;
             this.IcartRepo = IcartRepo;
+            this.resturantRepository = resturantRepository;
         }
         [HttpGet]
         [Authorize]
@@ -118,10 +122,12 @@ namespace RestaurantAPI.Controllers
 
         [HttpGet("getOrderItemsByOrderId")]
         [Authorize]
-        public ActionResult getOrderItemsByOrderId(int orderId, int restaurantId)
+        public ActionResult getOrderItemsByOrderId(int orderId)
         {
-           Cart cart = IcartRepo.getCatByOrderId(orderId);
-            List<CartItem> items = cartItemRepository.GetAllByCartIdAndRestaurantId(cart.id, restaurantId);
+            string AppId = GetUserIdFromClaims();
+            Resturant resturant = resturantRepository.getByAppId(AppId);
+            Cart cart = IcartRepo.getCatByOrderId(orderId);
+            List<CartItem> items = cartItemRepository.GetAllByCartIdAndRestaurantId(cart.id, resturant.id);
             List<CartItemDto> cartItemDto = new List<CartItemDto>();
 
             foreach (var item in items)

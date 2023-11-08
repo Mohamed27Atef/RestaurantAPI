@@ -93,6 +93,9 @@ namespace RestaurantAPI.Repository.ProductRepository
             return Context.RecipeImages.Where(r => r.RecipeId == id).Select(r => r.Image).ToList();
         }
 
-
+        public List<Recipe> getMostRated()
+        {
+            return Context.Recipes.Where(r => r.rate >= 4m).ToList();
+        }
     }
 }

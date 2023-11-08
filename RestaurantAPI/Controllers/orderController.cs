@@ -25,11 +25,13 @@ namespace RestaurantAPI.Controllers
         private readonly IUserRepository IUserRepository;
         private readonly IAddressRepository IAddressRepository;
         private readonly IRestaurantOrderStatus restaurantOrderStatus;
+        private readonly IResturanrRepo resturanrRepo;
         private readonly ICartItemRepository cartItemRepository;
 
         public OrderController(IOrderRepository _IorderRepo, ICartRepository _ICartRepository,
              IUserRepository _IUserRepository, IAddressRepository IAddressRepository,
              IRestaurantOrderStatus restaurantOrderStatus,
+             IResturanrRepo resturanrRepo,
              ICartItemRepository cartItemRepository)
         {
             this.IorderRepo = _IorderRepo;
@@ -37,6 +39,7 @@ namespace RestaurantAPI.Controllers
             this.IUserRepository = _IUserRepository;
             this.IAddressRepository = IAddressRepository;
             this.restaurantOrderStatus = restaurantOrderStatus;
+            this.resturanrRepo = resturanrRepo;
             this.cartItemRepository = cartItemRepository;
         }
         //get
@@ -74,12 +77,14 @@ namespace RestaurantAPI.Controllers
             return Ok(userOrdersRestaurant);
         }
 
-        [HttpGet("getOrderByReataurantId/{restaurantId}")]
+        [HttpGet("getOrderByReataurantId")]
         [Authorize]
-        public ActionResult getOrderByReataurantId(int restaurantId)
+        public ActionResult getOrderByReataurantId()
         {
+            string AppId = GetUserIdFromClaims();
+            Resturant resturant = resturanrRepo.getByAppId(AppId);
 
-            List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(restaurantId).Where(r => r != null).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
+            List<OrderAdmin> orders = IorderRepo.getOrderByReataurantId(resturant.id).Where(r => r != null).DistinctBy(r => r.Id).Select(r => new OrderAdmin()
             {
                 customerName = r.User.ApplicationUser.UserName,
                 customerPhone = r.User.ApplicationUser.PhoneNumber,
@@ -93,8 +98,8 @@ namespace RestaurantAPI.Controllers
             }).ToList();
             for (int i = 0; i < orders.Count; i++)
             {
-                orders[i].totalPrice = getTotalPriceOrderByRestaurantIdAndOrderId(orders[i].orderId, restaurantId);
-                orders[i].status = restaurantOrderStatus.getStatusByRestaurntIdCartId(restaurantId, IorderRepo.getCartIdByOrderId(orders[i].orderId)).ToString();
+                orders[i].totalPrice = getTotalPriceOrderByRestaurantIdAndOrderId(orders[i].orderId, resturant.id);
+                orders[i].status = restaurantOrderStatus.getStatusByRestaurntIdCartId(resturant.id, IorderRepo.getCartIdByOrderId(orders[i].orderId)).ToString();
 
             }
 
@@ -103,8 +108,10 @@ namespace RestaurantAPI.Controllers
 
         [HttpPut("updateStatus/{orderId}/{status}")]
         [Authorize]
-        public ActionResult updateStatus(int orderId,  string status, int restaurantId)
+        public ActionResult updateStatus(int orderId,  string status)
         {
+            string AppId = GetUserIdFromClaims();
+            Resturant resturant = resturanrRepo.getByAppId(AppId);
             Order order = IorderRepo.GetById(orderId);
             if (order == null)
                 return BadRequest();
@@ -112,7 +119,7 @@ namespace RestaurantAPI.Controllers
             var t = IorderRepo.getCartIdByOrderId(orderId);
 
 
-            restaurantOrderStatus.updateStatus(restaurantId, IorderRepo.getCartIdByOrderId(orderId), (OrderStatus)IorderRepo.getStatusId(status));
+            restaurantOrderStatus.updateStatus(resturant.id, IorderRepo.getCartIdByOrderId(orderId), (OrderStatus)IorderRepo.getStatusId(status));
             restaurantOrderStatus.SaveChanges();
             
             order.Status = (OrderStatus)IorderRepo.getStatusId(status);
