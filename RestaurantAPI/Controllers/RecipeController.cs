@@ -65,6 +65,7 @@ namespace RestaurantAPI.Controllers
             restaurantName = recipe.Menu.restaurant.Name,
             menuName = recipe.Menu.title 
         })
+
         .Take(pageSize).ToList();
 
             if (recipes.Count == 0)
@@ -86,7 +87,8 @@ namespace RestaurantAPI.Controllers
                     Price = item.Price,
                     id = item.id,
                     imageUrl = item.imageUrl,
-                    Name = item.name
+                    Name = item.name,
+                    rate=item.rate
                 });
             }
             return Ok(mostrated);
