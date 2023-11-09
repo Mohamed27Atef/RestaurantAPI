@@ -9,5 +9,6 @@
 
         public decimal Price { get; set; }
         public string imageUrl { get; set; }
+        public decimal rate { get; set; }
     }
 }

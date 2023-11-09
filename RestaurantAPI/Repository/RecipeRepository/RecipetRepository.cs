@@ -18,13 +18,12 @@ namespace RestaurantAPI.Repository.ProductRepository
                 .Where(recipe => recipe.name.Contains(name))
                 .Include(recipe => recipe.Menu) // Include the Menu navigation property
                 .ThenInclude(menu => menu.restaurant) // Then include the Restaurant navigation property within Menu
-
                 .Include(recipe => recipe.Menu)
-                .ThenInclude(menu => menu.restaurant) 
+                .ThenInclude(menu => menu.restaurant)
                 .ToList();
         }
 
-    
+
 
         public List<Recipe> GetAll(string include = "")
         {
@@ -98,7 +97,7 @@ namespace RestaurantAPI.Repository.ProductRepository
 
         public List<Recipe> getMostRated()
         {
-            return Context.Recipes.Where(r => r.rate >= 4m).ToList();
+            return Context.Recipes.Where(r => r.rate >= 3m).ToList();
         }
     }
 }
