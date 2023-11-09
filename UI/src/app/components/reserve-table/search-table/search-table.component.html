@@ -1,0 +1,44 @@
+<!-- search.component.html -->
+<div class="container mb-5">
+  <div class="row flex-end">
+    <div class="col-4">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="restaurantNumber"
+          (ngModelChange)="onTableNumberChange()"
+          placeholder="Enter Table Number"
+          class="search-input custom-input-width"
+        />
+        <button (click)="searchByTableNumber()" class="search-button">
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="search-container">
+        <input
+          type="date"
+          [(ngModel)]="searchDate"
+          class="search-input custom-input-width"
+          (change)="searchByDate()"
+        />
+        <button (click)="clearDate()" class="search-button" *ngIf="searchDate">
+          clear
+        </button>
+      </div>
+    </div>
+    <div class="col-4 searcing-name">
+      <div class="search-container1">
+        <input
+          type="text"
+          [(ngModel)]="restaurantName"
+          (ngModelChange)="searchByRestaurantName()"
+          placeholder="Enter Restaurant Name"
+          class="search-input custom-input-width"
+        />
+      </div>
+    </div>
+  </div>
+</div>

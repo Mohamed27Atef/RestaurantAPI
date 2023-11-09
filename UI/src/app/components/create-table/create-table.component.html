@@ -1,0 +1,19 @@
+<h2 class="text-center m-4">Create Table</h2>
+
+<form (ngSubmit)="onSubmit()" class="table-form">
+  <div class="form-group">
+    <label for="Name">Table Size:</label>
+    <div class="select-container">
+      <select id="Name" [(ngModel)]="name" name="name" class="form-control">
+        <option value="">Select Table</option>
+        <option value="Solo">Solo</option>
+        <option value="Mini">Mini</option>
+        <option value="Medium">Medium</option>
+        <option value="Family">Family</option>
+      </select>
+    </div>
+  </div>
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary">Create Table</button>
+  </div>
+</form>

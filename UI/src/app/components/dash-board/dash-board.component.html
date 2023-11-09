@@ -1,0 +1,212 @@
+<div class="wrapper d-flex flex-column min-vh-100 bg-light">
+  <!-- navbar -->
+  <!-- <nav class="navbar">
+    <h4>Dashboard</h4>
+    <div class="profile">
+      <span class="fas fa-search"></span>
+      <img class="profile-image" alt="no avaible image" src="" />
+      <p class="profile-name">Lorem ipsum</p>
+    </div>
+  </nav> -->
+
+  <!-- sidebar -->
+  <input type="checkbox" id="toggle" />
+  <label class="side-toggle" for="toggle"
+    ><div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        fill="#7d84ab"
+        class="bi bi-arrows-collapse-vertical"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM0 8a.5.5 0 0 1 .5-.5h3.793L3.146 6.354a.5.5 0 1 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8.5H.5A.5.5 0 0 1 0 8Zm11.707.5 1.147 1.146a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 0 1 .708.708L11.707 7.5H15.5a.5.5 0 0 1 0 1h-3.793Z"
+        />
+      </svg></div
+  ></label>
+
+  <div class="sidebar">
+    <a routerLinkActive="active" routerLink="CreateReceipe">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-restaurant"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M5 3h14a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+            />
+            <path d="M12 21V11" />
+            <path d="M4 11a7 7 0 0 1 7-7h0a7 7 0 0 1 7 7" />
+          </svg>
+        </div>
+        <p>Create Receipe</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="CreateMenu">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-card-list"
+            viewBox="0 0 24 24"  
+          >
+            <path
+              d="M5 2h14a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+            />
+            <path
+              d="M8 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM8 6h0M12 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM12 6h0M16 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM16 6h0M8 9h0M12 9h0M16 9h0M8 12h0M12 12h0M16 12h0M8 15h0M12 15h0M16 15h0"
+            />
+          </svg>
+        </div>
+        <p>Create Menu</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="CreateTable">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-table"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 2v1a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1z"
+            />
+            <path
+              d="M16 9v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1zM2 3v6a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"
+            />
+          </svg>
+        </div>
+        <p>Create Table</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="UpdateResturant">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-pencil"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2c-.966 0-1.86.4-2.506 1.035l-7.968 7.969a1 1 0 0 0-.293.717V18a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H12zm-2.172 2.172a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-7.968 7.969a1 1 0 0 1-1.638-.327V6.172z"
+            />
+            <path
+              d="M20.293 5.293a1 1 0 0 0-1.414 0l-2 2a1 1 0 0 0 0 1.414 1 1 0 0 0 1.414 0l2-2a1 1 0 0 0 0-1.414z"
+            />
+          </svg>
+        </div>
+        <p>Update Resturant</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="UpdateReceipe">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-gear"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M21.6 12a9.6 9.6 0 1 1-2.4-6.4H15a3 3 0 0 0-3 3v1.2a9.6 9.6 0 0 1 6.6 6.6H21.6A9.6 9.6 0 0 1 12 21.6a9.6 9.6 0 0 1 0-19.2z"
+            />
+          </svg>
+        </div>
+        <p>Update Receipe</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="ResturantOrders">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-basket"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M0 7.5l5.417-3.611a1 1 0 0 1 1.166 0L8.9 7H21a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h4.01l1.437-4.292a1 1 0 0 1 .947-.708h6.122a1 1 0 0 1 .946.708L15.99 7h4.02a1 1 0 0 1 1 1v7M9 11a2 2 0 1 1 4 0M2 8h20"
+            />
+          </svg>
+        </div>
+        <p>Restaurant orders</p>
+      </div>
+    </a>
+    <a routerLinkActive="active" routerLink="ResturanrReservation">
+      <div class="sidebar-menu">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="bi bi-calendar3"
+            viewBox="0 0 24 24"
+          >
+            <path d="M4 1a1 1 0 0 1 1 1v18a1 1 0 0 1-2 0V2a1 1 0 0 1 1-1z" />
+            <path d="M1 5h22" />
+            <path
+              d="M16 10a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4z"
+            />
+          </svg>
+        </div>
+        <p>Restaurant Reservation</p>
+      </div>
+    </a>
+  </div>
+
+
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<form>
+	<br />
+	<div class="container">
+		<div class="card shadow border-0">
+
+			<div class="card-header bg-dark bg-gradient text-light ml-0 py-4">
+				<div class="row px-4">
+					<div class="col-6">
+						<h2 class="pt-2 text-white">
+							Order
+						</h2>
+					</div>
+					<div class="col-6 text-end">
+						<a (click)=" Back()" class="btn btn-outline-danger btn-sm">Back to Order list</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="container rounded p-2">
+					<div class="row">
+						<div class="col-12 col-lg-6 pb-4">
+							<div class="row">
+								<h4 class="d-flex justify-content-between align-items-center mb-3">
+									<span class="text-info">Shipping Details:</span>
+								</h4>
+							</div>
+							<div class="row my-1">
+								<div class="col-4">
+									<label>Order ID</label>
+								</div>
+								<div class="col-8">
+									<input readonly class="form-control" [value]="orderObj.orderId"/>
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-4">
+									<label>Order Date</label>
+								</div>
+								<div class="col-8">
+									<input [value]="orderObj.formattedDateTime " readonly class="form-control"/>
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-4">
+									<label>Customer Name</label>
+								</div>
+								<div class="col-8">
+									<input readonly [value]="orderObj.customerName" class="form-control"/>
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-4">
+									<label>Customer Phone</label>
+								</div>
+								<div class="col-8">
+									<input [value]="orderObj.customerPhone" readonly class="form-control" />
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-4">
+									<label>location</label>
+								</div>
+								<div class="col-8">
+									<input value="{{orderObj.country}} - {{orderObj.city}} - {{orderObj.street}}" readonly class="form-control"/>
+								</div>
+							</div>						
+						</div>
+						<div class="col-12 col-lg-5 offset-lg-1">
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
+								<span class="text-info">Order Summary:</span>
+							</h4>
+							<ul class="list-group mb-3">
+								<!-- ng for here -->
+									<li *ngFor="let orderItem of  orderItems" class="list-group-item d-flex justify-content-between">
+										<div >
+											<h4 class="my-0">{{orderItem.recipeName}}</h4>
+											<small class="text-muted">Quantity: {{orderItem.quantity}}</small>
+										</div>
+										<span class="text-muted">{{orderItem.quantity}} X {{orderItem.recipePrice}} LE</span>
+									</li>
+
+								<li class="list-group-item d-flex justify-content-between bg-light">
+									<small class="text-info">Total Price</small>
+									<strong class="text-info">{{orderObj.totalPrice}}</strong>
+								</li>
+								<li class="list-group-item d-flex justify-content-between bg-light">
+								<div class="mb-3 row p-1">
+									<label>Status</label>
+									<input [value]="status" readonly class="form-control"/>
+								</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</form>
+
+
+
+

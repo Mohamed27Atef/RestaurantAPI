@@ -1,0 +1,116 @@
+<form>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="registerName" class="form-label fs-5">First Name</label>
+      <input
+        type="text"
+        class="form-control fs-5"
+        id="registerFirstName"
+        name="registerFirstName"
+        [(ngModel)]="user.firstName"
+      />
+      <div *ngIf="user.firstName == ''" class="text-danger mt-1 fw-bold fs-6">
+        {{ user.firstNameError }}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="registerUsername" class="form-label fs-5">Last Name</label>
+      <input
+        type="text"
+        class="form-control fs-5"
+        id="registerLastName"
+        name="registerLastName"
+        [(ngModel)]="user.LastName"
+      />
+      <div *ngIf="user.LastName == ''" class="text-danger mt-1 fw-bold fs-6">
+        {{ user.LastNameError }}
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="registerEmail" class="form-label fs-5">Email</label>
+    <input
+      type="email"
+      class="form-control fs-5"
+      id="registerEmail"
+      name="registerEmail"
+      [(ngModel)]="user.email"
+    />
+    <div
+      *ngIf="user.email == null || user.email != null"
+      class="text-danger mt-1 fw-bold fs-6"
+    >
+      {{ user.emailError }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="registerPassword" class="form-label fs-5">Password</label>
+    <div class="input-group">
+      <input
+        [type]="user.passwordVisible ? 'text' : 'password'"
+        class="form-control fs-5"
+        id="registerPassword"
+        name="registerPassword"
+        [(ngModel)]="user.password"
+      />
+      <button
+        class="btn btn-light fs-5"
+        type="button"
+        (click)="togglePasswordVisibility()"
+      >
+        <i
+          class="fa fs-5"
+          [ngClass]="{
+            'fa-eye': user.passwordVisible,
+            'fa-eye-slash': !user.passwordVisible
+          }"
+        ></i>
+      </button>
+    </div>
+    <div *ngIf="user.password == ''" class="text-danger mt-1 fw-bold fs-6">
+      {{ user.passwordError }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="registerconfirmPassword" class="form-label fs-5"
+      >Confirm Password</label
+    >
+    <div class="input-group">
+      <input
+        [type]="user.confirmPasswordVisible ? 'text' : 'password'"
+        class="form-control fs-5"
+        id="registerconfirmPassword"
+        name="registerConfirmPassword"
+        [(ngModel)]="user.confirmPassword"
+      />
+      <button
+        class="btn btn-light fs-5"
+        type="button"
+        (click)="togglePasswordVisibility2()"
+      >
+        <i
+          class="fa fs-5"
+          [ngClass]="{
+            'fa-eye': user.confirmPasswordVisible,
+            'fa-eye-slash': !user.confirmPasswordVisible
+          }"
+        ></i>
+      </button>
+    </div>
+    <div
+      *ngIf="user.confirmPassword == '' || user.confirmPassword != ''"
+      class="text-danger mt-1 fw-bold fs-6"
+    >
+      {{ user.confirmPasswordError }}
+    </div>
+  </div>
+
+  <div class="mb-3 form-check fs-5">
+    <app-get-location></app-get-location>
+  </div>
+  <button (click)="signUp()" class="btn btn-warning shadow fs-5">
+    Sign up
+  </button>
+</form>

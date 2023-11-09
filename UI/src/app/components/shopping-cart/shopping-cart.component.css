@@ -1,0 +1,71 @@
+.cart {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  width: 300px;
+  height: 80%;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1;
+}
+
+.small-rounded-image {
+  width: 80px;
+  /* Adjust the width to your desired size */
+  height: 80px;
+  /* Adjust the height to your desired size */
+  border-radius: 50%;
+  /* Apply a rounded border */
+}
+
+/* Add this to your component's CSS file or your global styles */
+/* Add this to your component's CSS file or your global styles */
+.quantity-button {
+  background-color: #ff6600;
+  /* Orange background color */
+  color: white;
+  /* White text color */
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.quantity-button:hover {
+  background-color: #ff9900;
+  /* Orange background color on hover */
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  /* You can adjust the radius as needed */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.remove-button:hover {
+  background-color: darkred;
+}
+
+ul {
+  list-style: none;
+  /* Remove default list bullet */
+  padding: 0;
+  /* Remove default list padding */
+}
+
+.product-quantity {
+  display: flex;
+  align-items: center;
+}

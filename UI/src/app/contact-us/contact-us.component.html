@@ -1,0 +1,22 @@
+<!-- <div class="contact-us-container">
+  <h2>Contact Us</h2>
+  <form (ngSubmit)="onSubmit()" class="wider-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" [(ngModel)]="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required>
+
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
+
+    <label for="message">Message:</label>
+    <textarea id="message" [(ngModel)]="message" name="message" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="isSubmitted" class="confirmation-message" [@fadeInOut]>
+  Thank you for your message. We have received your email.
+</div>

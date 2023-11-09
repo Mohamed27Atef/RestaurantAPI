@@ -1,0 +1,88 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.icons {
+  text-align: center;
+}
+.details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 10px;
+  border: 5px solid #ccc;
+  border-radius: 100%;
+  background-color: #ccc;
+  position: relative;
+}
+
+.active {
+  background-color:orange;
+  color: #fff;
+  border: #007bff;
+}
+
+.step::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 5px);
+  left: calc(-18.5vw - 3px);
+  width: 100%;
+  height: 10px;
+  background-color: #ccc;
+  z-index: -1;
+}
+
+.step.active::before {
+  background-color: orange;
+}
+
+.row .col-3:first-child .step::before {
+  display: none;
+}
+
+.step:last-child::before {
+  width: calc(18.5vw + 3px);
+}
+.invoice {
+  display: flex;
+  align-items: center;
+}
+
+.invoice-text {
+  font-weight: bold;
+}
+
+.invoice-number {
+  color: orange;
+  font-weight: bold;
+  margin-left: 5px; /* Add spacing between "INVOICE" and the number */
+}
+
+.container{
+  position: relative;
+  z-index: 20;
+
+}
+
+.horizontal-line {
+  width: 33.33%; /* The initial width covers one step */
+  height: 5px; /* Adjust the height and color as needed */
+  background-color: orange;
+  position: absolute;
+  bottom: 70%;
+  transform: translateX(0);
+  z-index: -2;
+  animation: moveLine 0.00000000000001 linear; /* Adjust the animation duration as needed */
+}

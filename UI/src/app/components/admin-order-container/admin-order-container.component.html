@@ -1,0 +1,8 @@
+<div class="order-container pt-5 pb-5">
+    <div *ngIf="showTable">
+      <app-admin-orders  (changeDataEvent)="handleChangeDataEvent($event)" ></app-admin-orders >
+    </div>
+    <div *ngIf="showDiv">
+      <app-admin-order-details [orderObj]="order" [status]="newStatus" (backdata)="handleBack()"></app-admin-order-details>
+    </div>
+  </div>

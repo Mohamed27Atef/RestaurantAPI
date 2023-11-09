@@ -1,0 +1,40 @@
+<h1 class="RestaurantTitle">{{ name }}</h1>
+<!-- open&close -->
+<div class="container demo-bg">
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <div class="business-hours">
+        <h2 class="title">Opening Hours</h2>
+        <ul class="list-unstyled opening-hours">
+          <li *ngFor="let days of WeekDays">
+            {{ days }}
+            <span class="pull-right">
+              <span *ngIf="checkifClosed(days)">Closed</span>
+              <span *ngIf="!checkifClosed(days)"
+                >{{ oppeningHour.toFixed(2) }} am-{{
+                  closingHour.toFixed(2)
+                }}
+                pm</span
+              >
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- rate -->
+<div class="container d-flex justify-content-center mt-100">
+  <div class="content text-center">
+    <div class="ratings">
+      <span class="product-rating">{{rate}}</span><span>/5</span>
+      <div class="stars">
+        <i class="fa fa-star" *ngFor="let star of starsArray"></i>
+      </div>
+    </div>
+  </div>
+</div>

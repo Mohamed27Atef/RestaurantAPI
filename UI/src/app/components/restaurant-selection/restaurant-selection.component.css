@@ -1,0 +1,16 @@
+.btn.btn-primary {
+    background:  #FEA116;
+    border: 1px solid #c8a97e;
+    color: #fff;
+  }
+  .all{
+    border: 1px solid white;
+  }
+  .head{
+    color:  #FEA116;;
+  } 
+  .overlay{
+    background-color: rgb(0, 0, 0,.7);
+    height: 100%;
+    width: 100%;
+  }

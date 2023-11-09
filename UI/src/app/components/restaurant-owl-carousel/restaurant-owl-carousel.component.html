@@ -1,0 +1,12 @@
+<div>
+    <owl-carousel-o>
+        <ng-container *ngFor="let resturant of restaurants">
+            <ng-template carouselSlide >
+                <a [routerLink]="'restaurant/' + resturant.id">
+                    <img [src]="resturant.image"  class="images ">
+                    <p class="text-center  text-warning pt-1" >{{resturant.name}}</p>
+                </a>
+            </ng-template>
+        </ng-container>    
+    </owl-carousel-o>
+</div>

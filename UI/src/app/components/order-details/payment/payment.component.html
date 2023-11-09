@@ -1,0 +1,172 @@
+<div class="">
+  <div class="card m-auto">
+    <div class="card-top border-bottom text-center">
+      <a routerLink="/"> Back to shop</a>
+      <span id="logo">Feane.com</span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="left border">
+            <div class="row">
+              <span class="header">Payment</span>
+            </div>
+            <form
+              #myForm="ngForm"
+              [formGroup]="RegisterationValidation"
+              (ngSubmit)="onSubmit()"
+            >
+              <label for="street">Street:</label>
+              <input
+                type="text"
+                id="street"
+                name="street"
+                formControlName="street"
+                ngModel
+                required
+                [(ngModel)]="street"
+              />
+              <span
+                class="error-message"
+                *ngIf="
+                  !StreetValid &&
+                  RegisterationValidation?.get('street')?.touched
+                "
+                >Please enter a street.</span
+              >
+
+              <label for="city">City:</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                formControlName="city"
+                ngModel
+                required
+                [(ngModel)]="city"
+              />
+              <span
+                class="error-message"
+                *ngIf="
+                  !cityValid && RegisterationValidation?.get('city')?.touched
+                "
+                >Please enter a city.</span
+              >
+
+              <label for="country">Country:</label>
+              <input
+                #countryInput
+                type="text"
+                id="country"
+                name="country"
+                formControlName="country"
+                ngModel
+                required
+                [(ngModel)]="country"
+              />
+
+              <span
+                class="error-message"
+                *ngIf="
+                  !countryValid &&
+                  RegisterationValidation?.get('country')?.touched
+                "
+                >Please enter a country.</span
+              >
+              <button 
+              class="btn" (click)="makeOrder()">Pay Now</button>
+            </form>
+            <div
+              class="error-message"
+              *ngIf="
+                RegisterationValidation.invalid && RegisterationValidation.dirty
+              "
+            >
+              Please fix the form errors before submitting.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="right border">
+            <div class="header">Order Summary</div>
+            <p>{{ CartItemSumary.length }} items</p>
+            <div class="row item" *ngFor="let item of CartItemSumary">
+              <div class="col-4 align-self-center">
+                <img
+                  class="img-fluid"
+                  [src]="item.imageUrl"
+                  style="height: 50px; width: 50px; border-radius: 50%"
+                />
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <b>$ {{ item.totalPrice }}</b>
+                </div>
+                <div class="row text-muted">
+                  {{ item.recipeDescription }}
+                </div>
+                <div class="row">Qty:{{ item.quantity }}</div>
+              </div>
+            </div>
+
+            <hr />
+            <div class="row lower">
+              <div class="col text-left">Subtotal</div>
+              <div class="col text-right">$ {{ orderAddress.TotalPrice }}</div>
+            </div>
+            <div class="row lower">
+              <div class="col text-left">Delivery</div>
+              <div class="col text-right">Free</div>
+            </div>
+            <div class="row lower" *ngIf="!oneCopon">
+              <div class="col text-left">
+                <b class="oldPrice">Total to pay</b>
+              </div>
+              <div class="col text-right">
+                <b>
+                  <span class="oldPrice" style="margin-right: 5px"
+                    >$ {{ oldTotalPrice }}</span
+                  ></b
+                >
+              </div>
+            </div>
+            <div class="row lower">
+              <div class="col text-left"><b>Total to pay</b></div>
+              <div class="col text-right">
+                <b> $ {{ orderAddress.TotalPrice }}</b>
+              </div>
+            </div>
+            <div class="row lower">
+              <div class="col text-left">
+                <button id="btn-cupon" (click)="togglePromoInput()">
+                  <u>Add promo code</u>
+                </button>
+              </div>
+              <div *ngIf="showInput">
+                <input
+                  type="text"
+                  [(ngModel)]="promoCode"
+                  placeholder="Enter promo code"
+                />
+                <p
+                  *ngIf="this.coponObj.discountPercentage == -1"
+                  style="color: red"
+                >
+                  this is Invalid
+                </p>
+                <button (click)="applyPromoCode()" id="btn-apply">Apply</button>
+              </div>
+            </div>
+            <!-- <form #myForm="ngForm" (ngSubmit)="onSubmit()">
+              <button class="btn" (click)="makeOrder()">Pay Now</button>
+            </form> -->
+
+            <!-- <p class="text-muted text-center">
+              Complimentary Shipping & Returns
+            </p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

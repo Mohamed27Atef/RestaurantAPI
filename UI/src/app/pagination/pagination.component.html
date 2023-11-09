@@ -1,0 +1,25 @@
+<div class="pagination">
+  <button class="nav-button" (click)="previousPage()" [disabled]="currentPage === 1">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <ng-container *ngFor="let page of pages">
+    <button class="page-number" (click)="goToPage(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+  </ng-container>
+  <button class="nav-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+<!-- <div class="page-label">
+  Page {{ currentPage }} of {{ totalPages }}
+</div>
+
+<ul class="item-list">
+  <li *ngFor="let item of itemsOnCurrentPage">{{ item }}</li>
+</ul> -->
+
+
+
+

@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <div class="step" [class.active]="getStepStatus(1) === 'active'">
+        <ng-container *ngIf="getStepStatus(1) === 'active'; else inactiveIcon">
+          <i class="fa-regular fa-circle-check"></i>
+        </ng-container>
+        <ng-template #inactiveIcon>
+          <i class="fa-regular fa-circle"></i>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="step" [class.active]="getStepStatus(2) === 'active'">
+        <ng-container *ngIf="getStepStatus(2) === 'active'; else inactiveIcon">
+          <i class="fa-regular fa-circle-check"></i>
+        </ng-container>
+        <ng-template #inactiveIcon>
+          <i class="fa-regular fa-circle"></i>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="step" [class.active]="getStepStatus(3) === 'active'">
+        <ng-container *ngIf="getStepStatus(3) === 'active'; else inactiveIcon">
+          <i class="fa-regular fa-circle-check"></i>
+        </ng-container>
+        <ng-template #inactiveIcon>
+          <i class="fa-regular fa-circle"></i>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="step" [class.active]="getStepStatus(4) === 'active'">
+        <ng-container *ngIf="getStepStatus(4) === 'active'; else inactiveIcon">
+          <i class="fa-regular fa-circle-check"></i>
+        </ng-container>
+        <ng-template #inactiveIcon>
+          <i class="fa-regular fa-circle"></i>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-3">
+      <div class="icons">
+        <div class="details">
+          <i class="fa-solid fa-file-circle-check fa-2x"></i>
+          <span>Processed</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="icons">
+        <div class="details">
+          <i class="fa-solid fa-box fa-2x"></i>
+          <span>Shipped</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="icons">
+        <div class="details">
+          <i class="fa-solid fa-truck-fast fa-2x"></i>
+          <span>En Route</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="icons">
+        <div class="details">
+          <i class="fa-solid fa-house fa-2x"></i>
+          <span>Delivered</span>
+        </div>
+      </div>
+    </div>
+    <div class="horizontal-line" [@lineAnimation]="status"></div>
+  </div>
+</div>

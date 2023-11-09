@@ -1,0 +1,76 @@
+<div class="page-title-container">
+  <div class="page-title">Recipes</div>
+</div>
+<div class="search-container">
+  <input type="text" [(ngModel)]="searchText" (ngModelChange)="searchRecipesByName()" id="searchText" placeholder="Search by name" class="form-control rounded" />
+</div>
+<div class="recipe-page">
+  <div class="filter-column">
+    <!-- Filters for rating, price range, and restaurant name -->
+    <div class="filter-group">
+      <div class="rating-filter">
+        <label for="minRating">Minimum Rating:</label>
+        <select [(ngModel)]="minRating" (ngModelChange)="filterRecipes()" id="minRating" class="custom-dropdown">
+          <option *ngFor="let rating of [0, 1, 2, 3, 4, 5]" [value]="rating" [disabled]="rating > maxRating">{{ rating }}</option>
+        </select>
+      </div>
+      <div class="rating-filter">
+        <label for="maxRating">Maximum Rating:</label>
+        <select [(ngModel)]="maxRating" (ngModelChange)="filterRecipes()" id="maxRating" class="custom-dropdown">
+          <option *ngFor="let rating of [0, 1, 2, 3, 4, 5]" [value]="rating" [disabled]="rating < minRating">{{ rating }}</option>
+        </select>
+      </div>
+    </div>
+    <hr /> <!-- Thin line to separate filters -->
+    <div class="filter-group">
+      <label for="minPrice">Minimum Price:</label>
+      <input type="number" [(ngModel)]="minPrice" (ngModelChange)="filterRecipes()" class="form-control w-75" id="minPrice" placeholder="Min Price" />
+    </div>
+    <div class="filter-group">
+      <label for="maxPrice">Maximum Price:</label>
+      <input type="number" [(ngModel)]="maxPrice" (ngModelChange)="filterRecipes()" class="form-control w-75" id="maxPrice" placeholder="Max Price" />
+    </div>
+    <hr /> <!-- Thin line to separate filters -->
+    <div class="filter-group">
+      <label class="category-label">Category:</label>
+      <div class="category-checkboxes">
+        <ng-container *ngFor="let category of uniqueCategories">
+          <label class="category-checkbox">
+            <input type="radio" (click)="selectedCategory($event)" name="category" [id]="'category_' + category.title" [value]="category.title" />
+            <span class="category-name">{{ category.title }}</span>
+          </label>
+        </ng-container>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <div class="recipes-column">
+    <!-- Recipe list -->
+    <div class="recipe-list">
+      <div *ngIf="!filteredRecipe || filteredRecipe.length == 0">
+        <h2>there is no recipe to show</h2>
+      </div>
+      <div *ngIf="filteredRecipe">
+        <div *ngFor="let recipe of filteredRecipe " class="recipe-item">
+          <img [src]="recipe.imageUrl" alt="{{ recipe.name }}" class="recipe-image" />
+          <div class="recipe-details">
+            <h2>{{ recipe.name }}</h2>
+            <p>Rating: {{ recipe.rate }} <i class="fa-solid fa-star"></i></p>
+            <p>Restaurant Name: {{ recipe.restaurantName }}</p>
+            <p>Category: {{ recipe.menuName }}</p>
+            <p>Price: ${{ recipe.price }}</p>
+            <button (click)="addToCart(recipe)" class="buy-button">Buy Now</button>
+          </div>
+        </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+<style>
+  .custom-dropdown {
+    border: 1px solid #ccc;
+    border-radius: 50px; /* Adjust the value to control the circular border size */
+    padding: 5px;
+  }
+</style>

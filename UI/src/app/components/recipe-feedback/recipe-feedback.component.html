@@ -1,0 +1,24 @@
+<div class="feedback-component" *ngIf="!RemoveComponentAfterSubmit" >
+    <div class="rating">
+      <span
+        *ngFor="let star of stars"
+        class="star"
+        [class.active]="star <= selectedRating"
+        (click)="rate(star)"
+        >☆</span
+      >
+    </div>
+    <div class="user-comment-container">
+      <div class="user-info">
+        <img [src]="userAvatar" alt="User Avatar" class="user-avatar" />
+      </div>
+      <textarea
+        [(ngModel)]="userComment"
+        placeholder="Add your comment..."
+        class="comment"
+      ></textarea>
+    </div>
+    <button (click)="submitFeedback()" class="submit">Submit</button>
+  </div>
+  
+  

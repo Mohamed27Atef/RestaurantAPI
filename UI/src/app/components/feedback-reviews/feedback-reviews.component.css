@@ -1,0 +1,13 @@
+.review-bg{
+  color:white;
+  background:rgba(0, 0, 0, 0.603) url("src/assets/images/hero-bg.jpg");
+  background-position: 100% 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-blend-mode:darken
+}
+.prev:hover,.next:hover{
+ cursor: pointer;
+ opacity: 0.8;
+}

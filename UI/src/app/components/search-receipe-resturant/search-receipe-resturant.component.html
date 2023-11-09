@@ -1,0 +1,33 @@
+<h1 class="text-center">Search Receipe Resturant !</h1>
+
+<div class="search-container" style="text-align: center">
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="recipeName"
+      placeholder="Enter Recipe Name"
+      class="search-input custom-input-width"
+      (input)="ngOnChanges()"
+    />
+    <!-- <button class="search-button">Search</button> -->
+  </div>
+</div>
+
+<div class="recipe-page">
+  <div class="recipes-column">
+    <!-- Recipe list -->
+    <div class="recipe-list">
+      <div [routerLink]="'/admin/updateRecipe/' + recipe.id" *ngFor="let recipe of filteredRecipe" class="recipe-item">
+        <img
+          [src]="recipe.imageUrl"
+          alt="{{ recipe.name }}"
+          class="recipe-image"
+        />
+        <div class="recipe-details">
+          <h2>{{ recipe.name }}</h2>
+          <p>Price: ${{ recipe.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

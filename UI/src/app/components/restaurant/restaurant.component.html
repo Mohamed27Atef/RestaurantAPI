@@ -1,0 +1,22 @@
+<div *ngIf="images">
+    <resturamt-images [images]="images" [mainImage]="currentRestaurant.image"></resturamt-images>
+</div>
+<div *ngIf="currentRestaurant">
+    <restaurant-info [oppeningHour]="currentRestaurant.openHours" [closingHour]="currentRestaurant.closingHours" [closingDays]="currentRestaurant.clossingDays" [name]="currentRestaurant.name" [rate]="currentRestaurant.rate"></restaurant-info>
+    <restaurant-contact  [address]="currentRestaurant.address" [email]="currentRestaurant.email" [phone]="currentRestaurant.phone"></restaurant-contact>
+</div> 
+
+<div *ngIf="currentRestaurant">
+  <restaurant-menu #menu ></restaurant-menu>
+</div> 
+  <div *ngIf="looding">
+    <app-book-container [restaurantId]="currentRestaurant.id" [openHour]="currentRestaurant.openHours" [closeHour]="currentRestaurant.closingHours"></app-book-container> 
+  </div> 
+
+  <!-- <app-map [latitude]="currentRestaurant.latitude" [longitude]="currentRestaurant.latitude"></app-map> -->
+  <app-feedback *ngIf="!feedbackAddedFromUser" (postedReview)="postReivew($event)"  [restaurantId]="id" [userName]="name" [userAvatar]="userImage"></app-feedback>
+
+
+  <app-feedback-reviews [restaurantId]="id" [userName]="name" [userAvatar]="userImage"></app-feedback-reviews>
+
+  <app-feedback-score #feedBackScoreComponent  [restaurantId]="id" [userAvatar]="userImage"></app-feedback-score>

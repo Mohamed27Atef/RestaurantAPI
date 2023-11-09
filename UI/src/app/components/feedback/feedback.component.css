@@ -1,0 +1,73 @@
+.feedback-component {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rating {
+  font-size: 48px; /* Larger font size for stars */
+  margin-bottom: 20px;
+}
+
+.star {
+  cursor: pointer;
+  color: #ffdb58; /* Custom star color */
+  font-size: 36px; /* Larger star size */
+  margin: 0 10px;
+}
+
+.star.active {
+  color: #ffab00; /* Custom active star color */
+}
+
+.user-comment-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.user-info {
+  margin-right: 20px;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment {
+  flex: 1;
+  padding: 20px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  height: 160px;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+.submit {
+  background-color: #ff6c00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px; /* Smaller button size */
+  font-size: 18px; /* Smaller font size for the button */
+  cursor: pointer;
+  margin-top: 10px; /* Add margin to position the button under the comment */
+  transition: background-color 0.3s;
+}
+
+.submit:hover {
+  background-color: #ff4500;
+}
+

@@ -1,0 +1,54 @@
+<h2 class="text-center m-4">Create Copon</h2>
+<form  (ngSubmit)="onSubmit()" class="table-form" [formGroup]="form" >
+  <div class="form-group">
+    <label for="NumberOfUser">Number of Users:</label>
+    <input
+      id="NumberOfUser"
+      formControlName="NumberOfUser"
+      class="form-control"
+    />
+  </div>
+  <div
+    *ngIf="
+      form.get('NumberOfUser')?.invalid && form.get('NumberOfUser')?.touched
+    "
+    class="error-message"
+  >
+    NumberOfUser is InValid.
+  </div>
+  <br />
+
+  <div class="form-group">
+    <label for="Text">Coupon Text:</label>
+    <input id="Text" formControlName="Text" class="form-control" />
+  </div>
+  <div
+    *ngIf="form.get('Text')?.invalid && form.get('Text')?.touched"
+    class="error-message"
+  >
+    Text is InValid.
+  </div>
+  <br />
+
+  <div class="form-group">
+    <label for="DiscountPercentage">Discount Percentage:</label>
+    <input
+      id="DiscountPercentage"
+      formControlName="DiscountPercentage"
+      class="form-control"
+    />
+  </div>
+  <div
+    *ngIf="
+      form.get('DiscountPercentage')?.invalid &&
+      form.get('DiscountPercentage')?.touched
+    "
+    class="error-message"
+  >
+    DiscountPercentage is InValid.
+  </div>
+  <br />
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary rounded">Submit Form</button>
+  </div>
+</form>

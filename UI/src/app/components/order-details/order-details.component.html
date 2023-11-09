@@ -1,0 +1,79 @@
+<h2 class="Title-order-details text-center mb-5">Order Details</h2>
+<!-- <app-payment></app-payment> -->
+
+<div class="">
+  <table class="table ml-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Recipe</th>
+        <th scope="col">Amount</th>
+        <th style="width: 70px">Price</th>
+        <th scope="col">Restaurant Name</th>
+        <th scope="col">Details</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="CartItems.length > 0; else emptyCart">
+        <tr *ngFor="let item of CartItems">
+          <td scope="row"><img [src]="item.imageUrl" alt="Item 1" /></td>
+          <td>{{ item.recipeName }}</td>
+          <td>
+            <button class="minus-button btn" (click)="decreaseQuantity(item)">
+              -
+            </button>
+            <span class="quantity">{{ item.quantity }}</span>
+            <button class="plus-button btn" (click)="increaseQuantity(item)">
+              +
+            </button>
+          </td>
+          <td style="width: 70px">
+            $<span>{{ item.totalPrice }}</span>
+          </td>
+          <td>{{ item.restaurantName }}</td>
+          <td>
+            <a
+              [routerLink]="'/recipe/' + item.recipeId"
+              class="details-button btn btn-warning"
+              >Details</a
+            >
+          </td>
+          <td>
+            <button
+              class="cancel-button btn btn-danger"
+              (click)="RemoveCartItem(item)"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #emptyCart>
+        <tr>
+          <td colspan="7" style="color: brown; font-size: larger">
+            Cart is empty
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+  <ng-container *ngIf="CartItems.length > 0">
+    <div
+      class="container-order-details text-center d-flex flex-column align-items-center"
+    >
+      <h2 class="order-details-total-price mb-5 p-3">
+        <span id="order-total-price-title">Total Price = </span>
+        <span id="order-total-price">${{ calculateTotalPrice() }}</span>
+      </h2>
+      <div class="order-deatails-btn">
+        <a
+          class="details-button"
+          routerLink="/payment"
+          (click)="updateCartItem()"
+          >CheckOut</a
+        >
+      </div>
+    </div>
+  </ng-container>
+</div>

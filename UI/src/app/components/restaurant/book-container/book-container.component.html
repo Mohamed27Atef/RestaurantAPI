@@ -1,0 +1,14 @@
+<div class="book" id="reservation">
+    <div class="book-overlay">
+        <div class="cont">
+            <div>
+                <app-book-selection (changeDataEvent)="handleChangeDataEvent()"></app-book-selection> 
+            </div>
+            <div *ngIf="showSecondForm">
+                <app-table-reservation (submitSecond)="handlesubmitSecond()" (backdata)="handleBack()"></app-table-reservation>
+            </div>
+        </div>
+    </div>
+</div> 
+
+

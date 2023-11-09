@@ -1,0 +1,26 @@
+<div class="cart">
+  <div class="card-container">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="product-image">
+        <img [src]="item.image" alt="{{ item.name }}">
+      </div>
+      <div class="product-details">
+        <h3>{{ item.name }}</h3>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Price: ${{ item.price }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="action-buttons">
+  <button class="back-button">Back to Home</button>
+  <button class="proceed-button" >Proceed to Payment</button>
+</div>
+
+
+
+
+
+
+
+

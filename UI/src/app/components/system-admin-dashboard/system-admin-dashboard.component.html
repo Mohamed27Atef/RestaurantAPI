@@ -1,0 +1,82 @@
+<div class="wrapper d-flex flex-column min-vh-100 bg-light">
+ 
+  
+    <!-- sidebar -->
+    <input type="checkbox" id="toggle" />
+    <label class="side-toggle" for="toggle"
+      ><div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="30"
+          fill="#7d84ab"
+          class="bi bi-arrows-collapse-vertical"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM0 8a.5.5 0 0 1 .5-.5h3.793L3.146 6.354a.5.5 0 1 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8.5H.5A.5.5 0 0 1 0 8Zm11.707.5 1.147 1.146a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 0 1 .708.708L11.707 7.5H15.5a.5.5 0 0 1 0 1h-3.793Z"
+          />
+        </svg></div
+    ></label>
+  
+    <div class="sidebar">
+      <a routerLinkActive="active" routerLink="CreateRestaurant">
+        <div class="sidebar-menu">
+          <div class="svg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              class="bi bi-restaurant"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M5 3h14a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+              />
+              <path d="M12 21V11" />
+              <path d="M4 11a7 7 0 0 1 7-7h0a7 7 0 0 1 7 7" />
+            </svg>
+          </div>
+          <p>Create Restaurant</p>
+        </div>
+      </a>
+      <a routerLinkActive="active" routerLink="CreateCopon">
+        <div class="sidebar-menu">
+          <div class="svg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor" 
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              class="bi bi-card-list"
+              viewBox="0 0 24 24"  
+            >
+              <path
+                d="M5 2h14a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+              />
+              <path
+                d="M8 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM8 6h0M12 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM12 6h0M16 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM16 6h0M8 9h0M12 9h0M16 9h0M8 12h0M12 12h0M16 12h0M8 15h0M12 15h0M16 15h0"
+              />
+            </svg>
+          </div>
+          <p>Create Cupon</p>
+        </div>
+      </a>
+      
+    </div>
+  
+  
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

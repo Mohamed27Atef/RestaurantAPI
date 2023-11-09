@@ -1,0 +1,89 @@
+<div class=" col-md-6 order-md-last ftco-animate makereservation p-4 p-md-5 pt-5 fadeInUp ftco-animated">
+    <div class="all">
+        <div class="overlay">
+        <div class=" py-md-5 p-4">
+        <div class="heading-section ftco-animate mb-5 fadeInUp ftco-animated text-center">
+            <h2 class="mb-4 head">Make Reservation</h2>
+        </div>
+        <form (submit)="performAction()"[formGroup]="reservationForm">   
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="head" for="">Name</label>
+                        <input formControlName="firstName" type="text" class="form-control" placeholder="Name">
+                        <span class="text-danger small" *ngIf="reservationForm.get('firstName')?.getError('minlength')">Min Lenght is 3</span>
+                        <span class="text-danger small" *ngIf="reservationForm.get('firstName')?.getError('required')&& reservationForm.get('firstName')?.touched">Required</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="head" for="">Phone</label>
+                        <input formControlName="phone" type="text" class="form-control" placeholder="Your Phone">
+                        <span class="text-danger small" *ngIf="reservationForm.get('phone')?.getError('required') && reservationForm.get('phone')?.touched">Required !</span>
+                        <span class="text-danger small" *ngIf="reservationForm.get('phone')?.getError('pattern')">Invalid phone</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="head" for="">Date</label>
+                        <input (ngModelChange)="onDateTimeChange()" formControlName="date" type="text"  onfocus="(this.type='date')"   onblur="(this.type='text')"  class="form-control" placeholder="Date">
+                        <span class="text-danger small" *ngIf="reservationForm.get('date')?.getError('required')&& reservationForm.get('date')?.touched">Required !</span>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group"> 
+                        <label class="head" for="">Time</label>
+                        <input (ngModelChange)="onDateTimeChange()"  formControlName="time" type="time" class="form-control" placeholder="Time">
+                        <span class="text-danger small" *ngIf="reservationForm.get('time')?.getError('required')&& reservationForm.get('time')?.touched">Required !</span>
+                        <span class="text-danger small" *ngIf="reservationForm.hasError('dateTimeInvalid')">The selected date and time must be in the future</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="head" for="">Tabel Type</label>
+                        <div class="select-wrap one-third">
+                            <span *ngIf="!isDateTimeSelected && isSelectClicked" class="text-danger small">Please select the date and time first.</span>  
+                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                            <select (click)="onSelectClicked()" formControlName="tableType" id="tableType" name="tableType" class="form-control">
+                                <option [disabled]="!isDateTimeSelected" *ngFor="let table of tables" [value]="table.tableType">{{ getTableType(table.tableType)}}</option>
+                            </select>
+                        </div>  
+                        <span class="text-danger small" *ngIf="reservationForm.get('tableType')?.getError('required')&& reservationForm.get('tableType')?.touched">Required !</span>
+                    </div>
+                </div>
+            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="head" for="">Duration</label>
+                        <div class="select-wrap one-third">
+                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                            <select formControlName="dur"  name="duration" class="form-control">
+                                <option *ngFor="let duration of durations" [value]="duration.hours">{{ duration.description}}</option>
+                            </select>
+                        </div>
+                            <span class="text-danger small" *ngIf="reservationForm.get('dur')?.getError('required')&& reservationForm.get('dur')?.touched">Required !</span>
+                    </div>
+                </div>
+            </div>    
+                <div class="col-md-12 text-center">
+                    <div class="form-group mt-3">
+                        <textarea class="form-control ui-timepicker-input" placeholder="Type your notes here.......(optional)" id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-3 text-center">
+                    <div class="form-group">
+                        <input [disabled]="reservationForm.invalid" type="submit" value="Make a Reservation" class="btn btn-primary py-3 px-5">
+                    </div>
+                </div> 
+        </form>
+        <div class="col-md-12 mt-3 text-center">
+            <div class="form-group">
+                <button (click)="Back()"class="btn btn-primary py-3 px-5">Back</button>
+            </div>
+        </div> 
+    </div>
+</div>
+</div>
+</div>
+

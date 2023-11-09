@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="mostpopulartitle text-center fw-bold">
+    <span class="text-warning ">Most</span> Popular Recipes
+  </h1>
+  <div class="slider-container">
+    <div
+      class="slider-item"
+      *ngFor="let recipe of recipes; let i = index"
+      [ngClass]="{
+        selected: i === selectedIndex,
+        prev: i === selectedIndex - 1,
+        next: i === selectedIndex + 1,
+        hideleft: i < selectedIndex - 1,
+        hideRight: i > selectedIndex + 1
+      }"
+    >
+      <img
+        [src]="recipe.imageUrl"
+        alt="fgfbfn"
+        class="slider-img img-fluid "
+        (panright)="showPrev(i)"
+        (panLeft)="showNext(i)"
+      />
+      <div class="mostpopularinfo">
+        <ng-container>
+          <h2 class="text-light fw-bold">{{ recipe.name }}</h2>
+          <p class="text-light">
+            {{ recipe.price }} <span class="text-warning">&nbsp; $</span>
+          </p>
+        </ng-container>
+        <div class="rating">
+          <ng-container
+            *ngFor="let _ of [].constructor(recipe.rate); let i = index"
+          >
+            <i class="fa fa-star text-warning" aria-hidden="true"></i>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

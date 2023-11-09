@@ -1,0 +1,38 @@
+/* Section title style */
+.section-title {
+    font-family: 'Pacifico', cursive;
+    color: #ffbe33; /* Orange color for the title text */
+    font-size: 24px; /* Slightly smaller font size */
+    margin: 20px 0; /* Increased margin for better spacing */
+    text-align: center; /* Center-align the title */
+}
+
+/* Order details table style with smaller size */
+.order-table {
+    width: 70%; /* Reduced width to make it smaller */
+    margin: 0 auto; /* Center the table on the screen */
+    border-collapse: collapse;
+    background-color: #fff; /* White background for the table */
+}
+
+/* Header text style */
+.order-table th {
+    font-weight: bold;
+    color: #ffbe33; /* Orange color for header text */
+    background-color: #333; /* Dark gray background for header cells */
+    padding: 8px; /* Reduced padding for a smaller size */
+    text-align: center;
+}
+
+/* Cell text style */
+.order-table td {
+    padding: 8px; /* Reduced padding for a smaller size */
+    color: #333; /* Dark gray color for cell text */
+    text-align: center;
+    border: 1px solid #ccc; /* Light gray border for cell */
+}
+
+/* Vary the colors for alternating rows */
+.order-table tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light background for odd rows */
+}

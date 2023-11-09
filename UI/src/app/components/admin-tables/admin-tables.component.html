@@ -1,0 +1,39 @@
+<div class="container pb-5 pt-5">
+  <h1 class="text-center my-4"><strong>Table Reservations</strong></h1>
+    <div class="row mb-3">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Filter by Table ID" [(ngModel)]="filterTableId" (input)="applyFilters()" />
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Filter by Customer Name" [(ngModel)]="filterCustomerName" (input)="applyFilters()" />
+      </div>
+      <div class="col">
+        <input  type="text"  onfocus="(this.type='date')"   onblur="(this.type='text')"  class="form-control" placeholder="Filter by Date" [(ngModel)]="filterDate" (input)="applyFilters()" />
+      </div>
+    </div>
+  
+
+    <table class="table table-bordered table-striped">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">Table ID</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Time</th>
+            <th scope="col">Customer Phone</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let reservation of filteredReservations"> 
+            <th>{{reservation.tableNumber}}</th>
+            <td>{{reservation.customerName}}</td>
+            <td>{{reservation.duration}} Hours</td>
+            <td>{{reservation.formattedDateTime}}</td>
+            <td>{{reservation.customerPhone}}</td>  
+          </tr>
+        </tbody>
+      </table> 
+      </div>
+      <app-pagination (changeDataEvent)="handleChangeDataEvent($event)"></app-pagination>
+      
+      

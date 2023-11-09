@@ -1,0 +1,76 @@
+<!-- banner section start -->
+<div class="banner_section">
+  <div id="main_slider" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="banner_taital">Find The Best Restaurants in</h1>
+              <h1 class="banner_text">EGYPT</h1>
+            <div class="banner_main">
+                <div class="dropdown">
+                  <select
+                    #category
+                    (change)="SelectCategory(category.value)"
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <option class="dropdown-item" value="0">
+                      All Category
+                    </option>
+                    <option
+                      class="dropdown-item"
+                      [value]="cat.id"
+                      *ngFor="let cat of categories"
+                    >
+                      {{ cat.title }}
+                    </option>
+                  </select>
+                </div>
+                <div class="main">
+                  <!-- Another variation with a button -->
+                  <div class="input-group">
+                    <input
+                      #search
+                      (input)="searchOfRestaurantByName(search.value)"
+                      type="text"
+                      class="form-control"
+                      placeholder="Search"
+                      style="height: 74px"
+                    />
+                    <div
+                      class="form-control searchPargraph"
+                      *ngIf="isSearch && restaurantResult.length > 0"
+                    >
+                      <div *ngFor="let resturant of restaurantResult">
+                        <a
+                          class="row"
+                          [routerLink]="'restaurant/' + resturant.id"
+                        >
+                          <img [src]="resturant.image" class="col-1 my-2" />
+                          <div class="col-6">
+                            <span class="d-block">{{ resturant.name }}</span>
+                            <p class="samllFont">{{ resturant.address }}</p>
+                          </div>
+                          <div class="col-4 rate">
+                            <!-- <ngx-star-rating  cclass="small-stars" [disabled]="true" [(ngModel)] = "resturant.rate"></ngx-star-rating> -->
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- banner section end -->

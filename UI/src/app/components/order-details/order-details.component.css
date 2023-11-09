@@ -1,0 +1,134 @@
+.reservation-table {
+  margin: 100px 130px;
+}
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  width: 90%;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+img {
+  width: 50px;
+  height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+}
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  width: 130px;
+}
+
+th {
+  font-weight: bold;
+  color: #ffbe33; /* Orange color for header text */
+  background-color: #333; /* Dark gray background for header cells */
+  padding: 8px; /* Reduced padding for a smaller size */
+  text-align: center;
+}
+
+td .details-button {
+  border: none;
+  cursor: pointer;
+}
+
+td .cancel-button {
+  border: none;
+  cursor: pointer;
+}
+.details-button,
+.cancel-button {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.details-button {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: #fff;
+}
+.minus-button,
+.plus-button {
+  padding: 3px;
+  font-size: 20px;
+  border: none;
+  background-color: #c69a65;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px; /* Set a fixed width to maintain circular shape */
+  height: 30px; /* Set a fixed height to maintain circular shape */
+  text-align: center;
+  line-height: 0.5;
+  margin: 0 5px; /* Add some space between buttons */
+}
+
+.quantity {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+.container-order-details {
+  margin-top: 15px;
+}
+.order-details-total-price {
+  text-align: center;
+  background-color: #383d40;
+  width: 60%;
+}
+#order-total-price-title {
+  color: #fff;
+}
+#order-total-price {
+  color: #ffc107;
+}
+
+.order-deatails-btn {
+}
+.order-deatails-btn .details-button {
+  display: block;
+  /* width: 100px;
+  height: 100px; */
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #383d40;
+  color: #fff;
+  text-align: center;
+  /* line-height: 100px; */
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.order-deatails-btn .details-button:hover {
+  background-color: #e69c00;
+}
+@media screen and (max-width: 800px) {
+  table {
+    width: 90%; /* Make the table width 100% to fit the screen */
+  }
+  th,
+  td {
+    padding: 8px; /* Adjust the padding for better mobile readability */
+    font-size: 13px; /* Adjust the font size for better mobile readability */
+  }
+}
+@media screen and (max-width: 660px) {
+  table {
+    width: 80%; /* Make the table width 100% to fit the screen */
+  }
+  th,
+  td {
+    padding: 5px; /* Adjust the padding for better mobile readability */
+    font-size: 11px; /* Adjust the font size for better mobile readability */
+  }
+}

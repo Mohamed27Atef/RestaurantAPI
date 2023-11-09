@@ -1,0 +1,166 @@
+<h1>Update Restaurant</h1>
+<form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+  <div class="parent-form row">
+    <div class="col-6">
+      <label for="Name">Restaurant Name:</label>
+      <input type="text" id="Name" formControlName="Name" />
+      <div
+        *ngIf="
+          restaurantForm.get('Name')?.invalid &&
+          restaurantForm.get('Name')?.touched
+        "
+        class="error-message"
+      >
+        Restaurant name is required.
+      </div>
+      <br />
+
+      <label for="Address">Address:</label>
+      <input type="text" id="Address" formControlName="Address" /><br />
+      <br />
+
+      <label for="Latitude">Latitude:</label>
+      <input type="number" id="Latitude" formControlName="Latitude" /><br />
+      <div
+        *ngIf="
+          restaurantForm.get('Latitude')?.invalid &&
+          restaurantForm.get('Latitude')?.touched
+        "
+        class="error-message"
+      >
+        Latitude msut in range -90 to 90.
+      </div>
+
+      <label for="Longitude">Longitude:</label>
+      <input type="number" id="Longitude" formControlName="Longitude" /><br />
+      <div
+        *ngIf="
+          restaurantForm.get('Longitude')?.invalid &&
+          restaurantForm.get('Longitude')?.touched
+        "
+        class="error-message"
+      >
+        Longitude msut in range -180 to 180.
+      </div>
+
+   
+    </div>
+    <div class="col-6">
+      <div>
+        <label for="Category">Category:</label>
+        <select
+          id="Category"
+          formControlName="category"
+          class="form-control"
+          (change)="onCategoryChange($event)"
+        >
+          <option value="" disabled selected>Select a category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.title }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            restaurantForm.get('category')?.hasError('required') &&
+            restaurantForm.get('category')?.touched
+          "
+          class="error-message"
+        >
+          Category is required
+        </div>
+      </div>
+      <label for="Cusinetype">Cuisine Type:</label>
+      <input type="text" id="Cusinetype" formControlName="Cusinetype" />
+      <div
+        *ngIf="
+          restaurantForm.get('Cusinetype')?.invalid &&
+          restaurantForm.get('Cusinetype')?.touched
+        "
+        class="error-message"
+      >
+        Cuisine type is required.
+      </div>
+
+      <label for="OpenHours">Open Hours:</label>
+      <input
+        #opening
+        type="time"
+        id="OpenHours"
+        formControlName="OpenHours"
+        (change)="onClosingHoursChange()"
+      /><br />
+
+      <label for="ClosingHours">Closing Hours:</label>
+      <input
+        #closing
+        type="time"
+        id="ClosingHours"
+        formControlName="ClosingHours"
+        (change)="onClosingHoursChange()"
+      /><br />
+      <div
+        *ngIf="
+          !closingTimeBeforeOpeningTime &&
+          restaurantForm.get('ClosingHours')?.touched
+        "
+        class="error-message"
+      >
+        Closing time must be after opening time.
+      </div>
+
+      <!-- <label for="Image">Image URL:</label>
+      <input
+        type="file"
+        id="Image"
+        formControlName="Image"
+        (change)="onOneImageUpload($event)"
+      /><br />
+      <div
+        *ngIf="
+          restaurantForm.get('Image')?.invalid &&
+          restaurantForm.get('Image')?.touched
+        "
+        class="error-message"
+      >
+        Image wrong format.
+      </div>
+      <label for="Images">Images URLs:</label>
+      <input
+        type="file"
+        multiple
+        id="Images"
+        formControlName="Images"
+        (change)="onImagesUpload($event)"
+      /><br />
+      <div
+        *ngIf="
+          restaurantForm.get('Images')?.invalid &&
+          restaurantForm.get('Images')?.touched
+        "
+        class="error-message"
+      >
+        Images wrong format.
+      </div> -->
+      <label for="phone">Phone:</label>
+      <input type="text" id="phone" formControlName="phone" /><br />
+      <div
+        *ngIf="
+          restaurantForm.get('phone')?.invalid &&
+          restaurantForm.get('phone')?.touched
+        "
+        class="error-message"
+      >
+        phone is invalid.
+      </div>
+    </div>
+    <div>
+      <label for="Description">Description:</label>
+      <textarea
+        id="Description"
+        formControlName="Description"
+        rows="4"
+      ></textarea>
+    </div>
+  </div>
+  <button type="submit" >Update</button>
+</form>

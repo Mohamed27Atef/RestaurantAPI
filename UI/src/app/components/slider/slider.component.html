@@ -1,0 +1,6 @@
+<div class="slider-container">
+  <img [src]="'assets/' + images[currentImageIndex]" alt="Image" class="slider-image">
+</div>
+<div class="slider-points">
+  <div *ngFor="let image of images; let i = index" class="slider-point" [class.active]="i === currentImageIndex" (click)="selectImage(i)"></div>
+</div>

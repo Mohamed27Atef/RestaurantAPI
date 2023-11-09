@@ -1,0 +1,100 @@
+<div class="container">
+  <h1 class="text-center my-4"><strong>Orders</strong></h1>
+  <div class="row mb-3">
+    <div class="col">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Filter by Customer Name"
+        [(ngModel)]="filterCustomerName"
+        (input)="applyFilters()"
+      />
+    </div>
+    <div class="col d-flex justify-content-between">
+      <input
+        type="text"
+        onfocus="(this.type='date')"
+        onblur="(this.type='text')"
+        class="form-control"
+        placeholder="Filter by Date"
+        [(ngModel)]="filterDate"
+        (input)="applyFilters()"
+      />
+      <!-- <button
+        (click)="clearDate()"
+        class="search-button m-1"
+        *ngIf="filterDate"
+      >
+        clear
+      </button> -->
+    </div>
+    <div class="col">
+      <select
+        class="form-control"
+        [(ngModel)]="filterStatus"
+        (change)="applyFilters()"
+      >
+        <option value="">All Statuses</option>
+        <option *ngFor="let item of status" [value]="item">{{ item }}</option>
+      </select>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr class="table-dark">
+        <th scope="col">Order ID</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Location</th>
+        <th scope="col">Date</th>
+        <th scope="col">Total Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="filteredOrders.length > 0; else emptyOrder">
+        <tr *ngFor="let order of filteredOrders">
+          <th>{{ order.orderId }}</th>
+          <td>{{ order.customerName }}</td>
+          <td>{{ order.country }} - {{ order.city }} - {{ order.street }}</td>
+          <td>{{ order.formattedDateTime  }}</td>
+          <td>{{ order.totalPrice }}</td>
+          <td>
+            <select
+              #newStatus
+              class="form-control"
+              (change)="
+                onSelectionChange([$any($event.target).value, order.orderId])
+              "
+            >
+              <option
+                *ngFor="let item of status"
+                [value]="item"
+                [selected]="item == order.status"
+              >
+                {{ item }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <a
+              (click)="detailsAction([order, newStatus.value])"
+              class="btn btn-dark mx-2"
+            >
+              Details
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #emptyOrder>
+        <tr class="text-center">
+          <td colspan="7" style="color: brown; font-size: larger">
+            Orders are empty
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
+<app-pagination (changeDataEvent)="handleChangeDataEvent($event)"></app-pagination>

@@ -1,0 +1,147 @@
+<div class=" myContainer my-2">
+  <div class="row justify-content-strat align-items-center">
+    <div class="col-1">
+      <a [routerLink]="'/restaurant/' + recipe.restaurantId" class="nav-link">{{
+        recipe.restaurantName
+      }}</a>
+    </div>
+    <div class="col-1 text-center">
+      <i class="fas fa-angle-right" style="color: #ffc107"></i>
+    </div>
+    <div class="col-1">
+      <a href="#" class="nav-link">{{ recipe.menuName }}</a>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-1" style="width: 84px">
+      <ul class="thumbnail-list" id="scrollbar">
+        <li *ngFor="let img of recipe.images">
+          <img src="{{ img }}" class="thumbnail" alt="Thumbnail" />
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-7 rounded-1 main-image">
+      <img class="image" src="{{ recipe.imageUrl }}" alt="Product Image" />
+    </div>
+    <div class="col-md-4 detials">
+      <div class="product-details">
+        <h1 class="my-3">{{ recipe.name }}</h1>
+        <p class="price">${{ recipe.price }}</p>
+        <!-- <p>Availability: In Stock</p> -->
+        <p class="product-rating mb-3" data-section="product">
+          <span class="stars-num">{{ recipe.rate }}</span
+          ><span class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </span>
+          <span>({{ numberOfReview }} reviews)</span>
+        </p>
+        <!-- <p>
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac
+            habitasse platea dictumst.
+          </p> -->
+      </div>
+      <div class="product-buttons">
+        <div class="d-flex align-items-center controls my-3">
+          <button class="remove rounded-5 btn btn-warning" (click)="remove()">
+            <i class="fa-solid fa-minus fa-sm"></i>
+          </button>
+          <div class="quantity mx-3">{{ quantity }}</div>
+          <button class="plus rounded-5 btn btn-warning" (click)="plus()">
+            <i class="fa-solid fa-plus fa-sm"></i>
+          </button>
+        </div>
+        <div>
+          <button
+            [disabled]="recipeAddedToCart"
+            (click)="addToCart()"
+            class="btn btn-outline-warning me-4 text-dark"
+          >
+            <i class="fa-solid fa-cart-shopping"></i>
+            Add to Cart
+          </button>
+          <p class="text-success mt-2" *ngIf="recipeAddedToCart">
+            Recipe is added to cart successfully
+          </p>
+          <!-- <div id="wishlistBtn" class="btn border-0 btn-outline-dark">
+
+              <i
+                class="far fa-heart favorite-button fa-lg toggle-favorite me-2"
+              ></i
+              ><span>Add to wishlist</span>
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h2>Product Description</h2>
+      <p>
+        {{ recipe.description }}
+      </p>
+    </div>
+  </div>
+
+  <!-- <div class="row mt-5">
+      <div class="text-center">
+        <h2>Related Products</h2>
+      </div>
+      <div class="d-flex justify-content-center overflow-auto">
+        <div class="d-flex flex-row gap-3">
+          <div class="related-products">
+            <a href="#">
+              <img
+                src="https:/localhost:44397/images/1.jpg"
+                alt="Product Image"
+              />
+            </a>
+          </div>
+          <div class="related-products">
+            <a href="#">
+              <img
+                src="https://localhost:44397/images/2.jpg"
+                alt="Product Image"
+              />
+            </a>
+          </div>
+          <div class="related-products">
+            <a href="#">
+              <img
+                src="https:/localhost:44397/images/1.jpg"
+                alt="Product Image"
+              />
+            </a>
+          </div>
+          <div class="related-products">
+            <a href="#">
+              <img
+                src="https://localhost:44397/images/2.jpg"
+                alt="Product Image"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div> -->
+</div>
+
+<app-recipe-feedback
+  *ngIf="!feedbackAddedFromUser"
+  (submitFeedBackOne)="submitFeedBackOne($event)"
+  [recipeId]="Id"
+  [userName]="name"
+  [userAvatar]="userImage"
+></app-recipe-feedback>
+<app-recipe-feddback-reviews
+  #recipeFeedBack
+  [recipeId]="Id"
+  [userName]="name"
+  [userAvatar]="userImage"
+></app-recipe-feddback-reviews>

@@ -1,0 +1,11 @@
+<h2 class="text-center m-4">Create Menu</h2>
+
+<form (ngSubmit)="onSubmit()" class="menu-form">
+  <div class="form-group">
+    <label for="Name">Menu Title:</label>
+    <input id="Name" [(ngModel)]="name" name="name" class="form-control" />
+  </div>
+<div class="text-center">
+  <button type="submit" class="btn btn-primary">Create Menu</button>
+</div>
+</form>

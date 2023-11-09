@@ -1,0 +1,164 @@
+<!-- <div
+  class="cart"
+  #cart
+  [style.position]="'fixed'"
+  [style.top.px]="88"
+  [style.right.px]="0"
+  [style.width.px]="'300'"
+  [style.height.%]="100"
+  [style.backgroundColor]="'#fff'"
+  [style.boxShadow]="'0 0 10px rgba(0, 0, 0, 0.2)'"
+  [style.overflowY]="'auto'"
+  [style.transition]="'opacity 0.3s ease, visibility 0.3s ease'"
+  [style.zIndex.px]="9999"
+  (click)="$event.stopPropagation()"
+>
+  <ul>
+    <li
+      *ngFor="let item of cartItems"
+      style="padding: 10px; border-bottom: 1px solid #eee"
+    >
+      <img
+        [src]="item.imageUrl"
+        alt="{{ item.recipeName }}"
+        class="product-image small-rounded-image"
+      />
+      {{ item.recipeName }} - {{ item.restaurantName }} -${{ item.totalPrice }}
+      <span style="color: white; background-color: white"> dummy data </span>
+      <div class="product-quantity">
+        <button (click)="decreaseQuantity(item)" class="quantity-button">
+          -
+        </button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="increaseQuantity(item)" class="quantity-button">
+          +
+        </button>
+        <button (click)="removeItem(item)" class="remove-button">Remove</button>
+
+      </div>
+    </li>
+  </ul>
+  <div
+    class="total"
+    style="
+      border-top: 1px solid #eee;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    "
+  >
+    <p>Total Price: ${{ totalPrice }}</p>
+  </div>
+  <div
+    style="
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    "
+  >
+    <button
+      (click)="clearCart()"
+      class="clear-button"
+      style="
+        background-color: #dc3545;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+      "
+    >
+      Clear Cart
+    </button>
+
+    <a
+      href="/cart"
+      style="
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+      "
+      routerLink="/orderDetials"
+      >View Cart Page</a
+    >
+  </div>
+</div> -->
+
+<div *ngFor="let item of cartItems">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-row align-items-center">
+          <div>
+            <img
+              src="{{ item.imageUrl }}"
+              class="img-fluid rounded-3"
+              alt="{{ item.recipeName }}"
+              style="width: 65px"
+            />
+          </div>
+          <div class="ms-3">
+            <h5 class="card-title">{{ item.recipeName }}</h5>
+            <p class="card-text small mb-0">
+              {{ item.restaurantName }} Restaurant
+            </p>
+          </div>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <div style="width: 90px">
+            <div class="product-quantity">
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                <!-- <button
+                  (click)="decreaseQuantity(item)"
+                  class="btn btn-danger rounded-5 px-2"
+                >
+                  <i class="fas fa-minus"></i>
+                </button> -->
+                <h5 class="fw-bold fs-6 m-2">
+                  {{ item.quantity | number : "1.0-0" }} <small>pieces</small>
+                </h5>
+                <!-- <button
+                  (click)="increaseQuantity(item)"
+                  class="btn btn-success rounded-5 px-2"
+                >
+                  <i class="fas fa-plus"></i>
+                </button> -->
+              </div>
+            </div>
+          </div>
+          <div style="width: 60px">
+            <h5 class="card-title mb-0">${{ item.totalPrice }}</h5>
+          </div>
+          <a (click)="removeItem(item)" style="color: #ff0000"
+            ><i class="fas fa-trash-alt"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center gap-3 mt-3">
+  <div class="text-white text-center fs-5">Total Price: ${{ totalPrice }}</div>
+  <div class="text-center">
+    <button
+      class="btn btn-warning rounded-1 ms-2"
+      routerLink="/orderDetials"
+      data-bs-dismiss="offcanvas"
+    >
+      View Cart Page
+    </button>
+    <button class="btn btn-danger rounded-1 ms-2" (click)="clearCart()">
+      Clear Cart
+    </button>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="reservation-table">
+  <h2 class="Title-reservation-table text-center mb-5">Reservation Table</h2>
+  <app-search-table (myEvent)="getReservation($event)"></app-search-table>
+  <table>
+    <tr>
+      <th>Reservation Number</th>
+      <th>Table Number</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Table Type</th>
+      <th>Restaurant Name</th>
+      <th>ٌRemove</th>
+    </tr>
+    <ng-container *ngIf="reservationTable.length > 0; else emptyCart">
+      <tr *ngFor="let res of reservationTable">
+        <td>{{ res.reservationNumber }}</td>
+        <td>{{ res.tableNumber }}</td>
+        <td>{{ res.dateTime.split("T")[0] }}</td>
+        <td>{{ res.dateTime.split("T")[1] }}</td>
+        <td>{{ res.tableType }}</td>
+        <td>{{ res.restaurantName }}</td>
+        <td>
+          <button class="cancel-button" (click)="removeTable(res)">
+            ٌRemove
+          </button>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-template #emptyCart>
+      <tr>
+        <td colspan="7" style="color: brown; font-size: larger">
+          Cart is empty or invlaid input from User
+        </td>
+      </tr>
+    </ng-template>
+  </table>
+</div>

@@ -1,0 +1,314 @@
+.recipe-page {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5%; /* 5% margin on both sides */
+}
+
+
+.filter-column {
+  width: 30%;
+  padding: 10px;
+  margin-top: 20px;
+}
+.filter-column label {
+  display: block;
+  font-weight: bold;
+}
+
+.filters-column input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.button {
+  background-color: orange;
+  color: white;
+}
+hr {
+  border-color: orange;
+}
+.button:hover {
+  background-color: yellow;
+  color: black;
+}
+
+.recipes-column {
+  width: 60%;
+  padding: 10px;
+}
+
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  /* width: 60%; */
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.recipe-item {
+  width: 120%; /* Each recipe takes the full width, one per line */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  align-items: center;
+}
+
+.recipe-item:hover {
+  transform: scale(1.03);
+}
+
+.recipe-image {
+  width: 20%; /* 30% of the recipe item width */
+  height: 80%;
+}
+
+.recipe-details {
+  padding: 15px;
+  width: 70%; /* 70% of the recipe item width for details */
+}
+
+/* Apply styles for responsiveness */
+@media (max-width: 768px) {
+  .recipe-page {
+    flex-direction: column;
+  }
+
+  .filters-column,
+  .recipes-column {
+    width: 100%;
+  }
+
+  .recipe-item {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .recipe-image {
+    max-width: 100%;
+  }
+
+  .recipe-details {
+    width: 100%;
+    padding-top: 10px;
+  }
+}
+/* Style the search container to center its contents using flexbox */
+.search-container {
+  margin-left: 8%;
+  margin-right: 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 30%;
+}
+
+/* Style the search label (optional) */
+.search-label {
+  margin-top: 5px; /* Add some space between the label and the input */
+}
+
+/* Style the search input */
+.search-input {
+  width: 30%; /* Take the full width of the container */
+  text-align: center;
+  height: 40px; /* Set the height to your desired value */
+}
+
+.search-input::placeholder {
+  text-align: center; /* Center the placeholder text */
+  color: #888; /* Adjust the color of the placeholder text */
+}
+.buy-button {
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; /* Add some space between the button and other details */
+  width: 40%; /* Make the button take the full width of the .recipe-item */
+  margin-left: 60%;
+}
+.page-title-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px; /* Add margin to create space between the title and search input */
+}
+
+.page-title {
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  font-family: 'Your Custom Font', sans-serif; /* Replace 'Your Custom Font' with the desired font name */
+  font-size: 24px; /* Adjust the font size as needed */
+  border-radius: 10px; /* Create rounded corners for the title */
+  cursor: pointer;
+  margin-right: 1590px;
+  margin-bottom: 20px;
+ /* A different shade of orange for hover */
+  }
+
+.recipe-list.list-view {
+  border: 1px solid #ddd; /* Add a border for separation */
+  padding: 10px;
+  width: 100%; /* Adjust the width as needed */
+}
+.applied-filters {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.applied-filter {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  background-color: #ccc;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.remove-filter {
+  cursor: pointer;
+  margin-left: 5px;
+}
+.custom-dropdown {
+  width: 80%;
+  padding: 5px; /* Add some padding for better visual appearance */
+  text-align: center;
+}
+.category-label {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.category-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: 25px;
+}
+.category-checkbox .custom-checkbox {
+  width: 20%;
+  height: 20%;
+  border: 2px solid #888; /* Default border color */
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.category-checkbox .category-name {
+  font-size: 20px;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+.category-checkbox input[type="checkbox"]:checked + .custom-checkbox {
+  border: 2px solid orange; /* Change the border color when checked */
+  background-color: orange; /* Change the background color when checked */
+}
+
+
+.filter-group {
+  margin-bottom: 20px; /* Add margin to create space between filter groups */
+}
+
+
+.category-label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.restaurant-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-item {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.restaurant-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: orange;
+  cursor: pointer;
+}
+
+.rating-label {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.rating-checkboxes {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.rating-checkbox input[type="checkbox"] {
+  display: none; /* Hide the actual checkboxes */
+}
+
+.rating-stars {
+  margin-right: 10px;
+}
+
+.rating-stars i {
+  font-size: 20px;
+  color: #ffd700; /* Yellow color for filled stars */
+}
+
+.rating-stars i.filled {
+  color: #ffd700; /* Yellow color for filled stars */
+}
+
+.rating-checkbox label {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.rating .check{
+  background-color: #fff;
+  border: 1px solid #666;
+  top: 0;
+}
+.rating .tick{
+  font-size: 0.9rem;
+  padding-left: 25px;
+}
+.rating .fas.fa-star{
+  color: #ffbb00;
+  padding: 0px 3px;
+}
+.brand .tick:hover input ~ .check,
+.rating .tick:hover input ~ .check{
+  background-color: #f9f9f9;
+}
+.brand .tick input:checked ~ .check,
+.rating .tick input:checked ~ .check{
+  background-color: #61b15a;
+}

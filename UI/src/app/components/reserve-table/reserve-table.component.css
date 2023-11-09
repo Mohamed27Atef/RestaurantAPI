@@ -1,0 +1,48 @@
+.reservation-table {
+  margin: 100px 130px;
+}
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  font-weight: bold;
+  color: #ffbe33; /* Orange color for header text */
+  background-color: #333; /* Dark gray background for header cells */
+  padding: 6px; /* Reduced padding for a smaller size */
+  text-align: center;
+}
+
+td .details-button {
+  border: none;
+  cursor: pointer;
+}
+
+td .cancel-button {
+  border: none;
+  cursor: pointer;
+}
+.details-button,
+.cancel-button {
+  padding: 6px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.details-button {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: #fff;
+}

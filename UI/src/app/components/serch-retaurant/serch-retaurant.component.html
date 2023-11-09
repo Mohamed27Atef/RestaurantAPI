@@ -1,0 +1,13 @@
+<input #search (input)="searchOfRestaurantByName(search.value)" type="text" class="form-control" placeholder="Search">
+<div class="form-control searchPargraph" *ngIf="isSearch && restaurantResult.length > 0">
+    <div class="row" *ngFor="let resturant of restaurantResult">
+        <img [src]="resturant.image" class="col-1 my-2">
+        <div class="col-6">
+            <span class="d-block">{{resturant.name}}</span>
+            <p class="samllFont">{{resturant.address}}</p>
+        </div>
+        <div class="col-4 rate">
+            <!-- <ngx-star-rating  cclass="small-stars" [disabled]="true" [(ngModel)] = "resturant.rate"></ngx-star-rating> -->
+        </div>
+    </div>
+</div>

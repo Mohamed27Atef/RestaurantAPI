@@ -1,0 +1,41 @@
+.searcing-name {
+  /* display: flex;
+    align-items: center;
+    width: 40%; */
+  padding: 0;
+}
+
+.search-input {
+  padding: 10px;
+  border: 2px solid #007bff; /* Blue border color */
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+  flex-grow: 1;
+  outline: none; /* Remove input focus outline */
+}
+
+.search-input::placeholder {
+  color: #777; /* Placeholder text color */
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #e69c00; /* Blue background color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth hover effect */
+
+  /* Style on hover */
+  &:hover {
+    background-color: #e69c00; /* Darker blue on hover */
+  }
+}
+
+.custom-input-width {
+  width: 100%; /* Adjust the width as needed, e.g., 100% to take the full width of the container */
+  max-width: 300px; /* You can set a maximum width to prevent it from stretching too wide */
+}

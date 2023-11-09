@@ -1,0 +1,81 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.nav-button {
+  background: none;
+  border: 1px solid #ccc;
+  font-size: 18px;
+  color: orange;
+  cursor: pointer;
+  outline: none;
+  margin: 0 10px;
+  transition: color 0.3s, border-color 0.3s;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.nav-button:disabled {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+.nav-button:hover {
+  color: orange;
+  border-color: orange;
+}
+
+.page-number {
+  background: none;
+  border: 1px solid #ccc;
+  font-size: 18px;
+  color: orange;
+  cursor: pointer;
+  outline: none;
+  margin: 0 10px;
+  transition: color 0.3s, border-color 0.3s;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.page-number.active {
+  background: orange;
+  color: white;
+  border-color: orange;
+}
+
+.page-number:hover {
+  background: orange;
+  color: white;
+  border-color: orange;
+}
+
+.page-numbers {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+}
+
+.item-list li {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+}
+.page-label {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333; /* You can adjust the color as needed */
+}
+
+
+
