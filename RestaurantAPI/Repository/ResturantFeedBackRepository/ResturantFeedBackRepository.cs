@@ -57,7 +57,7 @@ namespace RestaurantAPI.Repository.ResturantFeedBackRepository
         public List<ResturantFeedback> GetReviewsForRestaurant(int restaurantId)
         {
             return Context.ResturantFeedbacks
-                .Where(feedback => feedback.ResturantId == restaurantId)
+                .Where(feedback => feedback.ResturantId == restaurantId).Include(r => r.User).ThenInclude(r => r.ApplicationUser)
                 .ToList();
         }
 

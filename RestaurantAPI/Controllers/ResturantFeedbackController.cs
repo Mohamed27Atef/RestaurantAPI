@@ -37,6 +37,7 @@ namespace RestaurantAPI.Controllers
                         Text = item.text,
                         Rate = item.Rate,
                         PostDate = item.PostDate,
+                        userName = item.User.ApplicationUser.UserName,
                         ResturantId = item.ResturantId,
                         //UserId = item.UserId,
                     })

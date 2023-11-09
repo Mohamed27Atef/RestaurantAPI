@@ -15,6 +15,7 @@ namespace RestaurantAPI.Dto.ResturantFeedback
         [DataType(DataType.Date)]
         [Display(Name = "Post Date")]
         public DateTime PostDate { get; set; }
+        public string   userName { get; set; }
 
         public int ResturantId { get; set; }
     }
