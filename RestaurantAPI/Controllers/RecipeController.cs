@@ -81,7 +81,7 @@ namespace RestaurantAPI.Controllers
                     id = item.id,
                     imageUrl = item.imageUrl,
                     Name = item.name,
-                    rate=item.rate,
+                    rate=item.rate
                 });
             }
             return Ok(mostrated);
