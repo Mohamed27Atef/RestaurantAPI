@@ -12,8 +12,8 @@ using RestaurantAPI.Models;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20231107155007_ff")]
-    partial class ff
+    [Migration("20231108152210_hh")]
+    partial class hh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -505,8 +505,8 @@ namespace RestaurantAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("rate")
-                        .HasColumnType("int");
+                    b.Property<decimal>("rate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("id");
 

@@ -57,14 +57,10 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("getAvailableTalbe")]
-        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId, [FromQuery] int p = 1)
+        public ActionResult getAvailableTaleInThisTime(DateTime time, int restaurantId)
         {
-            const int pageSize = 10;
-            int skip = (p - 1) * pageSize;
             var table = tableRepository.getAvailableTaleInThisTime(time, restaurantId)
-                .DistinctBy(r => r.TableType.ToString())
-                .Skip(skip)
-                .Take(pageSize).ToList(); 
+                .DistinctBy(r => r.TableType.ToString()).ToList(); 
 
             List<TablerestaurantDto> tableDtos = new List<TablerestaurantDto>();
 
@@ -81,6 +77,7 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("getReservationByrestaurantId")]
+        [Authorize]
         public ActionResult getReservationByrestaurantId([FromQuery] int p = 1)
         {
             string AppId = GetUserIdFromClaims();
@@ -90,7 +87,8 @@ namespace RestaurantAPI.Controllers
             List<UserTable> userTables = tableUserRepository
                 .GetAllByRestaurantId(resturant.id)
                   .Skip(skip)
-                .Take(pageSize).ToList();
+                .Take(pageSize)
+                .ToList();
 
             List<RestauarantAdminReservationDto> restauarantAdminReservationDtos = new();
             foreach (var item in userTables)
@@ -103,7 +101,7 @@ namespace RestaurantAPI.Controllers
                     duration = item.duration,
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
-                    tableType = item.Table.TableType.ToString()
+                    tableType = tableRepository.GetById(item.table_id).TableType.ToString(),
                 });
             }
 

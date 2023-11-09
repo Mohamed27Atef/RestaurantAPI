@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestaurantAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class ff : Migration
+    public partial class hh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -478,7 +478,7 @@ namespace RestaurantAPI.Migrations
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Price = table.Column<decimal>(type: "money", nullable: false),
                     imageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    rate = table.Column<int>(type: "int", nullable: false),
+                    rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     menuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

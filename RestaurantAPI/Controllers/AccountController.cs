@@ -123,9 +123,9 @@ namespace RestaurantAPI.Controllers
         [Authorize]
         public async Task<ActionResult<UserProfile>> GetUserProfile()
         {
-            string userId = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()).application_user_id;
+            string userId = GetUserIdFromClaims();
             var user = await userManager.FindByIdAsync(userId);
-
+            User myUser = userRepository.getUserByApplicationUserId(GetUserIdFromClaims()) ;
             if (user == null)
                 return NotFound();
 
@@ -135,9 +135,9 @@ namespace RestaurantAPI.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Location = user.User.Location,
+                Location = user.Address,
                 PhoneNumber = user.PhoneNumber,
-                ProfileImage = userRepository.getUserImage(user.User.id),
+                ProfileImage = userRepository.getUserImage(myUser.id),
             };
 
             return Ok(userProfile);
@@ -164,7 +164,7 @@ namespace RestaurantAPI.Controllers
                 user.FirstName = profileDto.FirstName;
                 user.LastName = profileDto.LastName;
                 user.Email = profileDto.Email;
-                user.User.Location = profileDto.Location;
+                user.Address = profileDto.Location;
                 user.PhoneNumber = profileDto.PhoneNumber;
                 user.User.Image = profileDto.ProfileImage;
                 var result = await userManager.UpdateAsync(user);

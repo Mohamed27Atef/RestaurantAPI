@@ -7,5 +7,6 @@ namespace RestaurantAPI.Repository
     {
         List<Menu> GetByRestaurantId(int restuarantId);
         List<Recipe> getMostRatedRecipe(int restaurantId);
+        Menu getByRestaurantIdTitle(int restartantId, string title);
     }
 }

@@ -41,7 +41,7 @@ namespace RestaurantAPI.Repository
 
         public Table GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.Tables.Where(t => t.Id == id).FirstOrDefault();
         }
 
         public int SaveChanges()
@@ -56,7 +56,12 @@ namespace RestaurantAPI.Repository
 
         public IEnumerable<Table> getAvailableTaleInThisTime(DateTime time, int restaurantId)
         {
-            return context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date || (t.UserTable.dateTime.Date == time.Date && t.UserTable.dateTime.Hour > time.Hour || t.UserTable.dateTime.Hour + t.UserTable.duration < time.Hour))).ToList();
+
+            var r = context.Tables.Include(r => r.UserTable).Where(t => t.ResturantId == restaurantId && (t.UserTable.dateTime.Date != time.Date 
+            || (t.UserTable.dateTime.Date == time.Date && 
+            !(t.UserTable.dateTime.Hour == time.Hour 
+            && t.UserTable.dateTime.Hour + t.UserTable.duration > time.Hour)))).ToList();
+            return r;
 
         }
 

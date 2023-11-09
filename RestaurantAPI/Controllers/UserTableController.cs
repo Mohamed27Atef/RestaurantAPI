@@ -11,12 +11,15 @@ namespace RestaurantAPI.Controllers
     public class UserTableController : BaseApiClass
     {
         private readonly ITableUserRepository tableUserRepository;
+        private readonly ITableRepository tableRepository;
         private readonly IUserRepository userRepository;
 
         public UserTableController(ITableUserRepository tableUserRepository,
+            ITableRepository tableRepository,
             IUserRepository userRepository)
         {
             this.tableUserRepository = tableUserRepository;
+            this.tableRepository = tableRepository;
             this.userRepository = userRepository;
         }
 
@@ -71,7 +74,7 @@ namespace RestaurantAPI.Controllers
                     reservationNumber = item.id,
                     tableNumber = item.table_id,
                     dateTime = item.dateTime,
-                    tableType = item.Table.TableType.ToString(),
+                    tableType = tableRepository.GetById(item.table_id).TableType.ToString(),
                     restaurantName = item.resturant.Name,
                     duration = item.duration
                 });

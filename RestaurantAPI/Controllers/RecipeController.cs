@@ -8,6 +8,7 @@ using RestaurantAPI.Models;
 using RestaurantAPI.Repository;
 using RestaurantAPI.Repository.CartRepository;
 using RestaurantAPI.Repository.RecipeImageRespository;
+using RestaurantAPI.Repository.ResturantRepository;
 
 namespace RestaurantAPI.Controllers
 {
@@ -17,6 +18,8 @@ namespace RestaurantAPI.Controllers
         private readonly IUserRepository userRepository;
         private readonly ICartItemRepository cartItemRepository;
         private readonly ICartRepository cartRepository;
+        private readonly IResturanrRepo resturanrRepo;
+        private readonly IMenuRepository menuRepository;
         private readonly IRecipeRepository _recipeRepository;
         private readonly IRecipeImageRespository iRecipeImageRespository;
         private readonly IUserRepository IUserRepository;
@@ -27,6 +30,8 @@ namespace RestaurantAPI.Controllers
             IUserRepository userRepository,
             ICartItemRepository cartItemRepository,
             ICartRepository cartRepository,
+            IResturanrRepo resturanrRepo,
+            IMenuRepository menuRepository,
               IUserRepository _IUserRepository)
         {
             this._recipeRepository = recipeRepository;
@@ -34,6 +39,8 @@ namespace RestaurantAPI.Controllers
             this.userRepository = userRepository;
             this.cartItemRepository = cartItemRepository;
             this.cartRepository = cartRepository;
+            this.resturanrRepo = resturanrRepo;
+            this.menuRepository = menuRepository;
             this.IUserRepository = _IUserRepository;
 
         }
@@ -138,6 +145,7 @@ namespace RestaurantAPI.Controllers
                     Name = item.name,
                     Price = item.Price,
                     imageUrl = item.imageUrl,
+                    Id= item.id,
                     
                 });
             return Ok(recipeDtos);
@@ -199,6 +207,7 @@ namespace RestaurantAPI.Controllers
 
 
         [HttpPost()]
+        [Authorize()]
         public ActionResult CreateRecipe([FromBody] RecipeDto recipeDto)
         {
             if (recipeDto == null)
@@ -211,6 +220,14 @@ namespace RestaurantAPI.Controllers
                 ActionResult res1 = UpdateRecipe(recipeDto);
                 return res1;
             }
+
+            //Menu menu = new Menu()
+            //{
+            //    restaurantId= ResutantId,
+            //    title = menuRepository.GetById(recipeDto.menuId).title
+            //};
+            //menuRepository.Add(menu);
+
             Recipe recipe = new Recipe()
             {
                 //recipteImages = recipeDto.RecipeImages,
@@ -218,7 +235,7 @@ namespace RestaurantAPI.Controllers
                 name = recipeDto.Name,
                 Price = recipeDto.Price,
                 imageUrl = recipeDto.imageUrl,
-                menuId = recipeDto.menuId
+                menuId = recipeDto.menuId,
             };
 
             _recipeRepository.Add(recipe);
@@ -294,7 +311,6 @@ namespace RestaurantAPI.Controllers
             existingRecipe.Description = recipeDto.Description;
             existingRecipe.name = recipeDto.Name;
             existingRecipe.Price = recipeDto.Price;
-            existingRecipe.imageUrl = recipeDto.imageUrl;
 
             _recipeRepository.Update(existingRecipe);
             int Raws = _recipeRepository.SaveChanges();
@@ -303,29 +319,13 @@ namespace RestaurantAPI.Controllers
             {
                
                 var AllImage = iRecipeImageRespository.GetAllByIdReceipe(existingRecipe.id);
-                foreach (var item in AllImage)
-                {
-                    this.iRecipeImageRespository.Delete(existingRecipe.id);
-                    this.iRecipeImageRespository.SaveChanges();
-
-                }
+                
                     
 
                 RecipeImage resMainImg = new RecipeImage { RecipeId = existingRecipe.id, Image = recipeDto.imageUrl };
                 this.iRecipeImageRespository.Add(resMainImg);
 
-                foreach (var imagUrl in recipeDto.images)
-                {
-                    var imgReceipeFound = this.iRecipeImageRespository.GetByIdAndImgReceipe(existingRecipe.id, imagUrl);
-                    if (imgReceipeFound is null)
-                    {
-                        RecipeImage resImg = new RecipeImage { RecipeId = existingRecipe.id, Image = imagUrl };
-                        this.iRecipeImageRespository.Add(resImg);
-                        this.iRecipeImageRespository.SaveChanges();
-                    }
-                }
-
-                return Ok(existingRecipe);
+                return Ok("ok");
             }
 
             return NotFound("Receipe Not Found!");

@@ -45,12 +45,17 @@ namespace RestaurantAPI.Repository
 
         public Menu GetById(int id)
         {
-            throw new NotImplementedException();
+            return context.Menus.FirstOrDefault(r => r.id == id);
         }
 
         public List<Menu> GetByRestaurantId(int restuarantId)
         {
             return context.Menus.Where(t => t.restaurantId == restuarantId).Include(r => r.Recipes).ToList();
+        }
+
+        public Menu getByRestaurantIdTitle(int restartantId, string title)
+        {
+            return context.Menus.Where(r => r.restaurantId == restartantId && r.title == title).FirstOrDefault();
         }
 
         public List<Recipe> getMostRatedRecipe(int restaurantId)

@@ -97,6 +97,7 @@ namespace RestaurantAPI.Controllers
                     Name = resturant.Name,
                     OpenHours = resturant.OpenHours,
                     Rate = resturant.Rate,
+                    email = resturant.email,
                     phone = resturant.phone
                 };
 
@@ -254,7 +255,7 @@ namespace RestaurantAPI.Controllers
             {
                 // Optionally sign in the user after registration.
                 await signInManager.SignInAsync(user, isPersistent: false);
-                var resutlRole = await userManager.AddToRoleAsync(user, "Admin");
+                var resutlRole = await userManager.AddToRoleAsync(user, "admin");
                 User myUser = new User()
                 {
                     application_user_id = user.Id,
@@ -362,6 +363,7 @@ namespace RestaurantAPI.Controllers
             resturant.Latitude = resturantDto.Latitude;
             resturant.Rate = resturantDto.Rate;
             resturant.OpenHours = resturantDto.OpenHours;
+            resturant.phone = resturantDto.phone;
             resturant.Image = resturantDto.Image;
            
 

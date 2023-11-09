@@ -24,16 +24,18 @@ namespace RestaurantAPI.Controllers
         [HttpGet()]
         public ActionResult getMenu()
         {
-            
-            var menus = MenuRepository.GetAll();
+            string userId = GetUserIdFromClaims();
+            int ResutantId = resturanrRepo.getByUserId(userId).id;
+
+            var menus = MenuRepository.GetByRestaurantId(ResutantId);
             if(menus is null)
             {
                 return BadRequest();
             }
-                List<RecipeDto> recipeDtos = new List<RecipeDto>();
-                List<MenuDto> menuDto = new();
-                foreach (var item in menus)
-                {
+            List<RecipeDto> recipeDtos = new List<RecipeDto>();
+            List<MenuDto> menuDto = new();
+            foreach (var item in menus)
+            {
                 MenuDto oneMenuDTO = new MenuDto
                 {
                     id = item.id,
@@ -45,6 +47,32 @@ namespace RestaurantAPI.Controllers
 
                 return Ok(menuDto);
           
+        }
+
+        [HttpGet("getall")]
+        public ActionResult getAll()
+        {
+
+            var menus = MenuRepository.GetAll();
+            if (menus is null)
+            {
+                return BadRequest();
+            }
+            List<RecipeDto> recipeDtos = new List<RecipeDto>();
+            List<MenuDto> menuDto = new();
+            foreach (var item in menus)
+            {
+                MenuDto oneMenuDTO = new MenuDto
+                {
+                    id = item.id,
+                    title = item.title
+                };
+
+                menuDto.Add(oneMenuDTO);
+            }
+
+            return Ok(menuDto);
+
         }
 
         [HttpGet("{restaurantId}")]
@@ -61,7 +89,7 @@ namespace RestaurantAPI.Controllers
                     recipeDtos.AddRange(
                         item.Recipes
                         .Select(r => new RecipeDto()
-                        { Description = r.Description, imageUrl = r.imageUrl, Name = r.name, Price=r.Price, menuName= item.title}).ToList());
+                        { Description = r.Description, imageUrl = r.imageUrl, Name = r.name, Price=r.Price, menuName= item.title, Id=r.id}).ToList());
                     menuDto.Add(new MenuDto() { 
                         id = item.id, 
                         title = item.title,
